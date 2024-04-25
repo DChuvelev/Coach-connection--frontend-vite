@@ -1,0 +1,22 @@
+.lang-menu__item {
+    display: grid;
+    grid-template-columns: 60px 80px;
+    background-color: transparent;
+    border: none;
+    margin: 5px 0 5px;
+}
+
+.lang-menu__flag {
+    height: 20px;
+    border: 1px solid lightgray;
+    justify-self: left;
+}
+
+.lang-menu__lang-name {
+    margin: 0;
+    justify-self: center;
+}
+
+.lang-menu__item:hover {
+    background-color: aliceblue;
+}

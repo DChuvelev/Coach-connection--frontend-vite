@@ -1,0 +1,115 @@
+.header {
+  height: 40px;
+  /* background-color: rgba(0, 0, 0, 0.074); */
+  /* border-bottom: 1px red solid; */
+  /* margin-top: 32px; */
+}
+
+.header__menu {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  max-height: 100%;
+  /* grid-template-columns: max-content max-content 1fr max-content max-content;
+  gap: 20px;
+  align-items: center;
+  justify-items: end;
+  margin: 0 auto;
+  padding: 0;
+  padding: 0 40px;
+  height: 100%; */
+  /* display: flex;
+  height: 100%; */
+}
+
+.header__menu-items {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  max-height: 100%;
+}
+
+.header__logo {
+  display: block;
+  height: 50px;
+  object-fit: contain;
+  position: relative;
+  top: -5px;
+  transition: 0.3s ease;
+  background-color: transparent;
+}
+
+.header__logo-cont {
+  position: relative;
+  height: 40px;
+  width: 60px;
+}
+
+.header__logo:hover {
+  height: 70px;
+  filter: drop-shadow(6px 6px 10px rgba(0, 0, 0, 1));
+}
+
+.header__btn-container {
+  padding: 0;
+  max-height: 24px;
+}
+
+.header__menu-item-btn {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+  border: none;
+  padding: 0;
+  background-color: white;
+}
+
+.header__menu-item-lang {
+  height: 100%;
+  border: none;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+}
+
+.header__menu-item-lang-icon {
+  border: none;
+  padding: 0;
+  margin: 0;
+  width: 20px;
+  background-color: transparent;
+}
+
+.header__menu-item-lang-icon:hover {
+  filter: invert(18%) sepia(100%) saturate(6346%) hue-rotate(358deg) brightness(100%) contrast(118%);
+}
+
+.header__menu-item-btn:hover {
+  color: rgba(255, 77, 0, 1);
+}
+
+.header__user-name {
+  justify-self: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  /* margin-right: 12px; */
+}
+
+.header__link {
+  text-decoration: none;
+  color: black;
+  font-family: "Cabinet Grotesk";
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+  max-height: 40px;
+}
+
+.header__link:hover {
+  color: rgba(255, 77, 0, 1);
+}
+
+.header__avatar {
+  height: 100%;
+  /* aspect-ratio: 1/1; */
+}

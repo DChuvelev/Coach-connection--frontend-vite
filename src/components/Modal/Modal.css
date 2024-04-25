@@ -1,0 +1,115 @@
+.modal {
+  /* transition: visibility 1s steps(2, jump-start), opacity 0.5s linear; */
+  display: inline-flex;
+  visibility: visible;
+  position: fixed;
+  top: 0;
+  left: 0;
+  justify-content: center;
+  /* align-items: center; */
+  /* padding-bottom: 106px; */
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  opacity: 1;
+}
+
+/* .modal_opened {
+    visibility: visible;
+    opacity: 1;
+} */
+
+.modal__content {
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid black;
+  border-radius: 20px;
+  box-shadow: 0 0 25px 0 black;
+  overflow: hidden;
+}
+
+.modal__content_type_card-preview {
+  margin-top: 7vw;
+  width: 498px;
+  height: 610px;
+  display: grid;
+  grid-template-rows: 498px 56px 1fr;
+  grid-template-columns: 1fr 1fr;
+}
+
+.modal__content_type_confirm-delete {
+  margin-top: 20vw;
+  width: 670px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 0 60px 0;
+  row-gap: 24px;
+}
+
+.modal__content_type_confirm-logout {
+  margin-top: 20vw;
+  width: 670px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 0 60px 0;
+  row-gap: 24px;
+}
+
+.modal__content_type_form {
+  display: inline-flex;
+  flex-direction: column;
+  width: 496px;
+  min-height: 0;
+  height: fit-content;
+  margin-top: 2vw;
+  padding-left: 28px;
+  padding-right: 28px;
+}
+
+.modal__content_type_lang-menu {
+  display: flex;
+  width: 200px;
+  min-height: 0;
+  height: fit-content;
+  margin-top: 10vw;
+  padding-left: 28px;
+  padding-right: 28px;
+  justify-content: center;
+}
+
+.modal__close-btn {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background-image: url("../../images/close-btn.svg");
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  border: none;
+  width: 20px;
+  height: 20px;
+}
+
+.modal__content_type_form > .modal__close-btn {
+  background-image: url("../../images/close-btn-grey.svg");
+}
+
+.modal__content_type_confirm-delete > .modal__close-btn {
+  background-image: url("../../images/close-btn-grey.svg");
+}
+
+.modal__content_type_lang-menu > .modal__close-btn {
+  display: none;
+}
+
+.modal__close-btn:hover {
+  opacity: 0.6;
+}

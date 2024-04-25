@@ -1,0 +1,161 @@
+.client-profile {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  justify-content: space-between;
+  padding-top: 20px;
+  column-gap: 10px;
+}
+
+.client-profile__form {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  align-items: center;
+  row-gap: 15px;
+  border: 1px solid black;
+  padding: 5px;
+  height: 100%;
+}
+
+.client-profile__fieldset {
+  border: none;
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 10px;
+  margin: 0;
+  padding: 5px;
+  /* max-height: 650px; */
+  height: 100%;
+  overflow: auto;
+}
+
+.client-profile__general-info-fieldset {
+  border: 2px solid rgb(170, 170, 170);
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  row-gap: 15px;
+  margin: 0;
+  padding: 5px;
+}
+
+.client-profile__prof-info-fieldset {
+  border: 2px solid rgb(170, 170, 170);
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  row-gap: 10px;
+  margin: 0;
+  padding: 5px;
+}
+
+.client-profile__skills-fieldset {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 3px solid green;
+  column-gap: 3px;
+  padding-bottom: 20px;
+}
+
+.client-profile__sert-fieldset {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 3px solid green;
+  padding-bottom: 20px;
+}
+
+.client-profile__lang-fieldset {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 3px solid green;
+  padding-bottom: 20px;
+  min-width: 250px;
+}
+
+.client-profile__status-fieldset {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 3px solid green;
+  padding-bottom: 20px;
+  min-width: 250px;
+}
+
+.client-profile__sert-lev-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: none;
+  padding-left: 15px;
+}
+
+.client-profile__input-field {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.client-profile__label {
+}
+
+.client-profile__input-fieldset_gender {
+  width: fit-content;
+}
+
+.client-profile__toggle-switch_gender {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  row-gap: 3px;
+}
+
+.client-profile__about-fieldset {
+  width: 94%;
+  border: 1px solid black;
+}
+.client-profile__about-input {
+  height: 300px;
+  width: 100%;
+  resize: none;
+  border: none;
+}
+.client-profile__about-input:focus {
+  outline: none;
+}
+
+.client-profile__right {
+  border: 1px solid black;
+  width: 100%;
+}
+
+.client-profile__error-message {
+  position: relative;
+  color: red;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: normal;
+  margin: 0 0 0 0px;
+  height: 0;
+}
+
+.client-profile__label {
+  display: flex;
+  column-gap: 5px;
+}
+
+.client-profile__label-text {
+  margin: 0;
+}
+
+.client-profile__legend {
+  padding: 0 5px;
+}

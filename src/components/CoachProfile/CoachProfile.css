@@ -1,0 +1,205 @@
+.coach-profile {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  justify-content: space-between;
+  padding-top: 20px;
+  column-gap: 10px;
+}
+
+.coach-profile__form {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  align-items: center;
+  row-gap: 15px;
+  border: 1px solid black;
+  padding: 5px;
+}
+
+.coach-profile__fieldset {
+  border: none;
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 10px;
+  margin: 0;
+  padding: 5px;
+  height: 100%;
+  overflow: auto;
+}
+
+.coach-profile__general-info-fieldset {
+  border: 2px solid rgb(170, 170, 170);
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  row-gap: 15px;
+  margin: 0;
+  padding: 5px;
+}
+
+.coach-profile__prof-info-fieldset {
+  border: 2px solid rgb(170, 170, 170);
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  row-gap: 10px;
+  margin: 0;
+  padding: 5px;
+}
+
+.coach-profile__name-birthday-fieldset {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  border: 3px solid green;
+  min-width: 100%;
+  padding: 10px 0;
+}
+
+.coach-profile__skills-fieldset {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 3px solid green;
+  column-gap: 3px;
+  padding-bottom: 20px;
+  padding-left: 6px;
+  min-width: 100%;
+}
+
+.coach-profile__payment-fieldset {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 3px solid green;
+  column-gap: 3px;
+  padding-bottom: 20px;
+  padding-left: 6px;
+  min-width: 100%;
+}
+
+.coach-profile__sert-fieldset {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 3px solid green;
+  padding-bottom: 20px;
+  padding-left: 6px;
+  min-width: 100%;
+}
+
+.coach-profile__payment-scheme-fieldset {
+  min-width: 100%;
+  border: 1px solid black;
+}
+.coach-profile__payment-scheme-input {
+  height: 300px;
+  width: 100%;
+  resize: none;
+  border: none;
+}
+.coach-profile__payment-scheme-input:focus {
+  outline: none;
+}
+
+.coach-profile__lang-fieldset {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 3px solid green;
+  padding-bottom: 20px;
+  padding-left: 6px;
+  min-width: 100%;
+}
+
+.coach-profile__status-fieldset {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 3px solid green;
+  padding-bottom: 20px;
+  padding-left: 6px;
+  min-width: 100%;
+}
+
+.coach-profile__sert-lev-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: none;
+  padding-left: 15px;
+}
+
+.coach-profile__input-field {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.coach-profile__label {
+}
+
+.coach-profile__gender-fieldset {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 3px solid green;
+  padding-bottom: 20px;
+  padding-left: 6px;
+  min-width: 100%;
+}
+
+.coach-profile__about-fieldset {
+  min-width: 100%;
+  border: 1px solid black;
+}
+.coach-profile__about-input {
+  height: 300px;
+  width: 100%;
+  resize: none;
+  border: none;
+}
+.coach-profile__about-input:focus {
+  outline: none;
+}
+
+.coach-profile__right {
+  border: 1px solid black;
+  width: 100%;
+}
+
+.coach-profile__error-message {
+  position: relative;
+  color: red;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: normal;
+  margin: 0 0 0 0px;
+  height: 0;
+}
+
+.coach-profile__label {
+  display: flex;
+  column-gap: 5px;
+}
+
+.coach-profile__label-text {
+  margin: 0;
+}
+
+.coach-profile__legend {
+  padding: 0 5px;
+}
+
+.coach-profile__divider {
+  border-top: 1px solid grey;
+  width: calc(100% - 20px);
+  margin: 10px 10px;
+}

@@ -1,0 +1,17 @@
+.footer {
+  display: flex;
+  padding: 10px 40px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.2;
+  margin-top: auto;
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.footer__text {
+  margin: 0;
+}
+
+.footer__year {
+  margin: 0 0 0 auto;
+}

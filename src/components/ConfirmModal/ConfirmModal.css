@@ -1,0 +1,31 @@
+.confirm-modal__message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 16px;
+
+    /* margin: 0; */
+    /* align-self: flex-end;
+    justify-self: center; */
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1.2;
+}
+
+.confirm-modal__message-line {
+    margin: 0;
+}
+
+.confirm-modal__button {
+    margin: 0;
+    background-color: white;
+    border: none;
+    /* align-self: center; */
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1.2;
+}
+
+.confirm-modal__button:hover {
+    color: rgba(255, 77, 0, 1);
+}

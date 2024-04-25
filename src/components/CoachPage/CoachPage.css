@@ -1,0 +1,73 @@
+.coach-page {
+  display: grid;
+  height: 100%;
+  width: 100%;
+  grid-template-columns: 40% 20% 40%;
+  grid-template-rows: 50% 1fr;
+  padding: 15px 15px;
+  row-gap: 12px;
+  grid-template-areas:
+    "info info photo"
+    "text chat chat";
+}
+
+.coach-page__img-cont {
+  display: flex;
+  justify-content: flex-end;
+  grid-area: photo;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  padding: 15px 15px;
+}
+
+.coach-page__image {
+  /* width: 100%; */
+  height: 100%;
+  object-fit: contain;
+  border-radius: 20px;
+  /* border: 2px solid black; */
+  overflow: hidden;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.3);
+}
+
+.coach-page__info {
+  display: flex;
+  flex-direction: column;
+  grid-area: info;
+  text-align: left;
+  justify-content: space-around;
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+
+.coach-page__info-left {
+  font-style: italic;
+  font-weight: bold;
+}
+
+.coach-page__info-right {
+  color: rgb(53, 0, 0);
+}
+
+.coach-page__text {
+  grid-area: text;
+}
+
+.coach-page__chat {
+  grid-area: chat;
+}
+
+@media only screen and (max-width: 768px) {
+  .coach-page {
+    grid-template-columns: 100%;
+    grid-template-rows: 300px 1fr 1fr 1fr;
+    padding: 15px 15px;
+    row-gap: 12px;
+    grid-template-areas:
+      "photo"
+      "info"
+      "text"
+      "chat";
+  }
+}

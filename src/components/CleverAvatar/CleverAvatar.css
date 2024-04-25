@@ -1,0 +1,40 @@
+.clever-avatar__avatar-placeholder {
+  margin: 0;
+  position: absolute;
+  z-index: -1;
+  color: white;
+}
+
+.clever-avatar__user-avatar {
+  display: block;
+  object-fit: contain;
+  font-size: 16px;
+  aspect-ratio: 1/1;
+  height: 100%;
+  border-radius: 50%;
+  position: absolute;
+}
+
+.clever-avatar__avatar-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: 1/1;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  z-index: 0;
+  transition: 0.3s ease;
+}
+
+/* .clever-avatar__avatar-container:hover {
+  filter: invert(18%) sepia(100%) saturate(6346%) hue-rotate(358deg)
+    brightness(100%) contrast(118%);
+} */
+
+.clever-avatar__avatar-container:hover {
+  height: 150%;
+  filter: drop-shadow(6px 6px 8px rgba(0, 0, 0, 0.8));
+}

@@ -1,0 +1,68 @@
+.coach-card {
+  box-sizing: border-box;
+  position: relative;
+  width: 250px;
+  height: 250px;
+  /* border: 1px solid rgba(0, 0, 0, 0.3); */
+  box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.4);
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: #fff;
+  flex: 0 0 auto;
+}
+
+.coach-card__heading {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  left: 50%;
+  transform: translate(-50%, 0);
+  bottom: 15px;
+  column-gap: 10px;
+}
+
+.coach-card__image {
+  grid-area: card-img;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.coach-card__title {
+  box-sizing: border-box;
+  /* width: 74px; */
+  height: 24px;
+  background-color: rgba(255, 255, 255, 0.7);
+
+  margin: 0;
+  border-radius: 4px;
+
+  padding: 2px 7px;
+  color: #000;
+  font-size: 16px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: center;
+  /* text-overflow: ellipsis; */
+}
+
+.coach-card__text {
+  color: #000;
+  font-size: 16px;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.coach-card__number-of-likes {
+  font-size: 16px;
+  line-height: 1.2;
+  margin: 0;
+  min-width: 18px;
+}
+
+.coach-card__heart {
+  width: 18px;
+  height: 15px;
+  margin: 0;
+}

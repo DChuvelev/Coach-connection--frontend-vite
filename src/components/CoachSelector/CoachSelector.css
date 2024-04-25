@@ -1,0 +1,67 @@
+.coach-selector {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  padding-top: 40px;
+  overflow: auto;
+}
+
+.coach-selector__cards {
+  padding: 0 30px;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: flex-start;
+  gap: 20px;
+  list-style: none;
+  overflow: auto;
+  height: 100%;
+  width: 100%;
+}
+
+.coach-selector__cards-container {
+  flex: 0 1 auto;
+  /* border: 1px solid black; */
+  border: none;
+  border: 3px solid rgba(0, 0, 0, 0.2);
+  padding: 20px 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.coach-selector__sidebar {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 auto;
+  /* border: 1px solid black; */
+  border: none;
+  padding: 0 30px 0 0;
+}
+
+.coach-selector__search-fields {
+  font-size: 13px;
+  /* flex: 0 1 auto; */
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
+
+  /* height: 50%; */
+  overflow: auto;
+  /* height: 50%; */
+  /* min-height: 200px; */
+}
+
+.coach-selector__legend {
+  padding: 0 6px;
+}
+
+.coach-selector__fieldset {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 2px solid grey;
+  padding: 0 6px 10px 6px;
+  min-width: 100%;
+}
