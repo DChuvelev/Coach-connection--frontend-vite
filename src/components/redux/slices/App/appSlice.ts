@@ -6,7 +6,13 @@ import {
   ThunkStatus,
   statusType,
 } from "../generalTypes";
-import { AppDoneMessages, CurrentUser, User, initialState } from "./appTypes";
+import {
+  AppDoneMessages,
+  AppErrorMessages,
+  CurrentUser,
+  User,
+  initialState,
+} from "./appTypes";
 import {
   registerUserThunk,
   loginThunk,
@@ -50,6 +56,12 @@ export const appSlice = createSlice({
       action: PayloadAction<AppDoneMessages | undefined>
     ) => {
       state.doneMessage = action.payload;
+    },
+    setErrorMessage: (
+      state,
+      action: PayloadAction<AppErrorMessages | undefined>
+    ) => {
+      state.errorMessage = action.payload;
     },
   },
   extraReducers(builder) {
@@ -142,4 +154,5 @@ export const {
   setLoggedIn,
   setAppStatus,
   setDoneMessage,
+  setErrorMessage,
 } = appSlice.actions;

@@ -1,5 +1,5 @@
 import { gptApiRequest } from "../constants/requests";
-import { GptAnswer, GptApiConstructorProps } from "./GptApiTypes";
+import { ChosenCoachGptAnswer, GptApiConstructorProps } from "./GptApiTypes";
 
 export default class GptApi {
   _baseUrl: string;
@@ -10,10 +10,10 @@ export default class GptApi {
   }
 
   chooseMeACoach = async ({
-    messages,
+    message,
     token,
   }: {
-    messages: Array<Record<string, string>>;
+    message: string;
     token: string;
   }) => {
     let resp;
@@ -21,10 +21,11 @@ export default class GptApi {
       resp = await fetch(`${this._baseUrl}/askGpt/chooseMeACoach`, {
         headers: { ...this._headers, authorization: `Bearer ${token}` },
         method: "POST",
-        body: JSON.stringify(messages),
+        body: JSON.stringify({ message: message }),
       });
       if (resp.ok) {
-        const respFull: GptAnswer = await resp.json();
+        const respFull: ChosenCoachGptAnswer = await resp.json();
+        console.log(respFull);
         return respFull;
       } else {
         throw new Error("Server error");

@@ -8,6 +8,7 @@ import {
   setSlideShowTimerId,
 } from "./coachesSlice";
 import { gptApi } from "../../../../utils/api/GptApi";
+import { setDoneMessage } from "../App/appSlice";
 
 export const getAllCoachesThunk = createAsyncThunk(
   "coaches/getAll",
@@ -61,16 +62,18 @@ export const removeSlideShowCounter = createAsyncThunk(
 
 export const selectCoachByGptThunk = createAsyncThunk(
   "coaches/selectByGpt",
-  async (messages: Array<Record<string, string>>, { getState, dispatch }) => {
+  async (message: string, { getState, dispatch }) => {
     const state = getState() as RootState;
     let resp;
     try {
       resp = await gptApi.chooseMeACoach({
-        messages: messages,
+        message: message,
         token: localStorage.getItem("jwt") as string,
       });
+      dispatch(setDoneMessage("gptAnswered"));
       return resp;
     } catch (err) {
+      dispatch(setDoneMessage("gptDidntAnswer"));
       return Promise.reject(err);
     }
   }

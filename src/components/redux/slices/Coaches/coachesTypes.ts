@@ -3,7 +3,6 @@ import { Coach } from "../App/appTypes";
 import { statusType } from "../generalTypes";
 import { devNull } from "os";
 import { CoachFinder } from "../../../CoachSelector/CoachSelectorTypes";
-import { GptAnswer } from "../../../../utils/api/GptApiTypes";
 export interface CoachInfo
   extends Omit<Coach, "password" | "status" | "email" | "role"> {}
 
@@ -14,7 +13,7 @@ export interface CoachesState {
   slideShowCounter: number;
   slideShowtimerId: number;
   coachFinderValues: CoachFinder;
-  gptAnswer: GptAnswer;
+  gptAnswer: GptSelectedCoach;
 }
 
 export const emptyCoachFinderFormValues: CoachFinder = {
@@ -25,6 +24,11 @@ export const emptyCoachFinderFormValues: CoachFinder = {
   paymentOptions: [],
 };
 
+export const gptAnswerInit = {
+  coachId: "",
+  text: "",
+};
+
 export const initialState: CoachesState = {
   coachesList: [],
   status: "normal",
@@ -32,5 +36,10 @@ export const initialState: CoachesState = {
   slideShowCounter: 0,
   slideShowtimerId: 0,
   coachFinderValues: emptyCoachFinderFormValues,
-  gptAnswer: [],
+  gptAnswer: gptAnswerInit,
 };
+
+export interface GptSelectedCoach {
+  coachId: string;
+  text: string;
+}

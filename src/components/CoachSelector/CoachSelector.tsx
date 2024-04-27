@@ -14,16 +14,28 @@ import {
   setCoachFinderValues,
 } from "../redux/slices/Coaches/coachesSlice";
 import { selectCoachByGptThunk } from "../redux/slices/Coaches/coachesAsync";
-import { setAppStatus } from "../redux/slices/App/appSlice";
+import { setAppStatus, setErrorMessage } from "../redux/slices/App/appSlice";
+import { formTranslatedString } from "../../utils/functions";
+import { LangChoice } from "../../utils/models";
+import { appLangs } from "../../utils/constants/langs";
+import { useNavigate } from "react-router-dom";
+
 export default function CoachSelector() {
   const coachesList = useAppSelector((state) => state.coaches.coachesList);
   const currentLanguage = useAppSelector((state) => state.app.lang);
   const currentUser = useAppSelector((state) => state.app.currentUser);
   const gptAnswer = useAppSelector((state) => state.coaches.gptAnswer);
+  const navigate = useNavigate();
   const coachFinderGlobalValues = useAppSelector(
     (state) => state.coaches.coachFinderValues
   );
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (gptAnswer.coachId !== "") {
+      navigate(`/coaches/${gptAnswer.coachId}`);
+    }
+  }, [gptAnswer.coachId]);
 
   const getOptionsList = ({
     list,
@@ -72,26 +84,64 @@ export default function CoachSelector() {
     reset(emptyCoachFinderFormValues);
   };
 
-  const chooseWithGpt = async () => {
-    let resp;
-    const { _id, email, name, role, avatar, ...currentUserOpenInfo } =
-      currentUser;
-    let message = `Привет! Помоги подобрать коуча для меня. 
-    Вот информация обо мне в объекте json: ${JSON.stringify(
-      currentUserOpenInfo
-    )}.
-    А вот json объекты с информацией о коучах: \n`;
-    coachesList.forEach((coach, idx) => {
-      message += `${JSON.stringify(coach)}\n`;
+  const getCoachInfoJSON = (coach: CoachInfo) => {
+    return JSON.stringify({
+      name: coach.name,
+      _id: coach._id,
+      birthDate: coach.birthDate,
+      speaksFollowingLanguages: formTranslatedString(
+        translations.profile.languagesList,
+        coach.languages,
+        LangChoice.En
+      ),
+      fieldsOfActivity: formTranslatedString(
+        translations.coach.skills,
+        coach.skills,
+        LangChoice.En
+      ),
+      sertification: formTranslatedString(
+        translations.coach.sert,
+        [coach.sertification],
+        LangChoice.En
+      ),
+      sertificationAdditional: formTranslatedString(
+        translations.coach.sertLevelList,
+        coach.sertificationLevel,
+        LangChoice.En
+      ),
+      paymentOptions: formTranslatedString(
+        translations.coach.paymentOptions,
+        coach.paymentOptions,
+        LangChoice.En
+      ),
+      paymentScheme: coach.paymentScheme,
+      about: coach.about,
     });
-    message +=
-      "Ответ сформулируй в виде объекта json с двумя ключами. coachId - поле _id выбранного коуча, text - аргументация.";
+  };
+  const chooseWithGpt = async () => {
+    const currentUserOpenInfo = {
+      gender: currentUser.gender,
+      speaksFollowingLanguages: formTranslatedString(
+        translations.profile.languagesList,
+        currentUser.languages,
+        LangChoice.En
+      ),
+      birthDate: currentUser.birthDate,
+      request: currentUser.about,
+    };
 
-    // console.log(message);
+    let message = `Client: 
+    ${JSON.stringify(currentUserOpenInfo)}
+    Coaches list:\n`;
+    coachesList.forEach((coach, idx) => {
+      message += `${getCoachInfoJSON(coach)}\n`;
+    });
+    message += `Language to answer: ${
+      appLangs.find((lang) => lang.id === currentLanguage)?.name
+    }`;
+
     dispatch(setAppStatus("waiting"));
-
-    await dispatch(selectCoachByGptThunk([{ role: "user", text: message }]));
-    console.log(gptAnswer[0].message.text);
+    await dispatch(selectCoachByGptThunk(message));
     dispatch(setAppStatus("done"));
   };
 
@@ -102,16 +152,10 @@ export default function CoachSelector() {
   const formValues = watch();
 
   useEffect(() => {
-    // console.log(coachFinderGlobalValues);
     return () => {
-      // console.log(watch());
       dispatch(setCoachFinderValues(watch()));
     };
   }, []);
-
-  // useEffect(() => {
-  //   console.log(formValues);
-  // }, [formValues]);
 
   const filterCoaches = (coach: CoachInfo) => {
     for (const key in formValues) {
@@ -120,7 +164,7 @@ export default function CoachSelector() {
       if (
         formValues[formKey] &&
         coach[coachKey] &&
-        formValues[formKey].length //inothing is checked means that the field is off === no filter
+        formValues[formKey].length //nothing is checked means that the field is off === no filter
       ) {
         let coachCurrentKeyArray: Array<string> = [];
         // make sure that both compared fields are string arrays;

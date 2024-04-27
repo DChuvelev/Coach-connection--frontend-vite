@@ -17,6 +17,7 @@ import {
   setLoggedIn,
   setAppStatus,
   setDoneMessage,
+  setErrorMessage,
 } from "./redux/slices/App/appSlice";
 import {
   initUserFromTokenThunk,
@@ -180,7 +181,7 @@ function App() {
 
   return (
     <>
-      {appStatus === "waiting" && <Preloader />}
+      {(appStatus === "waiting" || appStatus === "starting") && <Preloader />}
       {appStatus === "done" && (
         <SystemMessage
           message={

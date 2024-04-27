@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./CoachPage.css";
 import { Props } from "./CoachPageTypes";
 import { Navigate, useParams } from "react-router-dom";
-import { useAppSelector } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { CoachInfo } from "../redux/slices/Coaches/coachesTypes";
 import {
   calculateAge,
@@ -10,14 +10,43 @@ import {
   getAvatar,
 } from "../../utils/functions";
 import { translations } from "../../utils/constants/translations";
+import {
+  resetGptAnswerId,
+  resetGptAnswerText,
+} from "../redux/slices/Coaches/coachesSlice";
 
 const CoachPage: React.FC<Props> = () => {
+  const dispatch = useAppDispatch();
   const coaches = useAppSelector((state) => state.coaches.coachesList);
   const currentLanguage = useAppSelector((state) => state.app.lang);
+  const gptText = useAppSelector((state) => state.coaches.gptAnswer.text);
   const params = useParams();
   const currentCoach = coaches.find(
     (coach) => coach._id === params.coachId
   ) as CoachInfo;
+  const [aiPromptOpacity, setAiPromptOpacity] = useState(0);
+  const [aiPromptDisplay, setAiPromptDisplay] = useState("flex");
+
+  useEffect(() => {
+    dispatch(resetGptAnswerId());
+    if (gptText !== "") {
+      setTimeout(() => {
+        setAiPromptOpacity(1);
+      }, 50);
+    }
+    return () => {
+      dispatch(resetGptAnswerText());
+    };
+  }, []);
+
+  const closeGptAnswer = () => {
+    setAiPromptOpacity(0);
+    setTimeout(() => {
+      dispatch(resetGptAnswerText());
+      setAiPromptDisplay("none");
+    }, 2000);
+  };
+
   const coachInfoArray = currentCoach
     ? [
         {
@@ -108,6 +137,13 @@ const CoachPage: React.FC<Props> = () => {
               src={getAvatar(currentCoach)}
               alt={currentCoach.name}
             />
+          </div>
+          <div
+            className="coach-page__gpt"
+            style={{ opacity: aiPromptOpacity, display: aiPromptDisplay }}
+            onClick={closeGptAnswer}
+          >
+            <p className="coach-page__gpt-text">{gptText}</p>
           </div>
           <div className="coach-page__text">Text</div>
           <div className="coach-page__chat">Chat</div>

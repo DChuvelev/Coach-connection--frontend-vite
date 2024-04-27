@@ -36,28 +36,32 @@ const SlideShow: React.FC = () => {
   }, [slideShowIndex]);
 
   return (
-    <div className="slide-show">
-      <h1 className="slide-show__heading">
-        {translations.client.main.ourCoaches[currentLanguage]}
-      </h1>
+    <>
+      {coachesList.length > 0 && (
+        <div className="slide-show">
+          <h1 className="slide-show__heading">
+            {translations.client.main.ourCoaches[currentLanguage]}
+          </h1>
 
-      <div
-        className={`slide-show__image-cont ${
-          shouldAnimate ? "slide-show__image-animate" : ""
-        }`}
-      >
-        <Link
-          to={`/coaches/${coachesList[slideShowIndex]._id}`}
-          className="slide-show__link"
-        >
-          <img
-            className="slide-show__image"
-            src={getAvatar(coachesList[slideShowIndex])}
-            onError={moveToNextPicture}
-          />
-        </Link>
-      </div>
-    </div>
+          <div
+            className={`slide-show__image-cont ${
+              shouldAnimate ? "slide-show__image-animate" : ""
+            }`}
+          >
+            <Link
+              to={`/coaches/${coachesList[slideShowIndex]._id}`}
+              className="slide-show__link"
+            >
+              <img
+                className="slide-show__image"
+                src={getAvatar(coachesList[slideShowIndex])}
+                onError={moveToNextPicture}
+              />
+            </Link>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

@@ -291,7 +291,7 @@ export const translations = {
     sert: {
       inTraining: {
         ru: "Начинающий коуч в обучении",
-        en: "A beginner coach currently in training",
+        en: "A beginner coach currently on learning",
       },
       lev1: {
         ru: "Сертифицированный коуч Level 1 ICF",
@@ -420,6 +420,14 @@ export const translations = {
       loggedOut: {
         ru: "Выполнен выход",
         en: "Logged out successfully",
+      },
+      gptAnswered: {
+        ru: "Получен ответ от GPT. Перенаправляем на страницу выбранного коуча",
+        en: "GPT answer recieved. Redirecting to the selected coache's page",
+      },
+      gptDidntAnswer: {
+        ru: "Что-то GPT задумался. Попробуйте позже",
+        en: "For some reason GPT is not answering now. Try later",
       },
     },
   },

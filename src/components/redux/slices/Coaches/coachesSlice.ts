@@ -1,6 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import {} from "../App/appAsync";
-import { dbApiRequest } from "../../../../utils/constants/requests";
 import {
   CoachInfo,
   emptyCoachFinderFormValues,
@@ -8,7 +7,7 @@ import {
 } from "./coachesTypes";
 import { getAllCoachesThunk, selectCoachByGptThunk } from "./coachesAsync";
 import { CoachFinder } from "../../../CoachSelector/CoachSelectorTypes";
-import { GptAnswer } from "../../../../utils/api/GptApiTypes";
+import { ChosenCoachGptAnswer } from "../../../../utils/api/GptApiTypes";
 import { statusType } from "../generalTypes";
 
 export const coachesSlice = createSlice({
@@ -40,6 +39,12 @@ export const coachesSlice = createSlice({
     resetCoachFinderValues: (state, action: PayloadAction) => {
       state.coachFinderValues = emptyCoachFinderFormValues;
     },
+    resetGptAnswerId: (state, action: PayloadAction) => {
+      state.gptAnswer.coachId = "";
+    },
+    resetGptAnswerText: (state, action: PayloadAction) => {
+      state.gptAnswer.text = "";
+    },
   },
   extraReducers(builder) {
     builder
@@ -54,8 +59,9 @@ export const coachesSlice = createSlice({
       })
       .addCase(
         selectCoachByGptThunk.fulfilled,
-        (state, action: PayloadAction<GptAnswer>) => {
-          state.gptAnswer = action.payload;
+        (state, action: PayloadAction<ChosenCoachGptAnswer>) => {
+          state.gptAnswer.coachId = action.payload._id;
+          state.gptAnswer.text = action.payload.text;
         }
       );
   },
@@ -68,4 +74,6 @@ export const {
   setSlideShowTimerId,
   setCoachFinderValues,
   resetCoachFinderValues,
+  resetGptAnswerId,
+  resetGptAnswerText,
 } = coachesSlice.actions;

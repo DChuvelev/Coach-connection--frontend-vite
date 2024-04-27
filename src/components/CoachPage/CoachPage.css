@@ -3,11 +3,12 @@
   height: 100%;
   width: 100%;
   grid-template-columns: 40% 20% 40%;
-  grid-template-rows: 50% 1fr;
+  grid-template-rows: 45% auto 1fr;
   padding: 15px 15px;
   row-gap: 12px;
   grid-template-areas:
     "info info photo"
+    "gpt  gpt  gpt"
     "text chat chat";
 }
 
@@ -50,6 +51,28 @@
   color: rgb(53, 0, 0);
 }
 
+.coach-page__gpt {
+  grid-area: gpt;
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
+  border: 2px solid grey;
+  border-radius: 36px;
+  margin: 0 40px;
+  text-align: center;
+  padding: 5px 30px;
+  background-color: antiquewhite;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  transition: opacity 2s ease;
+  cursor: pointer;
+}
+
+.coach-page__gpt-text {
+  font-style: italic;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
 .coach-page__text {
   grid-area: text;
 }
@@ -69,5 +92,9 @@
       "info"
       "text"
       "chat";
+  }
+
+  .coach-page__img-cont {
+    justify-content: center;
   }
 }

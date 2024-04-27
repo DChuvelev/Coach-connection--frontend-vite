@@ -3,12 +3,7 @@ export interface GptApiConstructorProps {
   headers: HeadersInit;
 }
 
-export interface GptResponseMessage {
-  message: {
-    role: string;
-    text: string;
-  };
-  status: string;
+export interface ChosenCoachGptAnswer {
+  _id: string;
+  text: string;
 }
-
-export type GptAnswer = GptResponseMessage[];

@@ -1,8 +1,6 @@
-import { useAppSelector } from "../components/redux/hooks";
-import { CurrentUser } from "../components/redux/slices/App/appTypes";
 import { CoachInfo } from "../components/redux/slices/Coaches/coachesTypes";
 import { dbApiRequest } from "./constants/requests";
-import { Translations, translations } from "./constants/translations";
+import { Translations } from "./constants/translations";
 import { LangChoice } from "./models";
 
 export const getAvatar = (user: CoachInfo) => {
