@@ -14,6 +14,12 @@ import {
   resetGptAnswerId,
   resetGptAnswerText,
 } from "../redux/slices/Coaches/coachesSlice";
+import { chatApi } from "../../utils/api/ChatApi";
+import {
+  createChatThunk,
+  getChatByIdThunk,
+} from "../redux/slices/Chats/chatsAsync";
+import { Chat } from "../Chat/Chat";
 
 const CoachPage: React.FC<Props> = () => {
   const dispatch = useAppDispatch();
@@ -112,6 +118,12 @@ const CoachPage: React.FC<Props> = () => {
         },
       ]
     : [];
+
+  const getChatWithCoach = async () => {
+    console.log("Click");
+    await dispatch(createChatThunk(currentCoach._id));
+  };
+
   return (
     <>
       {currentCoach === undefined && <Navigate to="/" />}
@@ -145,8 +157,20 @@ const CoachPage: React.FC<Props> = () => {
           >
             <p className="coach-page__gpt-text">{gptText}</p>
           </div>
-          <div className="coach-page__text">Text</div>
-          <div className="coach-page__chat">Chat</div>
+          <div className="coach-page__text">
+            <button type="button" onClick={getChatWithCoach}>
+              GetChat
+            </button>
+          </div>
+          <div className="coach-page__chat">
+            <Chat
+              withUser={{
+                id: currentCoach._id,
+                name: currentCoach.name,
+                role: "coach",
+              }}
+            />
+          </div>
         </div>
       )}
     </>

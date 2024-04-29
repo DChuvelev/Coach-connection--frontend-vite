@@ -9,6 +9,7 @@ import {
   Role,
   statusType,
 } from "../generalTypes";
+import { IChatMember } from "../Chats/chatsTypes";
 
 export type Gender = "male" | "female" | "nonbinary" | "";
 
@@ -22,8 +23,11 @@ export interface User {
   birthDate: string;
   languages: Array<string>;
   about: string;
-  chatPartnerIDs: string[];
-  gotNewMessagesFromIDs: string[];
+  chats: {
+    chatId: string;
+    members: IChatMember[];
+  }[];
+  gotNewMessagesInChatIDs: string[];
 }
 
 export interface Client extends User {}
@@ -56,7 +60,6 @@ export interface AppState {
   appStatus: statusType;
   errorMessage: AppErrorMessages | undefined;
   doneMessage: AppDoneMessages | undefined;
-  currentChat: Chat;
 }
 
 export const defaultUser: CurrentUser = {
@@ -75,14 +78,8 @@ export const defaultUser: CurrentUser = {
   sertification: "inTraining",
   sertificationLevel: [],
   status: "active",
-  chatPartnerIDs: [],
-  gotNewMessagesFromIDs: [],
-};
-
-export const emptyChat: Chat = {
-  _id: "",
-  messages: [],
-  members: [],
+  chats: [],
+  gotNewMessagesInChatIDs: [],
 };
 
 export const initialState: AppState = {
@@ -96,24 +93,4 @@ export const initialState: AppState = {
   appStatus: "starting",
   errorMessage: undefined,
   doneMessage: undefined,
-  currentChat: emptyChat,
 };
-
-// ------------ Chats --------------
-
-export interface Message {
-  text: string;
-  date: string;
-  authorId: string;
-}
-
-export interface ChatMember {
-  _id: string;
-  role: Role;
-}
-
-export interface Chat {
-  _id: string;
-  messages: Message[];
-  members: ChatMember[];
-}

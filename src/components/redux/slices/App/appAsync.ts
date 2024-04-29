@@ -4,6 +4,7 @@ import { RootState } from "../../store";
 import { CurrentUser } from "./appTypes";
 import { RefObject } from "react";
 import { setCurrentUser, setLoggedIn, setLoginFormValues } from "./appSlice";
+import { chatApi } from "../../../../utils/api/ChatApi";
 
 export const registerUserThunk = createAsyncThunk(
   "app/registerUser",
@@ -108,5 +109,19 @@ export const updateUserInfoThunk = createAsyncThunk(
       return Promise.reject(err);
     }
     return resp;
+  }
+);
+
+export const refreshCurrentUserThunk = createAsyncThunk(
+  "app/refreshCurrentUser",
+  async (arg, { getState, dispatch }) => {
+    const state = getState() as RootState;
+    let resp: CurrentUser;
+    try {
+      resp = await dbApi.checkToken(localStorage.getItem("jwt") as string);
+      dispatch(setCurrentUser(resp));
+    } catch (err) {
+      return Promise.reject(err);
+    }
   }
 );

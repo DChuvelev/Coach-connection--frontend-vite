@@ -2,12 +2,13 @@ import { configureStore } from "@reduxjs/toolkit";
 import clientsReducer from "./slices/Clients/clientsSlice";
 import appReducer from "./slices/App/appSlice";
 import coachesReducer from "./slices/Coaches/coachesSlice";
-import { buildGetDefaultMiddleware } from "@reduxjs/toolkit/dist/getDefaultMiddleware";
+import chatsReducer from "./slices/Chats/chatsSlice";
 
 export const store = configureStore({
   reducer: {
     coaches: coachesReducer,
     clients: clientsReducer,
+    chats: chatsReducer,
     app: appReducer,
   },
   middleware: (getDefaultMiddleware) =>
