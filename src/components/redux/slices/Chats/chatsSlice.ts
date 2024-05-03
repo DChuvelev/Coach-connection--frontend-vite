@@ -9,6 +9,9 @@ export const chatsSlice = createSlice({
     setChatsStatus: (state, action: PayloadAction<statusType>) => {
       state.chatsStatus = action.payload;
     },
+    triggerRefreshTik: (state, action: PayloadAction) => {
+      state.refreshTik = Math.random();
+    },
     addChatToChatList: (state, action: PayloadAction<IChat>) => {
       state.chatsList.push(action.payload);
     },
@@ -24,6 +27,9 @@ export const chatsSlice = createSlice({
         ...action.payload.messages
       );
     },
+    setCurrentChatIndex: (state, action: PayloadAction<number>) => {
+      state.currentChatIndex = action.payload;
+    },
   },
   // extraReducers(builder) {
   //   builder
@@ -35,5 +41,10 @@ export const chatsSlice = createSlice({
 });
 
 export default chatsSlice.reducer;
-export const { setChatsStatus, addMessages, addChatToChatList } =
-  chatsSlice.actions;
+export const {
+  setChatsStatus,
+  addMessages,
+  addChatToChatList,
+  triggerRefreshTik,
+  setCurrentChatIndex,
+} = chatsSlice.actions;

@@ -18,10 +18,12 @@ import {
   setAppStatus,
   setDoneMessage,
   setErrorMessage,
+  triggerGotNewMessages,
 } from "./redux/slices/App/appSlice";
 import {
   initUserFromTokenThunk,
   loginThunk,
+  refreshCurrentUserThunk,
   registerUserThunk,
 } from "./redux/slices/App/appAsync";
 import { FormInfo, defaultFormInfo } from "./ModalWithForm/ModalWithFormTypes";
@@ -29,7 +31,7 @@ import { loginFormDefaultData } from "./LoginModal/LoginModalTypes";
 import { registerFormDefaultData } from "./RegisterModal/RegisterModalTypes";
 import { UserToRegister } from "./redux/slices/generalTypes";
 import { CoachProfile } from "./CoachProfile/CoachProfile";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import { defaultUser } from "./redux/slices/App/appTypes";
 import { ConfirmModal } from "./ConfirmModal/ConfirmModal";
 import { ProtectedRoute } from "../utils/ProtectedRoute/ProtectedRoute";
@@ -44,10 +46,13 @@ import CoachSelector from "./CoachSelector/CoachSelector";
 import ErrorPage from "./ErrorPage/ErrorPage";
 import CoachPage from "./CoachPage/CoachPage";
 import SlideShow from "./SlideShow/SlideShow";
-import { incCoachesSlideShowCounter } from "./redux/slices/Coaches/coachesSlice";
+import io from "socket.io-client";
+import { baseUrl } from "../utils/constants/requests";
+import { delay } from "../utils/functions";
+import { ActiveModalsList } from "./AppTypes";
 
 function App() {
-  const [activeModal, setActiveModal] = useState("");
+  const [activeModal, setActiveModal] = useState<ActiveModalsList>("");
   const [formInfo, setFormInfo] = useState<FormInfo>(defaultFormInfo);
   const currentLanguage = useAppSelector((state) => state.app.lang);
   const dispatch = useAppDispatch();
@@ -57,16 +62,72 @@ function App() {
   const currentUser = useAppSelector((state) => state.app.currentUser);
   const appError = useAppSelector((state) => state.app.errorMessage);
   const doneMessage = useAppSelector((state) => state.app.doneMessage);
+  const chatsState = useAppSelector((state) => state.chats);
+  const socket = io(`${baseUrl}`);
+  const navigate = useNavigate();
 
   //----------------------- Init -----------------------------------
-
   useEffect(() => {
     const asyncInit = async () => {
       await dispatch(getAllCoachesThunk());
       await dispatch(initUserFromTokenThunk());
     };
     asyncInit();
+    return () => {
+      socket.disconnect();
+    };
   }, []);
+
+  useEffect(() => {
+    if (currentUser?._id) {
+      const userInfoToSend = {
+        token: localStorage.getItem("jwt") as string,
+        userId: currentUser._id,
+      };
+      // console.log(userInfoToSend);
+      socket.emit("log_in", userInfoToSend);
+
+      socket.on("new_message_in_chat", (data: { chatId: string }) => {
+        // console.log(`New message in chat with Id ${data.chatId}`);
+        dispatch(triggerGotNewMessages(data.chatId));
+      });
+    }
+  }, [currentUser?._id]);
+
+  useEffect(() => {
+    if (appStatus === "normal" && currentUser.triggeredChatId) {
+      // console.log(currentUser.triggeredChatId);
+      // console.log(chatsState);
+      console.log(
+        `Got new message in chat with ID ${currentUser.triggeredChatId}`
+      );
+      if (chatsState.currentChatIndex !== -1) {
+        console.log(
+          `Now chat with ID ${
+            chatsState.chatsList[chatsState.currentChatIndex]._id
+          } opened`
+        );
+        if (
+          currentUser.triggeredChatId ===
+          chatsState.chatsList[chatsState.currentChatIndex]._id
+        ) {
+          console.log(
+            "This chat is opened. No user update needed\n----------------"
+          );
+          return;
+        } else {
+          console.log("Chat with a different Id opened.");
+        }
+      } else {
+        console.log("No chat window opened.");
+      }
+
+      console.log(
+        "Refreshing new chats list in current user info\n----------------"
+      );
+      dispatch(refreshCurrentUserThunk());
+    }
+  }, [currentUser.gotNewMessagesTik]);
 
   //---------------------- Common functions -----------------------------
 
@@ -118,6 +179,9 @@ function App() {
   };
 
   //-------------------------- User login -------------------------------
+  const confirmRedirectionToLogin = () => {
+    setActiveModal("confirm-login");
+  };
 
   const handleOpenLoginModal = () => {
     setActiveModal("form");
@@ -143,6 +207,7 @@ function App() {
   //------------------------- User logout --------------------------
 
   const logout = () => {
+    socket.disconnect();
     localStorage.removeItem("jwt");
     dispatch(setLoggedIn(false));
     dispatch(setCurrentUser(defaultUser));
@@ -150,6 +215,7 @@ function App() {
     handleModalClose();
     dispatch(setDoneMessage("loggedOut"));
     dispatch(setAppStatus("done"));
+    navigate("/");
   };
 
   const handleLogout = () => {
@@ -216,7 +282,12 @@ function App() {
           {appStatus === "normal" && (
             <Routes>
               <Route path="*" element={<ErrorPage />} />
-              <Route path="/" element={<SlideShow />}></Route>
+              <Route
+                path="/"
+                element={
+                  <SlideShow redirectToLogin={confirmRedirectionToLogin} />
+                }
+              ></Route>
               <Route
                 path="/coach-finder"
                 element={
@@ -272,10 +343,19 @@ function App() {
         )}
         {activeModal === "confirm-logout" && (
           <ConfirmModal
-            message={["Are you sure you want to log out?"]}
-            okBtnTxt="Log out"
+            message={translations.modals.confirmLogout.message[currentLanguage]}
+            okBtnTxt={translations.modals.confirmLogout.okBtn[currentLanguage]}
             activeModal={activeModal}
             onOk={logout}
+            onClose={handleModalClose}
+          />
+        )}
+        {activeModal === "confirm-login" && (
+          <ConfirmModal
+            message={translations.modals.confirmLogin.message[currentLanguage]}
+            okBtnTxt={translations.modals.confirmLogin.okBtn[currentLanguage]}
+            activeModal={activeModal}
+            onOk={handleOpenLoginModal}
             onClose={handleModalClose}
           />
         )}

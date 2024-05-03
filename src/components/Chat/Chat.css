@@ -6,13 +6,21 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  flex: 1;
+  overflow: hidden;
 }
 
 .chat__window {
+  display: flex;
+  flex-direction: column;
   border: 1px solid black;
-  width: 100%;
+  max-width: 100%;
   height: 100%;
   border-radius: 10px;
+  flex: 1;
+  overflow: auto;
+  padding: 10px 10px;
+  gap: 9px;
 }
 
 .chat__message-form {
@@ -40,4 +48,55 @@
   width: fit-content;
   min-width: 100px;
   height: 30px;
+}
+
+.chat__chat-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.chat__message {
+  word-break: break-word;
+  text-align: left;
+  border-radius: 10px;
+  padding: 8px 10px;
+  width: fit-content;
+  max-width: 80%;
+}
+
+.chat__message_type_other-users {
+
+  align-self: flex-start;
+  color: rgb(80, 30, 30);
+  background-color: rgb(184, 255, 255);
+
+}
+
+
+.chat__message_type_current-user {
+  /* margin-left: 20%; */
+  color: rgb(6, 118, 0);
+  background-color: aquamarine;
+  align-self: flex-end;
+}
+
+.chat__message-divider {
+  background-color: rgba(127, 255, 212, 0.179);
+  border-radius: 10px;
+  width: fit-content;
+  margin: 8px 0;
+  padding: 5px 10px;
+  align-self: center;
+}
+
+.chat__message-divider_type_year {
+  background-color: rgba(255, 101, 101, 0.347);
+}
+
+.chat__message-divider_type_month {
+  background-color: rgba(60, 255, 131, 0.675);
+}
+
+.chat__message-divider_type_day {
+  background-color: rgba(68, 77, 255, 0.675);
 }

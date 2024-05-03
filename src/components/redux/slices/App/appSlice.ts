@@ -63,6 +63,10 @@ export const appSlice = createSlice({
     ) => {
       state.errorMessage = action.payload;
     },
+    triggerGotNewMessages: (state, action: PayloadAction<string>) => {
+      state.currentUser.gotNewMessagesTik = Math.random();
+      state.currentUser.triggeredChatId = action.payload;
+    },
   },
   extraReducers(builder) {
     builder
@@ -155,4 +159,5 @@ export const {
   setAppStatus,
   setDoneMessage,
   setErrorMessage,
+  triggerGotNewMessages,
 } = appSlice.actions;

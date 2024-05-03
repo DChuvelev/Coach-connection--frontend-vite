@@ -1,0 +1,32 @@
+.my-chats-list {
+  border: 2px solid black;
+  border-radius: 10px;
+  width: 100%;
+  height: fit-content;
+  max-height: 150px;
+  flex: none;
+}
+
+.my-chats-list__container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  overflow: auto;
+  align-items: flex-start;
+  padding: 10px 10px;
+  gap: 5px;
+}
+
+.my-chats-list__button {
+  border: none;
+  background-color: transparent;
+}
+
+.my-chats-list__button_type_chat-with-new-messages {
+  color: orange;
+  font-weight: 700;
+}
+
+.my-chats-list__button:hover {
+  color: red;
+}

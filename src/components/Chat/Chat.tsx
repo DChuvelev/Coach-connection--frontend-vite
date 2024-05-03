@@ -1,62 +1,128 @@
-import React, { useEffect, useState } from "react";
+import React, { MutableRefObject, useEffect, useState } from "react";
+import { DateTime } from "luxon";
 import { Props } from "./ChatTypes";
 import "./Chat.css";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import {
   addMessageThunk,
+  checkChatThunk,
   createChatThunk,
   refreshChatThunk,
 } from "../redux/slices/Chats/chatsAsync";
 import { setAppStatus, setErrorMessage } from "../redux/slices/App/appSlice";
-import { setChatsStatus } from "../redux/slices/Chats/chatsSlice";
+import {
+  setChatsStatus,
+  setCurrentChatIndex,
+  triggerRefreshTik,
+} from "../redux/slices/Chats/chatsSlice";
 import { refreshCurrentUserThunk } from "../redux/slices/App/appAsync";
-import { IChat } from "../redux/slices/Chats/chatsTypes";
+import { useRef } from "react";
 
-export const Chat: React.FC<Props> = ({ withUser }) => {
+export const Chat: React.FC<Props> = ({ withUserId }) => {
   const [messageText, setMessageText] = useState("");
-  const [chatIdx, setChatIdx] = useState(0);
+  // const [currentChatIndex, setcurrentChatIndex] = useState(-1);
+  const currentChatIndex = useAppSelector(
+    (state) => state.chats.currentChatIndex
+  );
   const currentUser = useAppSelector((state) => state.app.currentUser);
-  const chatList = useAppSelector((state) => state.chats.chatsList);
+  const chatsList = useAppSelector((state) => state.chats.chatsList);
   const dispatch = useAppDispatch();
   const chatsStatus = useAppSelector((state) => state.chats.chatsStatus);
+  const refreshTik = useAppSelector((state) => state.chats.refreshTik);
+  const lastMessageRef: MutableRefObject<HTMLParagraphElement | null> =
+    useRef(null);
 
   useEffect(() => {
+    // console.log(withUserId);
     const loadChat = async () => {
-      dispatch(setChatsStatus("waiting"));
-      let currentChatId = currentUser.chats.find(
-        //check if there was already a chat between users
-        (chat) =>
-          chat.members.length === 1 && chat.members[0].memberId === withUser.id
-      )?.chatId;
+      if (withUserId) {
+        let currentChatId = currentUser.chats.find(
+          //check if there was already a chat between users. For now we got only chats
+          //between two people.
 
-      let result: number = 0;
+          (chat) => {
+            return (
+              chat.members.length === 2 &&
+              chat.members.findIndex((member) => member._id === withUserId) !==
+                -1
+            );
+          }
+        )?._id;
 
-      try {
-        if (!currentChatId) {
-          //if there was no chat before - create it on backend and reload user
-          currentChatId = await dispatch(createChatThunk(withUser.id)).unwrap();
-          await dispatch(refreshCurrentUserThunk()).unwrap();
+        let result: number = 0;
+
+        try {
+          if (!currentChatId) {
+            console.log("Creating chat");
+            //if there was no chat before - create it on backend and reload user
+            currentChatId = await dispatch(
+              createChatThunk(withUserId)
+            ).unwrap();
+            await dispatch(refreshCurrentUserThunk()).unwrap();
+          }
+
+          if (currentChatId) {
+            // to this moment we should anyway have chat id, but typescript wants this check
+            await dispatch(
+              checkChatThunk({
+                chatId: currentChatId,
+                membersIds: [withUserId, currentUser._id],
+              })
+            );
+            result = await dispatch(
+              //now we need to load the chat info into chats state.
+              refreshChatThunk({
+                chatId: currentChatId,
+              })
+            ).unwrap();
+            //and refresh current user - so we don't have this chat in new chats list
+            await dispatch(refreshCurrentUserThunk()).unwrap();
+          }
+
+          dispatch(setCurrentChatIndex(result));
+          setTimeout(() => {
+            dispatch(setChatsStatus("normal"));
+          }, 1); // don't know why, but redux needs some time to update all the state parts. So I give it to him
+
+          setTimeout(() => {
+            dispatch(triggerRefreshTik());
+          }, 5); //needed to scroll messages to the bottom of the list
+        } catch (err) {
+          console.error(err);
+          dispatch(setErrorMessage("serverNotResponding"));
+          dispatch(setAppStatus("error"));
         }
-
-        if (currentChatId) {
-          // to this moment we should anyway have chat id, but typescript wants this check
-          result = await dispatch(
-            //now we need to load the chat info into chats state.
-            refreshChatThunk({
-              chatId: currentChatId,
-            })
-          ).unwrap();
-        }
-
-        dispatch(setChatsStatus("normal"));
-        setChatIdx(result);
-      } catch (err) {
-        dispatch(setErrorMessage("serverNotResponding"));
-        dispatch(setAppStatus("error"));
       }
     };
     loadChat();
-  }, []);
+    return () => {
+      dispatch(setChatsStatus("waiting"));
+      dispatch(setCurrentChatIndex(-1));
+    };
+  }, [withUserId]);
+
+  useEffect(() => {
+    if (chatsStatus === "normal") {
+      // console.log(refreshTik);
+      lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [refreshTik]);
+
+  useEffect(() => {
+    const receiveNewMessages = async () => {
+      if (chatsStatus === "normal" && currentUser.triggeredChatId) {
+        if (currentUser.triggeredChatId === chatsList[currentChatIndex]._id) {
+          await dispatch(
+            refreshChatThunk({
+              chatId: chatsList[currentChatIndex]._id,
+              chatIndexProvided: currentChatIndex,
+            })
+          );
+        }
+      }
+    };
+    receiveNewMessages();
+  }, [currentUser.gotNewMessagesTik]);
 
   const handleInputChange: React.ChangeEventHandler<HTMLTextAreaElement> = (
     evt
@@ -66,35 +132,93 @@ export const Chat: React.FC<Props> = ({ withUser }) => {
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (evt) => {
     evt.preventDefault();
-    console.log(messageText);
-    const sendMessageAndUpdateChat = async () => {
+    // console.log(messageText);
+    const sendMessage = async () => {
       try {
-        await dispatch(
-          addMessageThunk({
-            chatId: chatList[chatIdx]._id,
-            author: currentUser._id,
-            text: messageText,
-          })
-        ).unwrap();
-        console.log(chatIdx);
-        await dispatch(
-          refreshChatThunk({
-            chatId: chatList[chatIdx]._id,
-          })
-        );
+        if (messageText.length > 0)
+          await dispatch(
+            addMessageThunk({
+              chatId: chatsList[currentChatIndex]._id,
+              authorId: currentUser._id,
+              text: messageText,
+            })
+          ).unwrap();
         setMessageText("");
       } catch {
         dispatch(setErrorMessage("serverNotResponding"));
         dispatch(setAppStatus("error"));
       }
     };
-    sendMessageAndUpdateChat();
+    sendMessage();
+  };
+
+  const timeDivider = (
+    messageDate: string,
+    prevMessageDate: string,
+    minNoDivTime: number
+  ): JSX.Element | null => {
+    // console.log(prevMessageDate);
+    const messageDateTime = DateTime.fromISO(messageDate);
+    const prevMessageDateTime = DateTime.fromISO(prevMessageDate);
+
+    const timeDiff = messageDateTime.diff(prevMessageDateTime, "seconds");
+
+    if (timeDiff.seconds < minNoDivTime) {
+      return null;
+    }
+
+    let className = "chat__message-divider"; // Base class
+
+    if (!messageDateTime.hasSame(prevMessageDateTime, "year")) {
+      className += " chat__message-divider_type_year";
+    } else if (!messageDateTime.hasSame(prevMessageDateTime, "month")) {
+      className += " chat__message-divider_type_month";
+    } else if (!messageDateTime.hasSame(prevMessageDateTime, "day")) {
+      className += " chat__message-divider_type_day";
+    }
+
+    const components = [];
+    if (!messageDateTime.hasSame(prevMessageDateTime, "year")) {
+      components.push(messageDateTime.toFormat("dd MMM yyyy")); // Include day, month, and year
+    } else if (!messageDateTime.hasSame(prevMessageDateTime, "day")) {
+      components.push(messageDateTime.toFormat("dd MMM")); // Add day and month
+    }
+    components.push(messageDateTime.toFormat("HH:mm")); // Add time
+
+    return <div className={className}>{components.join(", ")}</div>;
   };
   return (
     <>
       {chatsStatus === "normal" && (
         <div className="chat">
-          <div className="chat__window"></div>
+          <div className="chat__window">
+            {chatsList[currentChatIndex].messages?.map(
+              (message, index, arr) => {
+                const isLastMessage =
+                  index === chatsList[currentChatIndex].messages.length - 1;
+                return (
+                  <div className="chat__chat-item" key={message._id}>
+                    {timeDivider(
+                      message.timestamp,
+                      arr[index - 1]?.timestamp,
+                      10
+                    )}
+                    <div
+                      className={`chat__message ${
+                        currentUser._id === message.authorId
+                          ? "chat__message_type_current-user"
+                          : "chat__message_type_other-users"
+                      }`}
+                    >
+                      <p {...(isLastMessage && { ref: lastMessageRef })}>
+                        {message.text}
+                      </p>
+                    </div>
+                  </div>
+                );
+              }
+            )}
+          </div>
           <form className="chat__message-form" onSubmit={handleSubmit}>
             <textarea
               className="chat__input"

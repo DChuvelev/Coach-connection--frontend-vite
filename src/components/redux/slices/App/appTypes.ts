@@ -24,10 +24,12 @@ export interface User {
   languages: Array<string>;
   about: string;
   chats: {
-    chatId: string;
+    _id: string;
     members: IChatMember[];
   }[];
   gotNewMessagesInChatIDs: string[];
+  gotNewMessagesTik: number;
+  triggeredChatId: string;
 }
 
 export interface Client extends User {}
@@ -80,6 +82,8 @@ export const defaultUser: CurrentUser = {
   status: "active",
   chats: [],
   gotNewMessagesInChatIDs: [],
+  gotNewMessagesTik: 0,
+  triggeredChatId: "",
 };
 
 export const initialState: AppState = {

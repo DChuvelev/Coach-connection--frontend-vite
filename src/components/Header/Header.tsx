@@ -10,6 +10,7 @@ import { useAppSelector } from "../redux/hooks";
 import { store } from "../redux/store";
 import { Props } from "./HeaderTypes";
 import { CoachCard } from "../CoachCard/CoachCard";
+import { appLangs } from "../../utils/constants/langs";
 
 const Header: React.FC<Props> = ({
   handleFindCoach,
@@ -58,14 +59,6 @@ const Header: React.FC<Props> = ({
         <div className="header__menu-items">
           {!loggedIn && (
             <>
-              <div className="header__btn-container">
-                <button
-                  className="header__menu-item-btn"
-                  onClick={handleFindCoach}
-                >
-                  {translations.header.find_a_coach[currentLanguage]}
-                </button>
-              </div>
               <div className="header__btn-container">
                 <button className="header__menu-item-btn" onClick={handleLogin}>
                   {translations.header.login[currentLanguage]}
@@ -116,7 +109,10 @@ const Header: React.FC<Props> = ({
               className="header__menu-item-lang"
               onClick={handleOpenLangMenu}
             >
-              <img className="header__menu-item-lang-icon" src={langIcon} />
+              <img
+                className="header__menu-item-lang-icon"
+                src={appLangs.find((lang) => lang.id === currentLanguage)?.flag}
+              />
             </button>
           </div>
         </div>

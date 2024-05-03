@@ -29,6 +29,7 @@
   width: 60%;
   box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.2);
   opacity: 0;
+  cursor: pointer;
 }
 
 .slide-show__image {

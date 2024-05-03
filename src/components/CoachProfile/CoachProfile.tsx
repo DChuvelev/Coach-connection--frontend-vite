@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./CoachProfile.css";
 import { Props } from "./CoachProfileTypes";
 import { useForm } from "react-hook-form";
@@ -10,10 +10,13 @@ import {
 } from "../../utils/constants/commonValues";
 import { Translations, translations } from "../../utils/constants/translations";
 import { updateUserInfoThunk } from "../redux/slices/App/appAsync";
+import MyChatsList from "../MyChatsList/MyChatsList";
+import { Chat } from "../Chat/Chat";
 
 export const CoachProfile: React.FC<Props> = () => {
   const currentUser = useAppSelector((state) => state.app.currentUser);
   const currentLanguage = useAppSelector((state) => state.app.lang);
+  const [selectedChat, setSelectedChat] = useState<string>("");
 
   const {
     register,
@@ -34,8 +37,13 @@ export const CoachProfile: React.FC<Props> = () => {
     dispatch(updateUserInfoThunk(formValues));
   };
 
+  const selectChatWith = (userId: string) => {
+    setSelectedChat(userId);
+    // console.log(userId);
+  };
+
   useEffect(() => {
-    console.log(formValues);
+    // console.log(formValues);
     if (
       formValues.sertification !== "levFollowing" &&
       formValues.sertificationLevel.length !== 0
@@ -358,112 +366,10 @@ export const CoachProfile: React.FC<Props> = () => {
         </fieldset>
         <button type="submit">Save</button>
       </form>
-      <div className="coach-profile__right"></div>
+      <div className="coach-profile__right">
+        <MyChatsList selectChatWith={selectChatWith} />
+        {selectedChat !== "" && <Chat withUserId={selectedChat} />}
+      </div>
     </div>
   );
 };
-
-// import React, { useEffect, useRef } from "react";
-
-// import ModalWithForm from "../ModalWithForm/ModalWithForm";
-//
-// import { translations } from "../../utils/constants/translations";
-// import {
-//   MIN_PASSWORD_LENGTH,
-//   MAX_PASSWORD_LENGTH,
-//   MAX_USERPIC_FILE_SIZE,
-//   MIN_USERNAME_LENGTH,
-//   MAX_USERNAME_LENGTH,
-// } from "../../utils/constants/commonValues";
-// import downloadIcon from "../../images/download.svg";
-//
-// import { Props } from "./RegisterModalTypes";
-// import { UserToRegister } from "../redux/slices/dbTypes";
-// import {
-//   setRegisterFormValues,
-//   setLoginFormValues,
-//   resetAuthError,
-// } from "../redux/slices/appSlice";
-
-// export const RegisterModal: React.FC<Props> = ({
-//   formInfo,
-//   formCallbacks,
-//   activeModal,
-//   onClose,
-//   isBusy,
-// }) => {
-//   const currentLanguage = useAppSelector((store) => store.app.lang);
-//   const registerFormValues = useAppSelector(
-//     (state) => state.app.registerFormValues
-//   );
-//   const loginFormValues = useAppSelector((state) => state.app.loginFormValues);
-//   const appError = useAppSelector((state) => state.app.error);
-//
-
-//   const formValues = watch();
-
-//   useEffect(() => {
-//     if (appError) dispatch(resetAuthError());
-//   }, [formValues.email, formValues.role]);
-
-//   const handleSubmitRegister = () => {
-//     dispatch(setRegisterFormValues(formValues));
-//     formCallbacks.handleSubmit();
-//   };
-
-//   const handleRedir = () => {
-//     dispatch(setRegisterFormValues(formValues));
-//     dispatch(
-//       setLoginFormValues({
-//         ...loginFormValues,
-//         email: formValues.email,
-//         password: formValues.password,
-//       })
-//     );
-//     formCallbacks.handleRedir();
-//   };
-
-{
-  /* <div className="coach-profile__input-field">
-          <div className="coach-profile__input-field_type_file">
-            <label className="coach-profile__file-label" htmlFor="user-pic">
-              <img src={downloadIcon} className="coach-profile__file-icon" alt="" />
-              <p className="coach-profile__file-label-txt">
-                {translations.common.download_avatar[currentLanguage]}
-              </p>
-              <input
-                type="file"
-                className="coach-profile__input_type_file"
-                id="user-pic"
-                placeholder=""
-                // name="userpic"
-                // ref={fileRef}
-                {...register("userpic", {
-                  validate: {
-                    fileSize: (val) => {
-                      if (val?.item && val.item(0)) {
-                        return (
-                          val.item(0)!.size < MAX_USERPIC_FILE_SIZE ||
-                          translations.common.errors.userpic_file_too_big[
-                            currentLanguage
-                          ]
-                        );
-                      } else {
-                        return true;
-                      }
-                    },
-                  },
-                })}
-              />
-            </label>
-            <p className="coach-profile__filename">
-              {formValues.userpic?.item && formValues.userpic.item(0)
-                ? formValues.userpic.item(0)!.name
-                : translations.common.file_not_loaded[currentLanguage]}
-            </p>
-          </div>
-          {errors.userpic && (
-            <p className="coach-profile__error-message">{errors.userpic.message}</p>
-          )}
-        </div> */
-}

@@ -10,6 +10,7 @@
     "info info photo"
     "gpt  gpt  gpt"
     "text chat chat";
+  overflow: auto;
 }
 
 .coach-page__img-cont {
@@ -78,7 +79,11 @@
 }
 
 .coach-page__chat {
+  display: flex;
+  flex-direction: column;
   grid-area: chat;
+  height: 100%;
+  overflow: hidden;
 }
 
 @media only screen and (max-width: 768px) {

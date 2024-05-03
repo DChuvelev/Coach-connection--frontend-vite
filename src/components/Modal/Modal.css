@@ -61,6 +61,17 @@
   row-gap: 24px;
 }
 
+.modal__content_type_confirm-login {
+  margin-top: 20vw;
+  width: 670px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 0 60px 0;
+  row-gap: 24px;
+}
+
 .modal__content_type_form {
   display: inline-flex;
   flex-direction: column;
@@ -98,15 +109,15 @@
   height: 20px;
 }
 
-.modal__content_type_form > .modal__close-btn {
+.modal__content_type_form>.modal__close-btn {
   background-image: url("../../images/close-btn-grey.svg");
 }
 
-.modal__content_type_confirm-delete > .modal__close-btn {
+.modal__content_type_confirm-delete>.modal__close-btn {
   background-image: url("../../images/close-btn-grey.svg");
 }
 
-.modal__content_type_lang-menu > .modal__close-btn {
+.modal__content_type_lang-menu>.modal__close-btn {
   display: none;
 }
 

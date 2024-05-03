@@ -6,13 +6,14 @@ export type ChatErrorMessages = keyof typeof translations.chats.errorMessages;
 export interface IMessage {
   _id: string;
   text: string;
-  date: string;
+  timestamp: string;
   authorId: string;
 }
 
 export interface IChatMember {
-  memberId: string;
+  _id: string;
   role: Role;
+  name: string;
 }
 
 export interface IChat {
@@ -31,10 +32,14 @@ export interface chatsState {
   chatsList: Array<IChat>;
   chatsStatus: statusType;
   errorMessage: ChatErrorMessages | undefined;
+  refreshTik: number;
+  currentChatIndex: number;
 }
 
 export const initialChatsState: chatsState = {
   chatsList: [],
   chatsStatus: "starting",
   errorMessage: undefined,
+  refreshTik: 0,
+  currentChatIndex: -1,
 };

@@ -99,12 +99,14 @@
   min-width: 100%;
   border: 1px solid black;
 }
+
 .coach-profile__payment-scheme-input {
   height: 300px;
   width: 100%;
   resize: none;
   border: none;
 }
+
 .coach-profile__payment-scheme-input:focus {
   outline: none;
 }
@@ -143,8 +145,7 @@
   align-items: flex-start;
 }
 
-.coach-profile__label {
-}
+.coach-profile__label {}
 
 .coach-profile__gender-fieldset {
   display: flex;
@@ -160,19 +161,25 @@
   min-width: 100%;
   border: 1px solid black;
 }
+
 .coach-profile__about-input {
   height: 300px;
   width: 100%;
   resize: none;
   border: none;
 }
+
 .coach-profile__about-input:focus {
   outline: none;
 }
 
 .coach-profile__right {
+  display: flex;
+  flex-direction: column;
   border: 1px solid black;
   width: 100%;
+  max-height: 100%;
+  overflow: hidden;
 }
 
 .coach-profile__error-message {

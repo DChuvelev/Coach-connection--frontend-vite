@@ -50,6 +50,26 @@ export default class ChatApi {
     );
   }
 
+  checkChat({
+    token,
+    chatId,
+    membersIds,
+  }: {
+    token: string;
+    chatId: string;
+    membersIds: string[];
+  }) {
+    return this._request(
+      `${this._baseUrl}/chats/check/${chatId}`,
+      {
+        headers: { ...this._headers, authorization: `Bearer ${token}` },
+        body: JSON.stringify({ members: membersIds }),
+        method: "PATCH",
+      },
+      "Error:"
+    );
+  }
+
   refreshChat({
     token,
     chatId,
@@ -72,19 +92,19 @@ export default class ChatApi {
   addMessage({
     token,
     chatId,
-    author,
+    authorId,
     text,
   }: {
     token: string;
     chatId: string;
-    author: string;
+    authorId: string;
     text: string;
   }) {
     return this._request(
       `${this._baseUrl}/chats/addMessage`,
       {
         headers: { ...this._headers, authorization: `Bearer ${token}` },
-        body: JSON.stringify({ chatId, author, text }),
+        body: JSON.stringify({ chatId, authorId, text }),
         method: "POST",
       },
       "Error:"

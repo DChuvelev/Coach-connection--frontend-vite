@@ -443,4 +443,37 @@ export const translations = {
       },
     },
   },
+  chats: {
+    errorMessages: {
+      generalChatError: {
+        ru: "Что-то не так с чатом",
+        en: "Something wrong with this chat",
+      },
+    },
+  },
+  modals: {
+    confirmLogout: {
+      message: {
+        ru: ["Вы уверены, что хотите выйти?"],
+        en: ["Are you sure you want to log out?"],
+      },
+      okBtn: {
+        ru: "Выйти",
+        en: "Log out",
+      },
+    },
+    confirmLogin: {
+      message: {
+        ru: [
+          "Для того, чтобы связаться с нашими коучами",
+          "необходимо произвести вход на сайт",
+        ],
+        en: ["You need to sigh in to contact our coaches"],
+      },
+      okBtn: {
+        ru: "Войти",
+        en: "Sign in",
+      },
+    },
+  },
 };

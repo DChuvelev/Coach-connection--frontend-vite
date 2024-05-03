@@ -50,7 +50,7 @@ export const loginThunk = createAsyncThunk(
       resp = await dbApi.authorizeUser(userToLogin);
       const { token, ...restResp } = resp;
       dispatch(setLoggedIn(true));
-      console.log(restResp);
+      // console.log(restResp);
       localStorage.setItem("jwt", token);
       dispatch(setCurrentUser(restResp));
     } catch (err) {
@@ -120,6 +120,7 @@ export const refreshCurrentUserThunk = createAsyncThunk(
     try {
       resp = await dbApi.checkToken(localStorage.getItem("jwt") as string);
       dispatch(setCurrentUser(resp));
+      return resp._id;
     } catch (err) {
       return Promise.reject(err);
     }

@@ -163,13 +163,7 @@ const CoachPage: React.FC<Props> = () => {
             </button>
           </div>
           <div className="coach-page__chat">
-            <Chat
-              withUser={{
-                id: currentCoach._id,
-                name: currentCoach.name,
-                role: "coach",
-              }}
-            />
+            <Chat withUserId={currentCoach._id} />
           </div>
         </div>
       )}
