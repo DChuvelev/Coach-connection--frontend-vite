@@ -1,5 +1,5 @@
 import { Role } from "../redux/slices/generalTypes";
 
 export interface Props {
-  withUserId: string;
+  withUserId: string | undefined;
 }

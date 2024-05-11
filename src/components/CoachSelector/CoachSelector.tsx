@@ -15,7 +15,7 @@ import {
 } from "../redux/slices/Coaches/coachesSlice";
 import { selectCoachByGptThunk } from "../redux/slices/Coaches/coachesAsync";
 import { setAppStatus, setErrorMessage } from "../redux/slices/App/appSlice";
-import { formTranslatedString } from "../../utils/functions";
+import { formTranslatedString, getOptionsList } from "../../utils/functions";
 import { LangChoice } from "../../utils/models";
 import { appLangs } from "../../utils/constants/langs";
 import { useNavigate } from "react-router-dom";
@@ -37,47 +37,47 @@ export default function CoachSelector() {
     }
   }, [gptAnswer.coachId]);
 
-  const getOptionsList = ({
-    list,
-    addProps,
-    type,
-    disabled,
-  }: {
-    list: Object;
-    addProps?: Object;
-    type: string;
-    disabled: boolean;
-  }) => {
-    const listAsArray = Object.keys(list)
-      .filter((item) => item !== "")
-      .map((item) => {
-        const currentKey = item as keyof typeof list;
-        return {
-          id: item,
-          ...list[currentKey],
-        };
-      });
+  // const getOptionsList = ({
+  //   list,
+  //   addProps,
+  //   type,
+  //   disabled,
+  // }: {
+  //   list: Object;
+  //   addProps?: Object;
+  //   type: string;
+  //   disabled: boolean;
+  // }) => {
+  //   const listAsArray = Object.keys(list)
+  //     .filter((item) => item !== "")
+  //     .map((item) => {
+  //       const currentKey = item as keyof typeof list;
+  //       return {
+  //         id: item,
+  //         ...list[currentKey],
+  //       };
+  //     });
 
-    const res = listAsArray.map((item) => {
-      const itemWithTranslations = item as { id: string } & Translations;
-      return (
-        <div key={itemWithTranslations.id}>
-          <label className="coach-profile__label">
-            <input
-              type={type}
-              {...addProps}
-              value={itemWithTranslations.id}
-              disabled={disabled}
-            />
-            <p className="coach-profile__label-text">
-              {itemWithTranslations[currentLanguage]}
-            </p>
-          </label>
-        </div>
-      );
-    });
-    return <>{res}</>;
-  };
+  //   const res = listAsArray.map((item) => {
+  //     const itemWithTranslations = item as { id: string } & Translations;
+  //     return (
+  //       <div key={itemWithTranslations.id}>
+  //         <label className="coach-profile__label">
+  //           <input
+  //             type={type}
+  //             {...addProps}
+  //             value={itemWithTranslations.id}
+  //             disabled={disabled}
+  //           />
+  //           <p className="coach-profile__label-text">
+  //             {itemWithTranslations[currentLanguage]}
+  //           </p>
+  //         </label>
+  //       </div>
+  //     );
+  //   });
+  //   return <>{res}</>;
+  // };
 
   const resetForm = () => {
     dispatch(resetCoachFinderValues());
@@ -216,6 +216,9 @@ export default function CoachSelector() {
             </legend>
             {getOptionsList({
               list: translations.profile.genderTypes,
+              currentLanguage,
+              labelClassName: "coach-selector__label",
+              textClassName: "coach-selector__label-text",
               addProps: register("gender"),
               type: "checkbox",
               disabled: false,
@@ -237,6 +240,9 @@ export default function CoachSelector() {
             </legend>
             {getOptionsList({
               list: translations.profile.languagesList,
+              currentLanguage,
+              labelClassName: "coach-selector__label",
+              textClassName: "coach-selector__label-text",
               addProps: register("languages"),
               type: "checkbox",
               disabled: false,
@@ -258,6 +264,9 @@ export default function CoachSelector() {
             </legend>
             {getOptionsList({
               list: translations.coach.skills,
+              currentLanguage,
+              labelClassName: "coach-selector__label",
+              textClassName: "coach-selector__label-text",
               addProps: register("skills"),
               type: "checkbox",
               disabled: false,
@@ -279,6 +288,9 @@ export default function CoachSelector() {
             </legend>
             {getOptionsList({
               list: formSertificationList(),
+              currentLanguage,
+              labelClassName: "coach-selector__label",
+              textClassName: "coach-selector__label-text",
               addProps: register("sertification"),
               type: "checkbox",
               disabled: false,
@@ -288,18 +300,25 @@ export default function CoachSelector() {
           {/* ----------- Payment options -------------- */}
 
           <fieldset
-            className="coach-selector__fieldset"
-            style={
-              formValues.paymentOptions && formValues.paymentOptions.length
-                ? { border: "3px solid green" }
-                : {}
-            }
+            className={`coach-selector__fieldset ${
+              formValues.paymentOptions &&
+              formValues.paymentOptions.length &&
+              "coach-selector__fieldset_type_selected"
+            }`}
+            // style={
+            //   formValues.paymentOptions && formValues.paymentOptions.length
+            //     ? { border: "3px solid green" }
+            //     : {}
+            // }
           >
             <legend className="coach-selector__legend">
               {translations.coach.choosePayment[currentLanguage]}
             </legend>
             {getOptionsList({
               list: translations.coach.paymentOptions,
+              currentLanguage,
+              labelClassName: "coach-selector__label",
+              textClassName: "coach-selector__label-text",
               addProps: register("paymentOptions"),
               type: "checkbox",
               disabled: false,

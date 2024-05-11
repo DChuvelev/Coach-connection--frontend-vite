@@ -1,5 +1,8 @@
 .header {
   height: 40px;
+  background-color: rgba(0, 0, 0, 0.03);
+  padding: 0 24px;
+  border-radius: 20px;
 }
 
 .header__menu {
@@ -33,7 +36,7 @@
 
 .header__logo:hover {
   height: 70px;
-  filter: drop-shadow(6px 6px 10px rgba(0, 0, 0, 1));
+  filter: drop-shadow(6px 6px 10px rgba(0, 0, 0, 0.4));
 }
 
 .header__btn-container {
@@ -43,14 +46,14 @@
 }
 
 .header__menu-item-btn {
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 400;
   line-height: 1.2;
   border: 1px solid rgb(197, 197, 197);
   border-radius: 20px;
-  padding: 0 8px;
+  padding: 4px 12px;
   background-color: white;
-  box-shadow: 0 0 4px rgba(128, 128, 128, 0.227);
+  /* box-shadow: 0 0 4px rgba(128, 128, 128, 0.227); */
 }
 
 .header__menu-item-lang {
@@ -76,24 +79,26 @@
 
 .header__menu-item-btn:hover {
   color: rgba(255, 77, 0, 1);
-}
-
-.header__user-name {
-  justify-self: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  /* margin-right: 12px; */
+  background-color: rgb(249, 249, 255);
 }
 
 .header__link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   text-decoration: none;
   color: black;
-  font-family: "Cabinet Grotesk";
-  font-size: 20px;
-  font-weight: 700;
+  /* font-family: "Cabinet Grotesk"; */
+  font-size: 18px;
+  font-weight: 400;
   line-height: 1.2;
   max-height: 40px;
+}
+
+.header__bell {
+  width: 15px;
+  aspect-ratio: 1/1;
+  filter: invert(23%) sepia(72%) saturate(6284%) hue-rotate(353deg) brightness(94%) contrast(126%);
 }
 
 .header__link:hover {

@@ -9,7 +9,7 @@ import {
   Role,
   statusType,
 } from "../generalTypes";
-import { IChatMember } from "../Chats/chatsTypes";
+import { IChatMember, IMessage } from "../Chats/chatsTypes";
 
 export type Gender = "male" | "female" | "nonbinary" | "";
 
@@ -26,6 +26,7 @@ export interface User {
   chats: {
     _id: string;
     members: IChatMember[];
+    lastMessage: IMessage;
   }[];
   gotNewMessagesInChatIDs: string[];
   gotNewMessagesTik: number;
@@ -98,3 +99,9 @@ export const initialState: AppState = {
   errorMessage: undefined,
   doneMessage: undefined,
 };
+
+export interface ISocketNewMessageData {
+  chatId: string;
+  messageId: string;
+  timestamp: string;
+}

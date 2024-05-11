@@ -4,10 +4,10 @@ import { Role, statusType } from "../generalTypes";
 export type ChatErrorMessages = keyof typeof translations.chats.errorMessages;
 
 export interface IMessage {
-  _id: string;
-  text: string;
+  _id?: string;
+  text?: string;
   timestamp: string;
-  authorId: string;
+  authorId?: string;
 }
 
 export interface IChatMember {

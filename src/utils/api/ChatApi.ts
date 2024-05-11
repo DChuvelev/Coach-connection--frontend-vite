@@ -70,6 +70,17 @@ export default class ChatApi {
     );
   }
 
+  removeChat({ token, chatId }: { token: string; chatId: string }) {
+    return this._request(
+      `${this._baseUrl}/chats/${chatId}`,
+      {
+        headers: { ...this._headers, authorization: `Bearer ${token}` },
+        method: "DELETE",
+      },
+      "Error:"
+    );
+  }
+
   refreshChat({
     token,
     chatId,

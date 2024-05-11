@@ -3,9 +3,14 @@ import "./MyChatsList.css";
 import { Props } from "./MyChatsListTypes";
 import { useAppSelector } from "../redux/hooks";
 import { IChatMember } from "../redux/slices/Chats/chatsTypes";
+import { translations } from "../../utils/constants/translations";
 
-const MyChatsList: React.FC<Props> = ({ selectChatWith }) => {
+const MyChatsList: React.FC<Props> = ({
+  selectChatWith,
+  selectedChatWithUserId,
+}) => {
   const currentUser = useAppSelector((state) => state.app.currentUser);
+  const currentLanguage = useAppSelector((state) => state.app.lang);
   const handleChatClick = (userId?: string) => {
     if (userId) selectChatWith(userId);
   };
@@ -16,8 +21,10 @@ const MyChatsList: React.FC<Props> = ({ selectChatWith }) => {
   };
 
   return (
-    <fieldset className="my-chats-list">
-      <legend>Select chat with</legend>
+    <div className="my-chats-list">
+      <h3 className="my-chats-list__heading">
+        {translations.chats.conversations[currentLanguage]}
+      </h3>
       <div className="my-chats-list__container">
         {currentUser.chats.length > 0 &&
           currentUser.chats.map((chat, idx) => {
@@ -27,6 +34,12 @@ const MyChatsList: React.FC<Props> = ({ selectChatWith }) => {
                 className={`my-chats-list__button ${
                   currentUser.gotNewMessagesInChatIDs.includes(chat._id)
                     ? "my-chats-list__button_type_chat-with-new-messages"
+                    : ""
+                } ${
+                  chat.members.findIndex(
+                    (member) => member._id === selectedChatWithUserId
+                  ) !== -1
+                    ? "my-chats-list__button_type_selected-chat"
                     : ""
                 }`}
                 type="button"
@@ -39,7 +52,7 @@ const MyChatsList: React.FC<Props> = ({ selectChatWith }) => {
             );
           })}
       </div>
-    </fieldset>
+    </div>
   );
 };
 

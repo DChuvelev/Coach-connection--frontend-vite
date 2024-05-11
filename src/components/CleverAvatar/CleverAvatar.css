@@ -36,5 +36,5 @@
 
 .clever-avatar__avatar-container:hover {
   height: 150%;
-  filter: drop-shadow(6px 6px 8px rgba(0, 0, 0, 0.8));
+  filter: drop-shadow(6px 6px 8px rgba(0, 0, 0, 0.4));
 }

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import "./CoachProfile.css";
+import React, { useEffect, useRef } from "react";
+import "../CommonCSS/UserProfile.css";
 import { Props } from "./CoachProfileTypes";
 import { useForm } from "react-hook-form";
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
@@ -8,15 +8,15 @@ import {
   MIN_USERNAME_LENGTH,
   MAX_USERNAME_LENGTH,
 } from "../../utils/constants/commonValues";
-import { Translations, translations } from "../../utils/constants/translations";
+import { translations } from "../../utils/constants/translations";
 import { updateUserInfoThunk } from "../redux/slices/App/appAsync";
-import MyChatsList from "../MyChatsList/MyChatsList";
-import { Chat } from "../Chat/Chat";
+import { getOptionsList } from "../../utils/functions";
 
 export const CoachProfile: React.FC<Props> = () => {
   const currentUser = useAppSelector((state) => state.app.currentUser);
   const currentLanguage = useAppSelector((state) => state.app.lang);
-  const [selectedChat, setSelectedChat] = useState<string>("");
+  const aboutAreaRef = useRef<HTMLFieldSetElement>(null);
+  const paymentAreaRef = useRef<HTMLFieldSetElement>(null);
 
   const {
     register,
@@ -37,9 +37,19 @@ export const CoachProfile: React.FC<Props> = () => {
     dispatch(updateUserInfoThunk(formValues));
   };
 
-  const selectChatWith = (userId: string) => {
-    setSelectedChat(userId);
-    // console.log(userId);
+  const handleFocus = (
+    ref: React.RefObject<HTMLFieldSetElement>,
+    add: boolean
+  ) => {
+    if (ref.current) {
+      if (add) {
+        ref.current.classList.add("user-profile__textarea-fieldset_type_focus");
+      } else {
+        ref.current.classList.remove(
+          "user-profile__textarea-fieldset_type_focus"
+        );
+      }
+    }
   };
 
   useEffect(() => {
@@ -60,78 +70,42 @@ export const CoachProfile: React.FC<Props> = () => {
     trigger();
   }, [currentLanguage, trigger]);
 
-  const getOptionsList = ({
-    list,
-    addProps,
-    type,
-    disabled,
-  }: {
-    list: Object;
-    addProps: Object;
-    type: string;
-    disabled: boolean;
-  }) => {
-    const listAsArray = Object.keys(list)
-      .filter((item) => item != "")
-      .map((item) => {
-        const currentKey = item as keyof typeof list;
-        return {
-          id: item,
-          ...list[currentKey],
-        };
-      });
-
-    const res = listAsArray.map((item) => {
-      const itemWithTranslations = item as { id: string } & Translations;
-      return (
-        <div key={itemWithTranslations.id}>
-          <label className="coach-profile__label">
-            <input
-              type={type}
-              {...addProps}
-              value={itemWithTranslations.id}
-              disabled={disabled}
-            />
-            <p className="coach-profile__label-text">
-              {itemWithTranslations[currentLanguage]}
-            </p>
-          </label>
-        </div>
-      );
-    });
-    return <>{res}</>;
-  };
-
   return (
-    <div className="coach-profile">
-      <form className="coach-profile__form" onSubmit={handleSubmit(onSubmit)}>
-        <fieldset className="coach-profile__fieldset">
+    <div className="user-profile">
+      <form className="user-profile__form" onSubmit={handleSubmit(onSubmit)}>
+        <fieldset className="user-profile__fieldset">
           {/* ---------------  General info ---------------- */}
 
-          <fieldset className="coach-profile__general-info-fieldset ">
-            <legend className="coach-profile__legend">
+          <fieldset className="user-profile__info-section-fieldset">
+            <legend className="user-profile__legend">
               {translations.profile.generalInfo[currentLanguage]}
             </legend>
 
             {/* ---------------  User name input ---------------- */}
-            <fieldset className="coach-profile__name-birthday-fieldset">
-              <legend className="coach-profile__legend">
+            <fieldset className="user-profile__row-fieldset">
+              <legend className="user-profile__legend">
                 {translations.profile.nameAndBirthday[currentLanguage]}
               </legend>
-              <div className="coach-profile__input-field">
+              <div className="user-profile__input-container">
                 <input
                   type="text"
-                  className="coach-profile__input"
+                  className="user-profile__text-input"
                   id="user-name"
                   placeholder={translations.common.name[currentLanguage]}
                   {...register("name", {
                     minLength: {
                       value: MIN_USERNAME_LENGTH,
-                      message: "User name should be at least 1 character",
+                      message:
+                        translations.common.errors.username_too_short[
+                          currentLanguage
+                        ],
                     },
                     maxLength: {
                       value: MAX_USERNAME_LENGTH,
-                      message: "User name should be maximum 30 characters long",
+                      message:
+                        translations.common.errors.username_too_long[
+                          currentLanguage
+                        ],
                     },
                     required:
                       translations.common.errors.required_field[
@@ -139,18 +113,24 @@ export const CoachProfile: React.FC<Props> = () => {
                       ],
                   })}
                 />
-                <p className="coach-profile__error-message">
+                <p className="user-profile__error-message user-profile__error-message_type_name">
                   {errors.name?.message}
                 </p>
               </div>
 
-              <input type="date" {...register("birthDate")} />
+              {/* ---------------  User birth date input ---------------- */}
+
+              <input
+                type="date"
+                className="user-profile__birthday-input"
+                {...register("birthDate")}
+              />
             </fieldset>
 
             {/* ---------------  User gender input ---------------- */}
 
-            <fieldset className="coach-profile__gender-fieldset">
-              <legend className="coach-profile__legend">
+            <fieldset className="user-profile__row-fieldset">
+              <legend className="user-profile__legend">
                 {translations.profile.gender[currentLanguage]}
               </legend>
               {getOptionsList({
@@ -158,20 +138,27 @@ export const CoachProfile: React.FC<Props> = () => {
                 addProps: register("gender"),
                 type: "radio",
                 disabled: false,
+                currentLanguage,
+                labelClassName: "user-profile__label",
+                textClassName: "user-profile__label-text",
               })}
             </fieldset>
 
             {/* ---------------  User language input ---------------- */}
 
             <fieldset
-              className="coach-profile__lang-fieldset"
-              style={errors.languages && { border: "3px solid red" }}
+              className={`user-profile__column-fieldset ${
+                errors.languages && "user-profile__fieldset_type_error"
+              }`}
             >
-              <legend className="coach-profile__legend">
+              <legend className="user-profile__legend">
                 {translations.profile.language[currentLanguage]}
               </legend>
               {getOptionsList({
                 list: translations.profile.languagesList,
+                currentLanguage,
+                labelClassName: "user-profile__label",
+                textClassName: "user-profile__label-text",
                 addProps: register("languages", {
                   validate: {
                     isEmpty: (val) => {
@@ -187,20 +174,28 @@ export const CoachProfile: React.FC<Props> = () => {
                 type: "checkbox",
                 disabled: false,
               })}
-              <p className="coach-profile__error-message">
+              <p className="user-profile__error-message">
                 {errors.languages?.message}
               </p>
             </fieldset>
 
             {/* ---------------  User about input ---------------- */}
 
-            <fieldset className="coach-profile__about-fieldset">
-              <legend className="coach-profile__legend">
+            <fieldset
+              className="user-profile__textarea-fieldset"
+              ref={aboutAreaRef}
+            >
+              <legend className="user-profile__legend">
                 {translations.profile.about[currentLanguage]}
               </legend>
               <textarea
-                className="coach-profile__about-input"
+                className="user-profile__textarea-input"
+                onFocus={() => handleFocus(aboutAreaRef, true)}
                 {...register("about")}
+                onBlur={(e) => {
+                  register("about").onBlur(e);
+                  handleFocus(aboutAreaRef, false);
+                }}
               />
             </fieldset>
           </fieldset>
@@ -209,19 +204,24 @@ export const CoachProfile: React.FC<Props> = () => {
 
           {/* ---------------  Skills ---------------- */}
 
-          <fieldset className="coach-profile__prof-info-fieldset">
-            <legend className="coach-profile__legend">
+          <fieldset className="user-profile__info-section-fieldset">
+            <legend className="user-profile__legend">
               {translations.coach.professionalInfo[currentLanguage]}
             </legend>
+
             <fieldset
-              className="coach-profile__skills-fieldset"
-              style={errors.skills && { border: "3px solid red" }}
+              className={`user-profile__column-fieldset ${
+                errors.skills && "user-profile__fieldset_type_error"
+              }`}
             >
-              <legend className="coach-profile__legend">
+              <legend className="user-profile__legend">
                 {translations.coach.chooseSkills[currentLanguage]}
               </legend>
               {getOptionsList({
                 list: translations.coach.skills,
+                currentLanguage,
+                labelClassName: "user-profile__label",
+                textClassName: "user-profile__label-text",
                 addProps: register("skills", {
                   validate: {
                     isEmpty: (val) => {
@@ -237,7 +237,7 @@ export const CoachProfile: React.FC<Props> = () => {
                 type: "checkbox",
                 disabled: false,
               })}
-              <p className="coach-profile__error-message">
+              <p className="user-profile__error-message">
                 {errors.skills?.message}
               </p>
             </fieldset>
@@ -245,21 +245,28 @@ export const CoachProfile: React.FC<Props> = () => {
             {/* ---------------  Sertification ---------------- */}
 
             <fieldset
-              className="coach-profile__sert-fieldset"
-              style={errors.sertificationLevel && { border: "3px solid red" }}
+              className={`user-profile__column-fieldset ${
+                errors.sertificationLevel && "user-profile__fieldset_type_error"
+              }`}
             >
-              <legend className="coach-profile__legend">
+              <legend className="user-profile__legend">
                 {translations.coach.chooseSertification[currentLanguage]}
               </legend>
               {getOptionsList({
                 list: translations.coach.sert,
+                currentLanguage,
+                labelClassName: "user-profile__label",
+                textClassName: "user-profile__label-text",
                 addProps: register("sertification"),
                 type: "radio",
                 disabled: false,
               })}
-              <div className="coach-profile__sert-lev-container">
+              <div className="user-profile__sert-lev-container">
                 {getOptionsList({
                   list: translations.coach.sertLevelList,
+                  currentLanguage,
+                  labelClassName: "user-profile__label",
+                  textClassName: "user-profile__label-text",
                   addProps: register("sertificationLevel", {
                     validate: {
                       isEmpty: (val) => {
@@ -278,24 +285,28 @@ export const CoachProfile: React.FC<Props> = () => {
                   type: "checkbox",
                   disabled: formValues.sertification !== "levFollowing",
                 })}
-                <p className="coach-profile__error-message">
+                <p className="user-profile__error-message user-profile__error-message_type_sert-lev">
                   {errors.sertificationLevel?.message}
                 </p>
               </div>
             </fieldset>
 
             {/* ---------------  Payment options ---------------- */}
-            <div className="coach-profile__divider" />
+            <div className="user-profile__divider" />
 
             <fieldset
-              className="coach-profile__payment-fieldset"
-              style={errors.paymentOptions && { border: "3px solid red" }}
+              className={`user-profile__column-fieldset ${
+                errors.paymentOptions && "user-profile__fieldset_type_error"
+              }`}
             >
-              <legend className="coach-profile__legend">
+              <legend className="user-profile__legend">
                 {translations.coach.choosePayment[currentLanguage]}
               </legend>
               {getOptionsList({
                 list: translations.coach.paymentOptions,
+                currentLanguage,
+                labelClassName: "user-profile__label",
+                textClassName: "user-profile__label-text",
                 addProps: register("paymentOptions", {
                   validate: {
                     isEmpty: (val) => {
@@ -311,21 +322,22 @@ export const CoachProfile: React.FC<Props> = () => {
                 type: "checkbox",
                 disabled: false,
               })}
-              <p className="coach-profile__error-message">
+              <p className="user-profile__error-message">
                 {errors.paymentOptions?.message}
               </p>
             </fieldset>
 
             <fieldset
-              className="coach-profile__payment-scheme-fieldset"
+              className="user-profile__textarea-fieldset"
               style={
                 !formValues.paymentOptions.includes("money")
-                  ? { border: "1px solid rgba(0,0,0,0.2)" }
+                  ? { borderColor: "rgba(0,0,0,0.2)" }
                   : {}
               }
+              ref={paymentAreaRef}
             >
               <legend
-                className="coach-profile__legend"
+                className="user-profile__legend"
                 style={
                   !formValues.paymentOptions.includes("money")
                     ? { color: "rgba(0,0,0,0.2)" }
@@ -335,28 +347,39 @@ export const CoachProfile: React.FC<Props> = () => {
                 {translations.coach.describePaymentScheme[currentLanguage]}
               </legend>
               <textarea
-                className="coach-profile__payment-scheme-input"
+                className="user-profile__textarea-input user-profile__textarea-input_type_payment"
                 {...register("paymentScheme")}
                 disabled={!formValues.paymentOptions.includes("money")}
+                onFocus={() => handleFocus(paymentAreaRef, true)}
+                onBlur={(e) => {
+                  register("paymentScheme").onBlur(e);
+                  handleFocus(paymentAreaRef, false);
+                }}
+                style={
+                  !formValues.paymentOptions.includes("money")
+                    ? { color: "rgba(0,0,0,0.2)" }
+                    : {}
+                }
               />
             </fieldset>
-            <div className="coach-profile__divider" />
+            <div className="user-profile__divider" />
 
             {/* ---------------  Status ---------------- */}
 
             <fieldset
-              className="coach-profile__status-fieldset"
+              className="user-profile__row-fieldset"
               style={
-                formValues.status === "busy"
-                  ? { border: "3px solid orange" }
-                  : {}
+                formValues.status === "busy" ? { borderColor: "orange" } : {}
               }
             >
-              <legend className="coach-profile__legend">
+              <legend className="user-profile__legend">
                 {translations.coach.status[currentLanguage]}
               </legend>
               {getOptionsList({
                 list: translations.coach.statusChoise,
+                currentLanguage,
+                labelClassName: "user-profile__label",
+                textClassName: "user-profile__label-text",
                 addProps: register("status"),
                 type: "radio",
                 disabled: false,
@@ -364,12 +387,10 @@ export const CoachProfile: React.FC<Props> = () => {
             </fieldset>
           </fieldset>
         </fieldset>
-        <button type="submit">Save</button>
+        <button type="submit" className="user-profile__save-btn">
+          {translations.profile.saveProfile[currentLanguage]}
+        </button>
       </form>
-      <div className="coach-profile__right">
-        <MyChatsList selectChatWith={selectChatWith} />
-        {selectedChat !== "" && <Chat withUserId={selectedChat} />}
-      </div>
     </div>
   );
 };

@@ -17,8 +17,8 @@ import {
   setLoggedIn,
   setAppStatus,
   setDoneMessage,
-  setErrorMessage,
   triggerGotNewMessages,
+  sortUserChats,
 } from "./redux/slices/App/appSlice";
 import {
   initUserFromTokenThunk,
@@ -29,10 +29,12 @@ import {
 import { FormInfo, defaultFormInfo } from "./ModalWithForm/ModalWithFormTypes";
 import { loginFormDefaultData } from "./LoginModal/LoginModalTypes";
 import { registerFormDefaultData } from "./RegisterModal/RegisterModalTypes";
-import { UserToRegister } from "./redux/slices/generalTypes";
 import { CoachProfile } from "./CoachProfile/CoachProfile";
-import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
-import { defaultUser } from "./redux/slices/App/appTypes";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import {
+  ISocketNewMessageData,
+  defaultUser,
+} from "./redux/slices/App/appTypes";
 import { ConfirmModal } from "./ConfirmModal/ConfirmModal";
 import { ProtectedRoute } from "../utils/ProtectedRoute/ProtectedRoute";
 import Preloader from "./Preloader/Preloader";
@@ -48,8 +50,8 @@ import CoachPage from "./CoachPage/CoachPage";
 import SlideShow from "./SlideShow/SlideShow";
 import io from "socket.io-client";
 import { baseUrl } from "../utils/constants/requests";
-import { delay } from "../utils/functions";
 import { ActiveModalsList } from "./AppTypes";
+import MyChats from "./MyChats/MyChats";
 
 function App() {
   const [activeModal, setActiveModal] = useState<ActiveModalsList>("");
@@ -63,7 +65,12 @@ function App() {
   const appError = useAppSelector((state) => state.app.errorMessage);
   const doneMessage = useAppSelector((state) => state.app.doneMessage);
   const chatsState = useAppSelector((state) => state.chats);
-  const socket = io(`${baseUrl}`);
+  const socket = io(`${baseUrl}`, {
+    reconnection: true,
+    reconnectionDelay: 1000,
+    reconnectionDelayMax: 5000,
+    reconnectionAttempts: Infinity,
+  });
   const navigate = useNavigate();
 
   //----------------------- Init -----------------------------------
@@ -84,13 +91,32 @@ function App() {
         token: localStorage.getItem("jwt") as string,
         userId: currentUser._id,
       };
-      // console.log(userInfoToSend);
-      socket.emit("log_in", userInfoToSend);
 
-      socket.on("new_message_in_chat", (data: { chatId: string }) => {
-        // console.log(`New message in chat with Id ${data.chatId}`);
-        dispatch(triggerGotNewMessages(data.chatId));
+      const logInToSocket = () => {
+        socket.emit("log_in", userInfoToSend);
+        socket.on("new_message_in_chat", (data: ISocketNewMessageData) => {
+          // console.log(`New message in chat with Id ${data.chatId}`);
+          dispatch(triggerGotNewMessages(data));
+        });
+      };
+
+      if (socket.connected) logInToSocket();
+
+      socket.on("connect", () => {
+        console.log(`Reconnected to socket id: ${socket.id}`);
+        logInToSocket();
       });
+
+      // // console.log(userInfoToSend);
+
+      // socket.on("disconnect", (reason) => {
+      //   console.log("Disconnected:", reason);
+      //   if (reason === "io server disconnect") {
+      //     // The disconnection was initiated by the server, you need to manually reconnect
+      //     socket.connect();
+      //   }
+      //   // else the socket will automatically try to reconnect
+      // });
     }
   }, [currentUser?._id]);
 
@@ -114,6 +140,9 @@ function App() {
           console.log(
             "This chat is opened. No user update needed\n----------------"
           );
+          // we don't need user refresh, as the triggered chat is opened, so all updates are made inside chat
+          // but as we are not refreshing user we need to sort the chats order here.
+          dispatch(sortUserChats());
           return;
         } else {
           console.log("Chat with a different Id opened.");
@@ -125,6 +154,7 @@ function App() {
       console.log(
         "Refreshing new chats list in current user info\n----------------"
       );
+      //we need user update in case when no chat is opened or opened another (not triggered with new message) chat
       dispatch(refreshCurrentUserThunk());
     }
   }, [currentUser.gotNewMessagesTik]);
@@ -279,7 +309,7 @@ function App() {
           handleLogout={handleLogout}
         />
         <div className="app__content">
-          {appStatus === "normal" && (
+          {true && ( //here was appStatus === "normal" instead of true. Check if it's needed!!!
             <Routes>
               <Route path="*" element={<ErrorPage />} />
               <Route
@@ -302,6 +332,14 @@ function App() {
                   <ProtectedRoute loggedIn={loggedIn}>
                     {currentUser.role === "coach" && <CoachProfile />}
                     {currentUser.role === "client" && <ClientProfile />}
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/my-chats"
+                element={
+                  <ProtectedRoute loggedIn={loggedIn}>
+                    <MyChats />
                   </ProtectedRoute>
                 }
               />

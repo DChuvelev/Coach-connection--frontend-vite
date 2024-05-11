@@ -1,15 +1,12 @@
-import React, { useContext } from "react";
-import logoPath from "../../images/header-logo.svg";
+import React from "react";
 import logoAlt from "../../images/Logo-new.png";
-import langIcon from "../../images/langicon.svg";
+import bellIcon from "../../images/Icons/Bell.svg";
 import { CleverAvatar } from "../CleverAvatar/CleverAvatar";
 import "./Header.css";
 import { Link } from "react-router-dom";
 import { translations } from "../../utils/constants/translations";
 import { useAppSelector } from "../redux/hooks";
-import { store } from "../redux/store";
 import { Props } from "./HeaderTypes";
-import { CoachCard } from "../CoachCard/CoachCard";
 import { appLangs } from "../../utils/constants/langs";
 
 const Header: React.FC<Props> = ({
@@ -36,17 +33,23 @@ const Header: React.FC<Props> = ({
 
           {loggedIn && (
             <>
-              <div className="header__user-name">
-                <Link className="header__link" to="/profile">
-                  {currentUser.name}
-                </Link>
-              </div>
-
-              <div className="header__user-name">
+              <Link className="header__link" to="/profile">
+                {translations.header.my_profile[currentLanguage]}
+              </Link>
+              {currentUser.role === "client" && (
                 <Link className="header__link" to="/coach-finder">
                   {translations.header.find_a_coach[currentLanguage]}
                 </Link>
-              </div>
+              )}
+
+              <Link className="header__link" to="/my-chats">
+                {/* <div> */}
+                {translations.header.my_chats[currentLanguage]}
+                {currentUser.gotNewMessagesInChatIDs.length > 0 && (
+                  <img src={bellIcon} className="header__bell" alt="bell" />
+                )}
+                {/* </div> */}
+              </Link>
             </>
           )}
         </div>
@@ -98,7 +101,7 @@ const Header: React.FC<Props> = ({
                   className="header__menu-item-btn"
                   onClick={handleLogout}
                 >
-                  Logout
+                  {translations.header.logout[currentLanguage]}
                 </button>
               </div>
             </>

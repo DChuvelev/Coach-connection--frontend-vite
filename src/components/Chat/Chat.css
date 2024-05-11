@@ -2,7 +2,7 @@
   border: none;
   width: 100%;
   height: 100%;
-  padding: 5px;
+  /* padding: 5px; */
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -25,6 +25,7 @@
 
 .chat__message-form {
   display: flex;
+  flex-direction: column;
   gap: 10px;
   height: fit-content;
   border: none;
@@ -33,15 +34,15 @@
 
 .chat__input {
   width: 100%;
-  /* resize: vertical; */
   resize: none;
-  overflow: auto;
-  min-height: 50px;
-  max-height: 200px;
-  padding: 8px;
+  overflow: hidden;
+  min-height: 80px;
+  max-height: 250px;
+  height: auto;
+  padding: 5px 5px;
   font-size: 14px;
   border-radius: 10px;
-
+  line-height: 1.5;
 }
 
 .chat__submit-btn {
@@ -62,6 +63,10 @@
   padding: 8px 10px;
   width: fit-content;
   max-width: 80%;
+}
+
+.chat__message-txt {
+  user-select: text;
 }
 
 .chat__message_type_other-users {
@@ -99,4 +104,27 @@
 
 .chat__message-divider_type_day {
   background-color: rgba(68, 77, 255, 0.675);
+}
+
+.chat__buttons-cont {
+  width: 100%;
+  height: 100%;
+  padding: 10px 10px;
+}
+
+.chat__send-btn {
+  font-size: 14px;
+  line-height: 1.25;
+  width: fit-content;
+  padding: 0px 16px;
+  height: 45px;
+  border-radius: 30px;
+  border: none;
+  background-color: rgba(47, 113, 229, 1);
+  color: white;
+  box-shadow: 0px 5px 15px 0px rgba(14, 26, 57, 0.25);
+}
+
+.chat__send-btn:hover {
+  background-color: rgba(2, 85, 229, 1);
 }

@@ -48,3 +48,51 @@ export const formTranslatedString = (
 export function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+export const getOptionsList = ({
+  list,
+  addProps,
+  type,
+  disabled,
+  currentLanguage,
+  labelClassName,
+  textClassName,
+}: {
+  list: Object;
+  addProps: Object;
+  type: string;
+  disabled: boolean;
+  currentLanguage: LangChoice;
+  labelClassName: string;
+  textClassName: string;
+}) => {
+  const listAsArray = Object.keys(list)
+    .filter((item) => item != "")
+    .map((item) => {
+      const currentKey = item as keyof typeof list;
+      return {
+        id: item,
+        ...list[currentKey],
+      };
+    });
+
+  const res = listAsArray.map((item) => {
+    const itemWithTranslations = item as { id: string } & Translations;
+    return (
+      <div key={itemWithTranslations.id}>
+        <label className={labelClassName}>
+          <input
+            type={type}
+            {...addProps}
+            value={itemWithTranslations.id}
+            disabled={disabled}
+          />
+          <p className={textClassName}>
+            {itemWithTranslations[currentLanguage]}
+          </p>
+        </label>
+      </div>
+    );
+  });
+  return <>{res}</>;
+};

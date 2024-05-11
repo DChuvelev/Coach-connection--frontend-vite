@@ -30,7 +30,21 @@ export const chatsSlice = createSlice({
     setCurrentChatIndex: (state, action: PayloadAction<number>) => {
       state.currentChatIndex = action.payload;
     },
+    clearChat: (state, action: PayloadAction<string>) => {
+      const idx = state.chatsList.findIndex(
+        (chat) => chat._id === action.payload
+      );
+      // console.log(idx)
+      if (idx !== -1) {
+        state.chatsList[idx] = {
+          _id: "",
+          members: [],
+          messages: [],
+        };
+      }
+    },
   },
+
   // extraReducers(builder) {
   //   builder
   //     .addCase(registerUserThunk.pending, (state, action) => {
@@ -47,4 +61,5 @@ export const {
   addChatToChatList,
   triggerRefreshTik,
   setCurrentChatIndex,
+  clearChat,
 } = chatsSlice.actions;

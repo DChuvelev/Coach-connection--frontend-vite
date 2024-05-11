@@ -10,6 +10,7 @@ import {
   AppDoneMessages,
   AppErrorMessages,
   CurrentUser,
+  ISocketNewMessageData,
   User,
   initialState,
 } from "./appTypes";
@@ -20,7 +21,6 @@ import {
   updateUserInfoThunk,
   initUserFromTokenThunk,
 } from "./appAsync";
-import { dbApiRequest } from "../../../../utils/constants/requests";
 
 export const appSlice = createSlice({
   name: "app",
@@ -63,9 +63,44 @@ export const appSlice = createSlice({
     ) => {
       state.errorMessage = action.payload;
     },
-    triggerGotNewMessages: (state, action: PayloadAction<string>) => {
+    triggerGotNewMessages: (
+      state,
+      action: PayloadAction<ISocketNewMessageData>
+    ) => {
       state.currentUser.gotNewMessagesTik = Math.random();
-      state.currentUser.triggeredChatId = action.payload;
+      state.currentUser.triggeredChatId = action.payload.chatId;
+      const chatIndex = state.currentUser.chats.findIndex(
+        (chat) => chat._id === action.payload.chatId
+      );
+      if (chatIndex !== -1) {
+        state.currentUser.chats[chatIndex].lastMessage = {
+          timestamp: action.payload.timestamp,
+          _id: action.payload.messageId,
+        };
+      }
+    },
+    sortUserChats: (state) => {
+      const currentUserChats = state.currentUser.chats;
+      if (currentUserChats && currentUserChats.length > 1) {
+        // const chatsCopy = [...currentUserChats];
+        currentUserChats.sort((a, b) => {
+          if (!a.lastMessage)
+            a.lastMessage = { timestamp: new Date().toISOString() };
+          if (!b.lastMessage.timestamp)
+            b.lastMessage = { timestamp: new Date().toISOString() };
+          if (a.lastMessage.timestamp === b.lastMessage.timestamp) return 0;
+          return a.lastMessage.timestamp > b.lastMessage.timestamp ? -1 : 1;
+        });
+        // console.log(chatsCopy);
+      }
+    },
+    removeChatFromCurrentUser: (state, action: PayloadAction<string>) => {
+      const idx = state.currentUser.chats.findIndex(
+        (chat) => chat._id === action.payload
+      );
+      if (idx !== -1) {
+        state.currentUser.chats.splice(idx, 1);
+      }
     },
   },
   extraReducers(builder) {
@@ -121,6 +156,7 @@ export const appSlice = createSlice({
       .addCase(updateUserInfoThunk.fulfilled, (state, action) => {
         state.doneMessage = "savedUserInfo";
         state.appStatus = "done";
+        // state.appStatus = "normal";
       })
       .addCase(updateUserInfoThunk.rejected, (state, action) => {
         state.appStatus = "error";
@@ -160,4 +196,6 @@ export const {
   setDoneMessage,
   setErrorMessage,
   triggerGotNewMessages,
+  sortUserChats,
+  removeChatFromCurrentUser,
 } = appSlice.actions;

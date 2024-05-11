@@ -185,7 +185,10 @@ export const RegisterModal: React.FC<Props> = ({
                 translations.common.errors.required_field[currentLanguage],
               validate: {
                 passwordsMatch: (val, formVals) =>
-                  val === formVals.password || "Passwords should match",
+                  val === formVals.password ||
+                  translations.common.errors.passwords_should_match[
+                    currentLanguage
+                  ],
               },
             })}
           />
@@ -206,11 +209,15 @@ export const RegisterModal: React.FC<Props> = ({
             {...register("name", {
               minLength: {
                 value: MIN_USERNAME_LENGTH,
-                message: "User name should be at least 1 character",
+                message:
+                  translations.common.errors.username_too_short[
+                    currentLanguage
+                  ],
               },
               maxLength: {
                 value: MAX_USERNAME_LENGTH,
-                message: "User name should be maximum 30 characters long",
+                message:
+                  translations.common.errors.username_too_long[currentLanguage],
               },
               required:
                 translations.common.errors.required_field[currentLanguage],

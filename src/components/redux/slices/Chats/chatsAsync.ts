@@ -4,13 +4,15 @@ import { RootState } from "../../store";
 import {
   addChatToChatList,
   addMessages,
+  clearChat,
   setChatsStatus,
   triggerRefreshTik,
 } from "./chatsSlice";
 import { IChat } from "./chatsTypes";
+import { removeChatFromCurrentUser } from "../App/appSlice";
 
 export const getChatByIdThunk = createAsyncThunk(
-  "app/getChatById",
+  "chats/getChatById",
   async (chatId: string, { getState, dispatch }) => {
     const state = getState() as RootState;
     let resp;
@@ -28,7 +30,7 @@ export const getChatByIdThunk = createAsyncThunk(
 );
 
 export const createChatThunk = createAsyncThunk(
-  "app/createChat",
+  "chats/createChat",
   async (userId: string, { getState, dispatch }) => {
     const state = getState() as RootState;
     let resp;
@@ -45,7 +47,7 @@ export const createChatThunk = createAsyncThunk(
 );
 
 export const refreshChatThunk = createAsyncThunk(
-  "app/refreshChat",
+  "chats/refreshChat",
   async (
     {
       chatId,
@@ -100,7 +102,9 @@ export const refreshChatThunk = createAsyncThunk(
         // console.log(chatIndex);
       }
       dispatch(addMessages({ chatIndex: chatIndex, messages: resp.messages })); //No we can add the new loaded messages to the array.
+
       dispatch(triggerRefreshTik());
+
       return chatIndex;
     } catch (err) {
       return Promise.reject(err);
@@ -109,7 +113,7 @@ export const refreshChatThunk = createAsyncThunk(
 );
 
 export const addMessageThunk = createAsyncThunk(
-  "app/addMessage",
+  "chats/addMessage",
   async (
     {
       chatId,
@@ -136,7 +140,7 @@ export const addMessageThunk = createAsyncThunk(
 );
 
 export const checkChatThunk = createAsyncThunk(
-  "app/checkChat",
+  "chats/checkChat",
   async (
     { chatId, membersIds }: { chatId: string; membersIds: string[] },
     { getState, dispatch }
@@ -154,5 +158,37 @@ export const checkChatThunk = createAsyncThunk(
       return Promise.reject(err);
     }
     return resp;
+  }
+);
+
+export const removeChatThunk = createAsyncThunk(
+  "chats/removeChat",
+  async (
+    { withUserId, checkIfEmpty }: { withUserId: string; checkIfEmpty: boolean },
+    { getState, dispatch }
+  ) => {
+    const state = getState() as RootState;
+    const chatToDelete = state.chats.chatsList.find((chat) =>
+      chat.members.some((member) => member._id === withUserId)
+    );
+    if (chatToDelete && (!checkIfEmpty || chatToDelete.messages.length === 0)) {
+      const chatToDeleteId = chatToDelete._id;
+      let resp;
+      try {
+        resp = await chatApi.removeChat({
+          chatId: chatToDeleteId,
+          token: localStorage.getItem("jwt") as string,
+        });
+        dispatch(removeChatFromCurrentUser(chatToDeleteId)); //remove the chat from user chats list not to make unnecessary user reload
+        dispatch(clearChat(chatToDeleteId)); //in chats state we just clear this chat. It should become invisible
+        //for any searches. Removing it totally can impact array indexing, so we don't do that. Anyway, as it's already removed
+        //from backend db - it will disappear on next page reload.
+        // console.log(resp);
+      } catch (err) {
+        return Promise.reject(err);
+      }
+
+      return resp;
+    }
   }
 );

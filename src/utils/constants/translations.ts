@@ -27,6 +27,10 @@ export const translations = {
         ru: `Пароль должен быть не длиннее ${MAX_PASSWORD_LENGTH} символов`,
         en: `Password should be maximum ${MAX_PASSWORD_LENGTH} characters long`,
       },
+      passwords_should_match: {
+        ru: `Пароли должны совпадать`,
+        en: `Passwords should match`,
+      },
       username_too_short: {
         ru: `Имя пользователя должно быть не короче ${MIN_PASSWORD_LENGTH} символов`,
         en: `Username should be at least ${MIN_PASSWORD_LENGTH} characters`,
@@ -94,6 +98,14 @@ export const translations = {
       ru: "Подобрать коуча",
       en: "Choose a coach",
     },
+    my_chats: {
+      ru: "Мои чаты",
+      en: "My chats",
+    },
+    my_profile: {
+      ru: "Мой профиль",
+      en: "My profile",
+    },
     login: {
       ru: "Войти",
       en: "Sign in",
@@ -101,6 +113,10 @@ export const translations = {
     register: {
       ru: "Зарегистрироваться",
       en: "Sign up",
+    },
+    logout: {
+      ru: "Выйти",
+      en: "Sign out",
     },
   },
   footer: {
@@ -217,6 +233,10 @@ export const translations = {
     aboutShort: {
       ru: "О себе",
       en: "About",
+    },
+    saveProfile: {
+      ru: "Сохранить",
+      en: "Save profile",
     },
     errors: {
       checkAtLeastOne: {
@@ -444,6 +464,10 @@ export const translations = {
     },
   },
   chats: {
+    conversations: {
+      ru: "Недавние чаты",
+      en: "Resent conversations",
+    },
     errorMessages: {
       generalChatError: {
         ru: "Что-то не так с чатом",

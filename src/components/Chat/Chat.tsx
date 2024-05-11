@@ -8,6 +8,7 @@ import {
   checkChatThunk,
   createChatThunk,
   refreshChatThunk,
+  removeChatThunk,
 } from "../redux/slices/Chats/chatsAsync";
 import { setAppStatus, setErrorMessage } from "../redux/slices/App/appSlice";
 import {
@@ -31,6 +32,7 @@ export const Chat: React.FC<Props> = ({ withUserId }) => {
   const refreshTik = useAppSelector((state) => state.chats.refreshTik);
   const lastMessageRef: MutableRefObject<HTMLParagraphElement | null> =
     useRef(null);
+  const inputAreaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     // console.log(withUserId);
@@ -96,6 +98,19 @@ export const Chat: React.FC<Props> = ({ withUserId }) => {
     };
     loadChat();
     return () => {
+      const unMount = async () => {
+        try {
+          if (withUserId)
+            await dispatch(
+              removeChatThunk({ withUserId, checkIfEmpty: true })
+            ).unwrap();
+        } catch (err) {
+          console.error(err);
+          dispatch(setErrorMessage("serverNotResponding"));
+          dispatch(setAppStatus("error"));
+        }
+      };
+      unMount();
       dispatch(setChatsStatus("waiting"));
       dispatch(setCurrentChatIndex(-1));
     };
@@ -128,6 +143,30 @@ export const Chat: React.FC<Props> = ({ withUserId }) => {
     evt
   ) => {
     setMessageText(evt.target.value);
+    if (inputAreaRef.current?.scrollHeight) {
+      const style = window.getComputedStyle(inputAreaRef.current);
+      const computedMaxHeight = parseInt(style.maxHeight, 10);
+      const computedHeight = parseInt(style.height, 10);
+      const scrollHeight = inputAreaRef.current.scrollHeight;
+
+      // console.log(
+      //   `Computed height: ${computedHeight}, scroll: ${scrollHeight}`
+      // );
+      if (scrollHeight > computedMaxHeight) {
+        inputAreaRef.current.style.overflow = `auto`;
+        inputAreaRef.current.style.height = `${computedMaxHeight}px`;
+      } else {
+        inputAreaRef.current.style.overflow = `hidden`;
+      }
+      if (inputAreaRef.current.style.overflow === `hidden`) {
+        if (scrollHeight > computedHeight) {
+          inputAreaRef.current.style.height = `${inputAreaRef.current.scrollHeight}px`;
+        } else if (scrollHeight < computedHeight) {
+          inputAreaRef.current.style.height = `auto`;
+          inputAreaRef.current.style.height = `${inputAreaRef.current.scrollHeight}px`;
+        }
+      }
+    }
   };
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (evt) => {
@@ -210,7 +249,10 @@ export const Chat: React.FC<Props> = ({ withUserId }) => {
                           : "chat__message_type_other-users"
                       }`}
                     >
-                      <p {...(isLastMessage && { ref: lastMessageRef })}>
+                      <p
+                        className="chat__message-txt"
+                        {...(isLastMessage && { ref: lastMessageRef })}
+                      >
                         {message.text}
                       </p>
                     </div>
@@ -225,10 +267,14 @@ export const Chat: React.FC<Props> = ({ withUserId }) => {
               placeholder="Input your message"
               onChange={handleInputChange}
               value={messageText}
+              ref={inputAreaRef}
             ></textarea>
-            <button type="submit" className="chat__submit-btn">
-              Send message
-            </button>
+            <div className="chat__buttons-cont">
+              {/* Here we will put smiles, attachments, etc... */}
+              <button type="submit" className="chat__send-btn">
+                Send message
+              </button>
+            </div>
           </form>
         </div>
       )}

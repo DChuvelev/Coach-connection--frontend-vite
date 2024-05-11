@@ -1,11 +1,14 @@
 .footer {
   display: flex;
-  padding: 10px 40px;
+  align-items: center;
+  padding: 0px 24px;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 12px;
   line-height: 1.2;
   margin-top: auto;
   background-color: rgba(0, 0, 0, 0.03);
+  height: 24px;
+  border-radius: 12px;
 }
 
 .footer__text {

@@ -67,6 +67,7 @@ export const initUserFromTokenThunk = createAsyncThunk(
     let resp: CurrentUser;
     try {
       resp = await dbApi.checkToken(localStorage.getItem("jwt") as string);
+      // console.log(resp);
       dispatch(setLoggedIn(true));
       dispatch(setCurrentUser(resp));
     } catch (err) {
