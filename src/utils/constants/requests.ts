@@ -1,4 +1,4 @@
-export const baseUrl = "http://api.coachfind.me";
+export const baseUrl = "https://api.coachfind.me";
 // process.env.NODE_ENV === "production"
 //   ? "https://104.199.113.137"
 //   : "http://localhost:3001";

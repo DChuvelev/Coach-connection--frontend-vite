@@ -1,30 +1,45 @@
-# React + TypeScript + Vite
+# CoachFind 🤝
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Find your perfect coach with CoachFind - a platform connecting individuals with coaches specializing in various fields.
 
-Currently, two official plugins are available:
+## Table of Contents
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [About](#about)
+- [Features](#features)
+- [Upcoming Features](#upcoming-features)
+- [Technologies](#technologies)
+- [Backend Repository](#backend-repository)
+- [Backend API](#backend-api)
 
-## Expanding the ESLint configuration
+## About
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+CoachFind aims to simplify the process of finding the right coach for your needs. Whether you're seeking career guidance, personal development, fitness coaching, or any other area of expertise, CoachFind provides a user-friendly platform to discover and connect with experienced coaches.
 
-- Configure the top-level `parserOptions` property like this:
+## Features
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+- **Coach Profiles:** Detailed profiles highlighting coaches' experience, specialties, pricing, and reviews.
+- **Search & Filtering:** Easily search for coaches by category, location, availability, and other criteria.
+- **OpenAI-Powered Matching:** Our intelligent assistant leverages OpenAI to help you find the perfect coach based on your profile information with just one click.
+- **Secure Messaging:** Communicate with coaches via in-app messaging for convenient consultation and discussion.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Upcoming Features
+
+- **Booking & Scheduling:** Seamlessly book appointments with coaches directly through the platform.
+- **Reviews & Ratings:** Rate and review coaches to help others make informed decisions.
+- **Certification Verification:** Ensure the information provided by coaches is accurate and reliable.
+- **Secure Payment Integration:** Enable secure and convenient payment processing for coaching sessions.
+
+## Technologies
+
+- **Frontend:** React, Redux, TypeScript
+- **Backend:** Node.js, Express, MongoDB
+- **Real-time Communication:** Socket.IO
+- **AI:** OpenAI
+
+## Backend Repository
+
+The backend for this project can be found at: https://github.com/DChuvelev/Coach-connection---backend
+
+## Backend API
+
+You can interact with the backend API at: https://api.coachfind.me
