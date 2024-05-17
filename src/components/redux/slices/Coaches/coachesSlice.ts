@@ -23,7 +23,7 @@ export const coachesSlice = createSlice({
     setError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
     },
-    incCoachesSlideShowCounter: (state, action: PayloadAction) => {
+    incCoachesSlideShowCounter: (state) => {
       state.slideShowCounter++;
       // console.log(state.coachesList.length, state.slideShowCounter);
       if (state.slideShowCounter >= state.coachesList.length) {
@@ -36,21 +36,21 @@ export const coachesSlice = createSlice({
     setCoachFinderValues: (state, action: PayloadAction<CoachFinder>) => {
       state.coachFinderValues = action.payload;
     },
-    resetCoachFinderValues: (state, action: PayloadAction) => {
+    resetCoachFinderValues: (state) => {
       state.coachFinderValues = emptyCoachFinderFormValues;
     },
-    resetGptAnswerId: (state, action: PayloadAction) => {
+    resetGptAnswerId: (state) => {
       state.gptAnswer.coachId = "";
     },
-    resetGptAnswerText: (state, action: PayloadAction) => {
+    resetGptAnswerText: (state) => {
       state.gptAnswer.text = "";
     },
   },
   extraReducers(builder) {
     builder
-      .addCase(getAllCoachesThunk.pending, (state, action) => {})
-      .addCase(getAllCoachesThunk.fulfilled, (state, action) => {})
-      .addCase(selectCoachByGptThunk.pending, (state, action) => {
+      .addCase(getAllCoachesThunk.pending, () => {})
+      .addCase(getAllCoachesThunk.fulfilled, () => {})
+      .addCase(selectCoachByGptThunk.pending, (state) => {
         state.status = "waiting";
       })
       .addCase(selectCoachByGptThunk.rejected, (state, action) => {

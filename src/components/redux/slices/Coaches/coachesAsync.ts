@@ -12,8 +12,7 @@ import { setDoneMessage } from "../App/appSlice";
 
 export const getAllCoachesThunk = createAsyncThunk(
   "coaches/getAll",
-  async (arg, { getState, dispatch }) => {
-    const state = getState() as RootState;
+  async (arg, { dispatch }) => {
     let resp: { data: Array<CoachInfo> };
     try {
       resp = await dbApi.getAllCoaches(localStorage.getItem("jwt") as string);
@@ -24,23 +23,9 @@ export const getAllCoachesThunk = createAsyncThunk(
   }
 );
 
-export const createRandomCoachThunk = createAsyncThunk(
-  "coaches/createRandom",
-  async (arg, { getState, dispatch }) => {
-    const state = getState() as RootState;
-    let resp;
-    try {
-      resp = await dbApi.createRandomCoach();
-      return resp;
-    } catch (err) {
-      return Promise.reject(err);
-    }
-  }
-);
-
 export const startSlideShowCounter = createAsyncThunk(
   "coaches/startSlideShowCounter",
-  async (arg, { getState, dispatch }) => {
+  async (arg, { dispatch }) => {
     dispatch(
       setSlideShowTimerId(
         window.setInterval(() => {
@@ -62,8 +47,7 @@ export const removeSlideShowCounter = createAsyncThunk(
 
 export const selectCoachByGptThunk = createAsyncThunk(
   "coaches/selectByGpt",
-  async (message: string, { getState, dispatch }) => {
-    const state = getState() as RootState;
+  async (message: string, { dispatch }) => {
     let resp;
     try {
       resp = await gptApi.chooseMeACoach({

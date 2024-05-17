@@ -9,6 +9,7 @@ import {
 import {
   AppDoneMessages,
   AppErrorMessages,
+  CurrentPage,
   CurrentUser,
   ISocketNewMessageData,
   User,
@@ -38,7 +39,7 @@ export const appSlice = createSlice({
     setLoginFormValues: (state, action: PayloadAction<LoginFormData>) => {
       state.loginFormValues = action.payload;
     },
-    resetAuthError: (state, action: PayloadAction) => {
+    resetAuthError: (state) => {
       state.authStatus = "idle";
       state.authMessage = undefined;
     },
@@ -102,24 +103,27 @@ export const appSlice = createSlice({
         state.currentUser.chats.splice(idx, 1);
       }
     },
+    setCurrentPage: (state, action: PayloadAction<CurrentPage>) => {
+      state.currentPage = action.payload;
+    },
   },
   extraReducers(builder) {
     builder
-      .addCase(registerUserThunk.pending, (state, action) => {
+      .addCase(registerUserThunk.pending, (state) => {
         state.authStatus = "loading";
         state.doneMessage = "registerAndLoginSuccess";
       })
-      .addCase(registerUserThunk.fulfilled, (state, action) => {
+      .addCase(registerUserThunk.fulfilled, () => {
         // state.appStatus = "done";
       })
       .addCase(registerUserThunk.rejected, (state, action) => {
         state.authStatus = "failed";
         state.authMessage = action.error.message;
       })
-      .addCase(loginThunk.pending, (state, action) => {
+      .addCase(loginThunk.pending, (state) => {
         state.authStatus = "loading";
       })
-      .addCase(loginThunk.fulfilled, (state, action) => {
+      .addCase(loginThunk.fulfilled, (state) => {
         state.authStatus = "succeeded";
         state.loggedIn = true;
         state.appStatus = "done";
@@ -129,7 +133,7 @@ export const appSlice = createSlice({
         state.authStatus = "failed";
         state.authMessage = action.error.message;
       })
-      .addCase(setUserpicThunk.pending, (state, action) => {
+      .addCase(setUserpicThunk.pending, (state) => {
         if (!state.doneMessage) {
           //In case it's not a part of reg+login process
           state.appStatus = "waiting";
@@ -146,26 +150,26 @@ export const appSlice = createSlice({
           state.currentUser.avatar = action.payload.avatar;
         }
       )
-      .addCase(setUserpicThunk.rejected, (state, action) => {
+      .addCase(setUserpicThunk.rejected, (state) => {
         state.appStatus = "error";
         state.errorMessage = "failedToLoadPic";
       })
-      .addCase(updateUserInfoThunk.pending, (state, action) => {
+      .addCase(updateUserInfoThunk.pending, (state) => {
         state.appStatus = "waiting";
       })
-      .addCase(updateUserInfoThunk.fulfilled, (state, action) => {
+      .addCase(updateUserInfoThunk.fulfilled, (state) => {
         state.doneMessage = "savedUserInfo";
         state.appStatus = "done";
         // state.appStatus = "normal";
       })
-      .addCase(updateUserInfoThunk.rejected, (state, action) => {
+      .addCase(updateUserInfoThunk.rejected, (state) => {
         state.appStatus = "error";
         state.errorMessage = "failedToUpdUserInfo";
       })
-      .addCase(initUserFromTokenThunk.pending, (state, action) => {
+      .addCase(initUserFromTokenThunk.pending, (state) => {
         state.appStatus = "waiting";
       })
-      .addCase(initUserFromTokenThunk.fulfilled, (state, action) => {
+      .addCase(initUserFromTokenThunk.fulfilled, (state) => {
         state.doneMessage = "loginSuccess";
         state.appStatus = "done";
       })
@@ -198,4 +202,5 @@ export const {
   triggerGotNewMessages,
   sortUserChats,
   removeChatFromCurrentUser,
+  setCurrentPage,
 } = appSlice.actions;

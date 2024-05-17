@@ -18,11 +18,11 @@ export const clientsSlice = createSlice({
   name: "clients",
   initialState,
   reducers: {
-    test: (state, action) => {
+    test: (state) => {
       console.log(state.status);
     },
   },
 });
 
 export default clientsSlice.reducer;
-export const {} = clientsSlice.actions;
+export const { test } = clientsSlice.actions;

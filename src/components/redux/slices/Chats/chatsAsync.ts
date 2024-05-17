@@ -5,7 +5,6 @@ import {
   addChatToChatList,
   addMessages,
   clearChat,
-  setChatsStatus,
   triggerRefreshTik,
 } from "./chatsSlice";
 import { IChat } from "./chatsTypes";
@@ -13,8 +12,7 @@ import { removeChatFromCurrentUser } from "../App/appSlice";
 
 export const getChatByIdThunk = createAsyncThunk(
   "chats/getChatById",
-  async (chatId: string, { getState, dispatch }) => {
-    const state = getState() as RootState;
+  async (chatId: string) => {
     let resp;
     try {
       resp = await chatApi.getChatById({
@@ -31,8 +29,7 @@ export const getChatByIdThunk = createAsyncThunk(
 
 export const createChatThunk = createAsyncThunk(
   "chats/createChat",
-  async (userId: string, { getState, dispatch }) => {
-    const state = getState() as RootState;
+  async (userId: string) => {
     let resp;
     try {
       resp = await chatApi.createChat({
@@ -114,15 +111,15 @@ export const refreshChatThunk = createAsyncThunk(
 
 export const addMessageThunk = createAsyncThunk(
   "chats/addMessage",
-  async (
-    {
-      chatId,
-      authorId,
-      text,
-    }: { chatId: string; authorId: string; text: string },
-    { getState, dispatch }
-  ) => {
-    const state = getState() as RootState;
+  async ({
+    chatId,
+    authorId,
+    text,
+  }: {
+    chatId: string;
+    authorId: string;
+    text: string;
+  }) => {
     let resp;
     try {
       resp = await chatApi.addMessage({
@@ -141,11 +138,7 @@ export const addMessageThunk = createAsyncThunk(
 
 export const checkChatThunk = createAsyncThunk(
   "chats/checkChat",
-  async (
-    { chatId, membersIds }: { chatId: string; membersIds: string[] },
-    { getState, dispatch }
-  ) => {
-    const state = getState() as RootState;
+  async ({ chatId, membersIds }: { chatId: string; membersIds: string[] }) => {
     let resp;
     try {
       resp = await chatApi.checkChat({

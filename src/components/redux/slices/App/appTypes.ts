@@ -52,6 +52,8 @@ export type AppErrorMessages =
 
 export type AppDoneMessages = keyof typeof translations.appGlobal.doneMessages;
 
+export type CurrentPage = keyof typeof translations.header | undefined;
+
 export interface AppState {
   lang: LangChoice;
   loggedIn: boolean;
@@ -63,6 +65,7 @@ export interface AppState {
   appStatus: statusType;
   errorMessage: AppErrorMessages | undefined;
   doneMessage: AppDoneMessages | undefined;
+  currentPage: CurrentPage;
 }
 
 export const defaultUser: CurrentUser = {
@@ -98,6 +101,7 @@ export const initialState: AppState = {
   appStatus: "starting",
   errorMessage: undefined,
   doneMessage: undefined,
+  currentPage: undefined,
 };
 
 export interface ISocketNewMessageData {

@@ -9,7 +9,7 @@
   grid-template-areas:
     "info info photo"
     "gpt  gpt  gpt"
-    "text chat chat";
+    "chat chat chat";
   overflow: auto;
 }
 
@@ -84,18 +84,19 @@
   grid-area: chat;
   height: 100%;
   overflow: hidden;
+  width: 700px;
+  justify-self: center;
 }
 
 @media only screen and (max-width: 768px) {
   .coach-page {
     grid-template-columns: 100%;
-    grid-template-rows: 300px 1fr 1fr 1fr;
+    grid-template-rows: 300px 1fr 1fr;
     padding: 15px 15px;
     row-gap: 12px;
     grid-template-areas:
       "photo"
       "info"
-      "text"
       "chat";
   }
 

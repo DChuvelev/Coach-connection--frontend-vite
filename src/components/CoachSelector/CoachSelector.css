@@ -23,10 +23,7 @@
 
 .coach-selector__cards-container {
   flex: 0 1 auto;
-  /* border: 1px solid black; */
   border: none;
-  /* border: 1px solid rgba(0, 0, 0, 0.2); */
-
   padding: 20px 1px;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.04);
@@ -37,22 +34,19 @@
   display: flex;
   flex-direction: column;
   flex: 0 0 auto;
-  /* border: 1px solid black; */
   border: none;
   padding: 0 30px 0 0;
+  /* overflow: hidden; */
+  max-width: 320px;
 }
 
 .coach-selector__search-fields {
   font-size: 13px;
-  /* flex: 0 1 auto; */
   display: flex;
   flex-direction: column;
   row-gap: 15px;
-
-  /* height: 50%; */
   overflow: auto;
-  /* height: 50%; */
-  /* min-height: 200px; */
+  padding-right: 4px;
 }
 
 .coach-selector__legend {
@@ -76,4 +70,56 @@
 
 .coach-selector__label-text {
   margin: 0;
+}
+
+.coach-selector__buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 0 15px 0;
+  width: 100%;
+  gap: 8px;
+}
+
+.coach-selector__text-ask-gpt {
+  white-space: normal;
+  word-wrap: break-word;
+  /* max-width: 100%; */
+
+}
+
+.coach-selector__btn {
+
+  line-height: 1.25;
+  width: fit-content;
+  padding: 0px 16px;
+
+  border-radius: 30px;
+  border: none;
+
+  color: white;
+  box-shadow: 0px 5px 15px 0px rgba(14, 26, 57, 0.25);
+}
+
+.coach-selector-btn:hover {
+  background-color: rgba(2, 85, 229, 1);
+}
+
+.coach-selector__btn_type_reset-form {
+  background-color: orange;
+  font-size: 16px;
+  height: 30px;
+  border-radius: 15px;
+}
+
+.coach-selector__btn_type_ask-gpt {
+  background-color: rgba(47, 113, 229, 1);
+  font-size: 16px;
+  height: 45px;
+}
+
+.coach-selector__text-ask-gpt {
+  border-top: 1px solid gray;
+  font-size: 16px;
+  padding-top: 8px;
 }

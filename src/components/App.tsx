@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import Header from "./Header/Header";
-import Footer from "./Footer/Footer";
+import { Footer } from "./Footer/Footer";
 import { LangMenu } from "./LangMenu/LangMenu";
 import { RegisterModal } from "./RegisterModal/RegisterModal";
 import { LoginModal } from "./LoginModal/LoginModal";
-// import { gptApi } from "../utils/api/GptApi";
 import { translations } from "../utils/constants/translations";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
 import {
@@ -40,10 +39,7 @@ import { ProtectedRoute } from "../utils/ProtectedRoute/ProtectedRoute";
 import Preloader from "./Preloader/Preloader";
 import { ClientProfile } from "./ClientProfile/ClientProfile";
 import { SystemMessage } from "./SystemMessage/SystemMessage";
-import {
-  createRandomCoachThunk,
-  getAllCoachesThunk,
-} from "./redux/slices/Coaches/coachesAsync";
+import { getAllCoachesThunk } from "./redux/slices/Coaches/coachesAsync";
 import CoachSelector from "./CoachSelector/CoachSelector";
 import ErrorPage from "./ErrorPage/ErrorPage";
 import CoachPage from "./CoachPage/CoachPage";
@@ -106,17 +102,6 @@ function App() {
         console.log(`Reconnected to socket id: ${socket.id}`);
         logInToSocket();
       });
-
-      // // console.log(userInfoToSend);
-
-      // socket.on("disconnect", (reason) => {
-      //   console.log("Disconnected:", reason);
-      //   if (reason === "io server disconnect") {
-      //     // The disconnection was initiated by the server, you need to manually reconnect
-      //     socket.connect();
-      //   }
-      //   // else the socket will automatically try to reconnect
-      // });
     }
   }, [currentUser?._id]);
 
@@ -192,20 +177,6 @@ function App() {
     resetFormsData();
     setActiveModal("");
     dispatch(resetAuthError());
-  };
-
-  const handleFindCoach = () => {
-    // const userToRegister: UserToRegister = {
-    //   name: "Dmitry",
-    //   email: "d.chuvelev@gmail.com",
-    //   password: "redttt",
-    //   confirmPassword: "redttt",
-    //   role: "client",
-    //   userpic: undefined,
-    // };
-    // dispatch(setRegisterFormValues(userToRegister));
-    // handleOpenRegisterModal();
-    dispatch(createRandomCoachThunk());
   };
 
   //-------------------------- User login -------------------------------
@@ -303,7 +274,6 @@ function App() {
       <div className="app">
         <Header
           handleOpenLangMenu={handleOpenLangMenu}
-          handleFindCoach={handleFindCoach}
           handleRegister={handleOpenRegisterModal}
           handleLogin={handleOpenLoginModal}
           handleLogout={handleLogout}

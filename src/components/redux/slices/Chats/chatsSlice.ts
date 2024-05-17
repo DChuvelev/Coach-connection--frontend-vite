@@ -9,7 +9,7 @@ export const chatsSlice = createSlice({
     setChatsStatus: (state, action: PayloadAction<statusType>) => {
       state.chatsStatus = action.payload;
     },
-    triggerRefreshTik: (state, action: PayloadAction) => {
+    triggerRefreshTik: (state) => {
       state.refreshTik = Math.random();
     },
     addChatToChatList: (state, action: PayloadAction<IChat>) => {

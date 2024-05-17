@@ -14,3 +14,9 @@
   gap: 10px;
 
 }
+
+.my-chats__message {
+  justify-self: center;
+  align-self: center;
+  font-size: 24px;
+}

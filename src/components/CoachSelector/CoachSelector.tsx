@@ -1,7 +1,7 @@
 import "./CoachSelector.css";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { CoachCard } from "../CoachCard/CoachCard";
-import { Translations, translations } from "../../utils/constants/translations";
+import { translations } from "../../utils/constants/translations";
 import { useForm } from "react-hook-form";
 import { CoachFinder } from "./CoachSelectorTypes";
 import {
@@ -14,7 +14,7 @@ import {
   setCoachFinderValues,
 } from "../redux/slices/Coaches/coachesSlice";
 import { selectCoachByGptThunk } from "../redux/slices/Coaches/coachesAsync";
-import { setAppStatus, setErrorMessage } from "../redux/slices/App/appSlice";
+import { setAppStatus, setCurrentPage } from "../redux/slices/App/appSlice";
 import { formTranslatedString, getOptionsList } from "../../utils/functions";
 import { LangChoice } from "../../utils/models";
 import { appLangs } from "../../utils/constants/langs";
@@ -37,47 +37,12 @@ export default function CoachSelector() {
     }
   }, [gptAnswer.coachId]);
 
-  // const getOptionsList = ({
-  //   list,
-  //   addProps,
-  //   type,
-  //   disabled,
-  // }: {
-  //   list: Object;
-  //   addProps?: Object;
-  //   type: string;
-  //   disabled: boolean;
-  // }) => {
-  //   const listAsArray = Object.keys(list)
-  //     .filter((item) => item !== "")
-  //     .map((item) => {
-  //       const currentKey = item as keyof typeof list;
-  //       return {
-  //         id: item,
-  //         ...list[currentKey],
-  //       };
-  //     });
-
-  //   const res = listAsArray.map((item) => {
-  //     const itemWithTranslations = item as { id: string } & Translations;
-  //     return (
-  //       <div key={itemWithTranslations.id}>
-  //         <label className="coach-profile__label">
-  //           <input
-  //             type={type}
-  //             {...addProps}
-  //             value={itemWithTranslations.id}
-  //             disabled={disabled}
-  //           />
-  //           <p className="coach-profile__label-text">
-  //             {itemWithTranslations[currentLanguage]}
-  //           </p>
-  //         </label>
-  //       </div>
-  //     );
-  //   });
-  //   return <>{res}</>;
-  // };
+  useEffect(() => {
+    dispatch(setCurrentPage("find_a_coach"));
+    return () => {
+      dispatch(setCurrentPage(undefined));
+    };
+  });
 
   const resetForm = () => {
     dispatch(resetCoachFinderValues());
@@ -133,7 +98,7 @@ export default function CoachSelector() {
     let message = `Client: 
     ${JSON.stringify(currentUserOpenInfo)}
     Coaches list:\n`;
-    coachesList.forEach((coach, idx) => {
+    coachesList.forEach((coach) => {
       message += `${getCoachInfoJSON(coach)}\n`;
     });
     message += `Language to answer: ${
@@ -179,7 +144,7 @@ export default function CoachSelector() {
           coachCurrentKeyArray.push(...coach.sertificationLevel);
         }
 
-        let crossCheck = coachCurrentKeyArray.some((item) =>
+        const crossCheck = coachCurrentKeyArray.some((item) =>
           formValues[formKey].includes(item)
         );
 
@@ -198,7 +163,7 @@ export default function CoachSelector() {
     <main className="coach-selector">
       <div className="coach-selector__sidebar">
         <h2>
-          {translations.client.main.searchForCoachHeading[currentLanguage]}
+          {translations.client.search.searchForCoachHeading[currentLanguage]}
         </h2>
 
         <div className="coach-selector__search-fields">
@@ -327,11 +292,22 @@ export default function CoachSelector() {
 
           {/* ----------- Buttons -------------- */}
           <div className="coach-selector__buttons">
-            <button type="button" onClick={resetForm}>
+            <button
+              type="button"
+              onClick={resetForm}
+              className="coach-selector__btn coach-selector__btn_type_reset-form"
+            >
               {translations.common.resetSearch[currentLanguage]}
             </button>
-            <button type="button" onClick={chooseWithGpt}>
-              Ask GPT
+            <p className="coach-selector__text-ask-gpt">
+              {translations.client.search.offerAssistanceText[currentLanguage]}
+            </p>
+            <button
+              type="button"
+              onClick={chooseWithGpt}
+              className="coach-selector__btn coach-selector__btn_type_ask-gpt"
+            >
+              {translations.client.search.assistBtn[currentLanguage]}
             </button>
           </div>
         </div>

@@ -11,6 +11,7 @@ import {
 import { translations } from "../../utils/constants/translations";
 import { updateUserInfoThunk } from "../redux/slices/App/appAsync";
 import { getOptionsList } from "../../utils/functions";
+import { setCurrentPage } from "../redux/slices/App/appSlice";
 
 export const CoachProfile: React.FC<Props> = () => {
   const currentUser = useAppSelector((state) => state.app.currentUser);
@@ -31,7 +32,14 @@ export const CoachProfile: React.FC<Props> = () => {
   });
   const dispatch = useAppDispatch();
 
-  let formValues = watch();
+  const formValues = watch();
+
+  useEffect(() => {
+    dispatch(setCurrentPage("my_profile"));
+    return () => {
+      dispatch(setCurrentPage(undefined));
+    };
+  });
 
   const onSubmit = () => {
     dispatch(updateUserInfoThunk(formValues));

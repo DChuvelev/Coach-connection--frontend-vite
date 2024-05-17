@@ -1,8 +1,7 @@
-import React, { PropsWithChildren, useEffect } from "react";
+import React, { PropsWithChildren } from "react";
 import "./ModalWithForm.css";
 import { Modal } from "../Modal/Modal";
 import { Props } from "./ModalWithFormTypes";
-import { Form } from "react-hook-form";
 const ModalWithForm = ({
   children,
   formInfo,

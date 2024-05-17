@@ -18,6 +18,8 @@ import {
 } from "../redux/slices/Chats/chatsSlice";
 import { refreshCurrentUserThunk } from "../redux/slices/App/appAsync";
 import { useRef } from "react";
+import { translations } from "../../utils/constants/translations";
+import Preloader from "../Preloader/Preloader";
 
 export const Chat: React.FC<Props> = ({ withUserId }) => {
   const [messageText, setMessageText] = useState("");
@@ -26,6 +28,7 @@ export const Chat: React.FC<Props> = ({ withUserId }) => {
     (state) => state.chats.currentChatIndex
   );
   const currentUser = useAppSelector((state) => state.app.currentUser);
+  const currentLanguage = useAppSelector((state) => state.app.lang);
   const chatsList = useAppSelector((state) => state.chats.chatsList);
   const dispatch = useAppDispatch();
   const chatsStatus = useAppSelector((state) => state.chats.chatsStatus);
@@ -228,6 +231,7 @@ export const Chat: React.FC<Props> = ({ withUserId }) => {
   };
   return (
     <>
+      {chatsStatus !== "normal" && <Preloader />}
       {chatsStatus === "normal" && (
         <div className="chat">
           <div className="chat__window">
@@ -264,7 +268,7 @@ export const Chat: React.FC<Props> = ({ withUserId }) => {
           <form className="chat__message-form" onSubmit={handleSubmit}>
             <textarea
               className="chat__input"
-              placeholder="Input your message"
+              placeholder={translations.chats.enterMessage[currentLanguage]}
               onChange={handleInputChange}
               value={messageText}
               ref={inputAreaRef}
@@ -272,7 +276,7 @@ export const Chat: React.FC<Props> = ({ withUserId }) => {
             <div className="chat__buttons-cont">
               {/* Here we will put smiles, attachments, etc... */}
               <button type="submit" className="chat__send-btn">
-                Send message
+                {translations.chats.sendMessage[currentLanguage]}
               </button>
             </div>
           </form>

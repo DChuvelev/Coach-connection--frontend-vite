@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./MyChatsList.css";
 import { Props } from "./MyChatsListTypes";
 import { useAppSelector } from "../redux/hooks";

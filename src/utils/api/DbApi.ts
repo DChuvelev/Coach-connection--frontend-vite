@@ -1,4 +1,3 @@
-import { OutgoingHttpHeaders } from "http2";
 import { dbApiRequest } from "../constants/requests";
 import { DbApiConstructorProps } from "./DbApiTypes";
 import { CurrentUser } from "../../components/redux/slices/App/appTypes";

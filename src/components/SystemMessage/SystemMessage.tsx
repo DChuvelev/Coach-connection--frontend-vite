@@ -1,6 +1,5 @@
 import React from "react";
 import "./SystemMessage.css";
-import { useAppSelector } from "../redux/hooks";
 import { Props } from "./SystemMessageTypes";
 export const SystemMessage: React.FC<Props> = ({ message, color }) => {
   return (

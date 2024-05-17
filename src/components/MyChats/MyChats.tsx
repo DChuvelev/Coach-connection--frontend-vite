@@ -1,16 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./MyChats.css";
 import { Props } from "./MyChatsTypes";
 import MyChatsList from "../MyChatsList/MyChatsList";
 import { Chat } from "../Chat/Chat";
+import { setCurrentPage } from "../redux/slices/App/appSlice";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "../redux/hooks";
+import { translations } from "../../utils/constants/translations";
 
 const MyChats: React.FC<Props> = () => {
-  const [selectedChat, setSelectedChat] = useState<string>();
-
+  const [selectedChat, setSelectedChat] = useState<string>("");
+  const currentUser = useAppSelector((state) => state.app.currentUser);
+  const currentLanguage = useAppSelector((state) => state.app.lang);
+  const dispatch = useDispatch();
   const selectChatWith = (userId: string) => {
     setSelectedChat(userId);
     // console.log(userId);
   };
+
+  useEffect(() => {
+    dispatch(setCurrentPage("my_chats"));
+    return () => {
+      dispatch(setCurrentPage(undefined));
+    };
+  });
+
   return (
     <div className="my-chats">
       <div className="my-chats__chats">
@@ -19,6 +33,13 @@ const MyChats: React.FC<Props> = () => {
           selectedChatWithUserId={selectedChat}
         />
         {selectedChat !== "" && <Chat withUserId={selectedChat} />}
+        {selectedChat === "" && (
+          <div className="my-chats__message">
+            {currentUser.chats.length > 0
+              ? translations.chats.selectChat[currentLanguage]
+              : translations.chats.сhatListEmpty[currentLanguage]}
+          </div>
+        )}
       </div>
     </div>
   );

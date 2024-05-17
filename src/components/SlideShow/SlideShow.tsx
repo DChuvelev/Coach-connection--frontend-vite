@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useEffect, useRef, useState } from "react";
+import React, { SyntheticEvent, useEffect, useState } from "react";
 import "./SlideShow.css";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { getAvatar } from "../../utils/functions";
@@ -7,9 +7,10 @@ import {
   startSlideShowCounter,
 } from "../redux/slices/Coaches/coachesAsync";
 import { incCoachesSlideShowCounter } from "../redux/slices/Coaches/coachesSlice";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { translations } from "../../utils/constants/translations";
 import { Props } from "./SlideShowTypes";
+import Preloader from "../Preloader/Preloader";
 
 const SlideShow: React.FC<Props> = ({ redirectToLogin }) => {
   const [shouldAnimate, setShouldAnimate] = useState(true);
@@ -17,6 +18,9 @@ const SlideShow: React.FC<Props> = ({ redirectToLogin }) => {
   const coachesList = useAppSelector((state) => state.coaches.coachesList);
   const currentLanguage = useAppSelector((state) => state.app.lang);
   const currentUser = useAppSelector((state) => state.app.currentUser);
+  const [currentImage, setCurrentImage] = useState<
+    HTMLImageElement | undefined
+  >();
   const navigate = useNavigate();
   const slideShowIndex = useAppSelector(
     (state) => state.coaches.slideShowCounter
@@ -32,14 +36,27 @@ const SlideShow: React.FC<Props> = ({ redirectToLogin }) => {
   const moveToNextPicture = () => {
     dispatch(incCoachesSlideShowCounter());
   };
+
   useEffect(() => {
-    setShouldAnimate(false);
-    setTimeout(() => {
-      setShouldAnimate(true);
-    }, 100);
+    if (coachesList && coachesList.length > 0) {
+      if (coachesList[slideShowIndex]._id === currentUser._id) {
+        moveToNextPicture();
+      } else {
+        const img = new Image();
+        img.src = getAvatar(coachesList[slideShowIndex]);
+        img.onerror = moveToNextPicture;
+        img.onload = () => {
+          setCurrentImage(img);
+          setShouldAnimate(false);
+          setTimeout(() => {
+            setShouldAnimate(true);
+          }, 100);
+        };
+      }
+    }
   }, [slideShowIndex]);
 
-  const handlePhotoClick: React.EventHandler<SyntheticEvent> = (evt) => {
+  const handlePhotoClick: React.EventHandler<SyntheticEvent> = () => {
     if (!looggedIn) {
       // console.log("Please, log in to see details");
       redirectToLogin();
@@ -55,24 +72,21 @@ const SlideShow: React.FC<Props> = ({ redirectToLogin }) => {
           <h1 className="slide-show__heading">
             {translations.client.main.ourCoaches[currentLanguage]}
           </h1>
-
-          <div
-            className={`slide-show__image-cont ${
-              shouldAnimate ? "slide-show__image-animate" : ""
-            }`}
-            onClick={handlePhotoClick}
-          >
-            <img
-              className="slide-show__image"
-              src={getAvatar(coachesList[slideShowIndex])}
-              onError={moveToNextPicture}
-              onLoad={
-                coachesList[slideShowIndex]._id === currentUser._id
-                  ? moveToNextPicture
-                  : () => {}
+          {currentImage === undefined && <Preloader />}
+          {currentImage !== undefined && (
+            <div
+              className={`slide-show__image-cont ${
+                currentUser.role === "client"
+                  ? "slide-show__image-cont_type_for-client"
+                  : ""
+              } ${shouldAnimate ? "slide-show__image-animate" : ""}`}
+              onClick={
+                currentUser.role === "client" ? handlePhotoClick : () => {}
               }
-            />
-          </div>
+            >
+              <img className="slide-show__image" src={currentImage?.src} />
+            </div>
+          )}
         </div>
       )}
     </>

@@ -8,9 +8,10 @@ import {
   MIN_USERNAME_LENGTH,
   MAX_USERNAME_LENGTH,
 } from "../../utils/constants/commonValues";
-import { Translations, translations } from "../../utils/constants/translations";
+import { translations } from "../../utils/constants/translations";
 import { updateUserInfoThunk } from "../redux/slices/App/appAsync";
 import { getOptionsList } from "../../utils/functions";
+import { setCurrentPage } from "../redux/slices/App/appSlice";
 
 export const ClientProfile: React.FC<Props> = () => {
   const currentUser = useAppSelector((state) => state.app.currentUser);
@@ -44,7 +45,7 @@ export const ClientProfile: React.FC<Props> = () => {
   });
   const dispatch = useAppDispatch();
 
-  let formValues = watch();
+  const formValues = watch();
 
   const onSubmit = () => {
     dispatch(updateUserInfoThunk(formValues));
@@ -53,6 +54,13 @@ export const ClientProfile: React.FC<Props> = () => {
   useEffect(() => {
     trigger();
   }, [currentLanguage, trigger]);
+
+  useEffect(() => {
+    dispatch(setCurrentPage("my_profile"));
+    return () => {
+      dispatch(setCurrentPage(undefined));
+    };
+  }, []);
 
   return (
     <div className="user-profile">

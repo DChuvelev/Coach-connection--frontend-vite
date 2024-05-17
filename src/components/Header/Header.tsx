@@ -10,7 +10,6 @@ import { Props } from "./HeaderTypes";
 import { appLangs } from "../../utils/constants/langs";
 
 const Header: React.FC<Props> = ({
-  handleFindCoach,
   handleRegister,
   handleLogin,
   handleOpenLangMenu,
@@ -19,6 +18,7 @@ const Header: React.FC<Props> = ({
   const currentLanguage = useAppSelector((store) => store.app.lang);
   const loggedIn = useAppSelector((store) => store.app.loggedIn);
   const currentUser = useAppSelector((store) => store.app.currentUser);
+  const currentPage = useAppSelector((state) => state.app.currentPage);
   return (
     <header className="header">
       <div className="header__menu">
@@ -33,16 +33,35 @@ const Header: React.FC<Props> = ({
 
           {loggedIn && (
             <>
-              <Link className="header__link" to="/profile">
+              <Link
+                className={`header__link ${
+                  currentPage === "my_profile"
+                    ? "header__link_type_selected"
+                    : ""
+                }`}
+                to="/profile"
+              >
                 {translations.header.my_profile[currentLanguage]}
               </Link>
               {currentUser.role === "client" && (
-                <Link className="header__link" to="/coach-finder">
+                <Link
+                  className={`header__link ${
+                    currentPage === "find_a_coach"
+                      ? "header__link_type_selected"
+                      : ""
+                  }`}
+                  to="/coach-finder"
+                >
                   {translations.header.find_a_coach[currentLanguage]}
                 </Link>
               )}
 
-              <Link className="header__link" to="/my-chats">
+              <Link
+                className={`header__link ${
+                  currentPage === "my_chats" ? "header__link_type_selected" : ""
+                }`}
+                to="/my-chats"
+              >
                 {/* <div> */}
                 {translations.header.my_chats[currentLanguage]}
                 {currentUser.gotNewMessagesInChatIDs.length > 0 && (

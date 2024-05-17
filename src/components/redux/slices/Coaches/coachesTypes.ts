@@ -1,7 +1,5 @@
-import { error } from "console";
 import { Coach } from "../App/appTypes";
 import { statusType } from "../generalTypes";
-import { devNull } from "os";
 import { CoachFinder } from "../../../CoachSelector/CoachSelectorTypes";
 export interface CoachInfo
   extends Omit<Coach, "password" | "status" | "email" | "role"> {}

@@ -2,9 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { dbApi } from "../../../../utils/api/DbApi";
 import { RootState } from "../../store";
 import { CurrentUser } from "./appTypes";
-import { RefObject } from "react";
 import { setCurrentUser, setLoggedIn, setLoginFormValues } from "./appSlice";
-import { chatApi } from "../../../../utils/api/ChatApi";
 
 export const registerUserThunk = createAsyncThunk(
   "app/registerUser",
@@ -62,8 +60,7 @@ export const loginThunk = createAsyncThunk(
 
 export const initUserFromTokenThunk = createAsyncThunk(
   "app/initUser",
-  async (arg, { getState, dispatch }) => {
-    const state = getState() as RootState;
+  async (arg, { dispatch }) => {
     let resp: CurrentUser;
     try {
       resp = await dbApi.checkToken(localStorage.getItem("jwt") as string);
@@ -78,9 +75,8 @@ export const initUserFromTokenThunk = createAsyncThunk(
 
 export const setUserpicThunk = createAsyncThunk(
   "app/setUserpic",
-  async (userpic: File | undefined, { getState, dispatch }) => {
-    const state = getState() as RootState;
-    var dataToSend = new FormData();
+  async (userpic: File | undefined) => {
+    const dataToSend = new FormData();
     if (userpic) dataToSend.append("avatar", userpic);
     let resp;
     try {
@@ -97,8 +93,7 @@ export const setUserpicThunk = createAsyncThunk(
 
 export const updateUserInfoThunk = createAsyncThunk(
   "app/updateUserInfo",
-  async (userInfo: CurrentUser, { getState, dispatch }) => {
-    const state = getState() as RootState;
+  async (userInfo: CurrentUser, { dispatch }) => {
     let resp;
     try {
       resp = await dbApi.updateUserInfo({
@@ -115,8 +110,7 @@ export const updateUserInfoThunk = createAsyncThunk(
 
 export const refreshCurrentUserThunk = createAsyncThunk(
   "app/refreshCurrentUser",
-  async (arg, { getState, dispatch }) => {
-    const state = getState() as RootState;
+  async (arg, { dispatch }) => {
     let resp: CurrentUser;
     try {
       resp = await dbApi.checkToken(localStorage.getItem("jwt") as string);

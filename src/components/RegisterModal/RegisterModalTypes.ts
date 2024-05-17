@@ -1,4 +1,3 @@
-import { RefObject } from "react";
 import { FormInfo, FormCallbacks } from "../ModalWithForm/ModalWithFormTypes";
 import { UserToRegister } from "../redux/slices/generalTypes";
 

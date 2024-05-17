@@ -14,11 +14,6 @@ import {
   resetGptAnswerId,
   resetGptAnswerText,
 } from "../redux/slices/Coaches/coachesSlice";
-import { chatApi } from "../../utils/api/ChatApi";
-import {
-  createChatThunk,
-  getChatByIdThunk,
-} from "../redux/slices/Chats/chatsAsync";
 import { Chat } from "../Chat/Chat";
 
 const CoachPage: React.FC<Props> = () => {
@@ -119,11 +114,6 @@ const CoachPage: React.FC<Props> = () => {
       ]
     : [];
 
-  const getChatWithCoach = async () => {
-    console.log("Click");
-    await dispatch(createChatThunk(currentCoach._id));
-  };
-
   return (
     <>
       {currentCoach === undefined && <Navigate to="/" />}
@@ -155,12 +145,7 @@ const CoachPage: React.FC<Props> = () => {
             style={{ opacity: aiPromptOpacity, display: aiPromptDisplay }}
             onClick={closeGptAnswer}
           >
-            <p className="coach-page__gpt-text">{gptText}</p>
-          </div>
-          <div className="coach-page__text">
-            <button type="button" onClick={getChatWithCoach}>
-              GetChat
-            </button>
+            <p className="coach-page__gpt-text">{`${translations.common.assistant[currentLanguage]}: "${gptText}"`}</p>
           </div>
           <div className="coach-page__chat">
             <Chat withUserId={currentCoach._id} />

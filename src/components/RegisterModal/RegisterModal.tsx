@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import "./RegisterModal.css";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { useForm } from "react-hook-form";

@@ -32,12 +32,12 @@ export const translations = {
         en: `Passwords should match`,
       },
       username_too_short: {
-        ru: `Имя пользователя должно быть не короче ${MIN_PASSWORD_LENGTH} символов`,
-        en: `Username should be at least ${MIN_PASSWORD_LENGTH} characters`,
+        ru: `Имя пользователя должно быть не короче ${MIN_USERNAME_LENGTH} символов`,
+        en: `Username should be at least ${MIN_USERNAME_LENGTH} characters`,
       },
       username_too_long: {
-        ru: `Имя пользователя должно быть не длиннее ${MAX_PASSWORD_LENGTH} символов`,
-        en: `Username should be maximum ${MAX_PASSWORD_LENGTH} characters long`,
+        ru: `Имя пользователя должно быть не длиннее ${MAX_USERNAME_LENGTH} символов`,
+        en: `Username should be maximum ${MAX_USERNAME_LENGTH} characters long`,
       },
       userpic_file_too_big: {
         ru: `Размер файла не должен превышать ${Math.floor(
@@ -91,6 +91,10 @@ export const translations = {
     resetSearch: {
       ru: "Сбросить поиск",
       en: "Reset search",
+    },
+    assistant: {
+      ru: "Ассистент",
+      en: "Assistant",
     },
   },
   header: {
@@ -442,24 +446,34 @@ export const translations = {
         en: "Logged out successfully",
       },
       gptAnswered: {
-        ru: "Получен ответ от GPT. Перенаправляем на страницу выбранного коуча",
-        en: "GPT answer recieved. Redirecting to the selected coache's page",
+        ru: "Получен ответ от ассистента. Перенаправляем на страницу выбранного коуча",
+        en: "Answer recieved. Redirecting to the selected coache's page",
       },
       gptDidntAnswer: {
-        ru: "Что-то GPT задумался. Попробуйте позже",
-        en: "For some reason GPT is not answering now. Try later",
+        ru: "Что-то ассистент задумался. Попробуйте позже",
+        en: "For some reason assistant is not answering now. Try later",
       },
     },
   },
   client: {
     main: {
+      ourCoaches: {
+        ru: "Наши коучи:",
+        en: "Our coaches:",
+      },
+    },
+    search: {
       searchForCoachHeading: {
         ru: "Найди своего коуча:",
         en: "Search for your coach:",
       },
-      ourCoaches: {
-        ru: "Наши коучи:",
-        en: "Our coaches:",
+      offerAssistanceText: {
+        ru: "...или попросите нашего ассистента подобрать вам коуча основываясь на вашем профиле. Это займёт несколько секунд",
+        en: "...or ask our assistant to select a coach for you based on your profile info. It will take a few seconds",
+      },
+      assistBtn: {
+        ru: "Подобрать коуча",
+        en: "Assist Me!",
       },
     },
   },
@@ -468,11 +482,27 @@ export const translations = {
       ru: "Недавние чаты",
       en: "Resent conversations",
     },
+    selectChat: {
+      ru: "Пожалуйста, выберите чат",
+      en: "Please, select a chat",
+    },
+    сhatListEmpty: {
+      ru: "У вас пока нет начатых чатов",
+      en: "You didn't start any chats yet",
+    },
     errorMessages: {
       generalChatError: {
         ru: "Что-то не так с чатом",
         en: "Something wrong with this chat",
       },
+    },
+    enterMessage: {
+      ru: "Введите сообщение",
+      en: "Enter your message",
+    },
+    sendMessage: {
+      ru: "Послать сообщение",
+      en: "Send message",
     },
   },
   modals: {

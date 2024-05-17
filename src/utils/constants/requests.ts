@@ -1,7 +1,7 @@
-export const baseUrl =
-  process.env.NODE_ENV === "production"
-    ? "https://api.wtwrdc.surfnet.ca"
-    : "http://localhost:3001";
+export const baseUrl = "http://api.coachfind.me";
+// process.env.NODE_ENV === "production"
+//   ? "https://104.199.113.137"
+//   : "http://localhost:3001";
 
 export const dbApiRequest = {
   baseUrl: baseUrl,
