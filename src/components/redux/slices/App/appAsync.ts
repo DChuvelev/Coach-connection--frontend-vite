@@ -6,7 +6,7 @@ import { setCurrentUser, setLoggedIn, setLoginFormValues } from "./appSlice";
 
 export const registerUserThunk = createAsyncThunk(
   "app/registerUser",
-  async (arg, { getState, dispatch }) => {
+  async (_, { getState, dispatch }) => {
     const state = getState() as RootState;
     const userToRegister = {
       email: state.app.registerFormValues.email,
@@ -36,7 +36,7 @@ export const registerUserThunk = createAsyncThunk(
 
 export const loginThunk = createAsyncThunk(
   "app/login",
-  async (arg, { getState, dispatch }) => {
+  async (_, { getState, dispatch }) => {
     const state = getState() as RootState;
     const userToLogin = {
       email: state.app.loginFormValues.email,
@@ -60,7 +60,7 @@ export const loginThunk = createAsyncThunk(
 
 export const initUserFromTokenThunk = createAsyncThunk(
   "app/initUser",
-  async (arg, { dispatch }) => {
+  async (_, { dispatch }) => {
     let resp: CurrentUser;
     try {
       resp = await dbApi.checkToken(localStorage.getItem("jwt") as string);
@@ -110,7 +110,7 @@ export const updateUserInfoThunk = createAsyncThunk(
 
 export const refreshCurrentUserThunk = createAsyncThunk(
   "app/refreshCurrentUser",
-  async (arg, { dispatch }) => {
+  async (_, { dispatch }) => {
     let resp: CurrentUser;
     try {
       resp = await dbApi.checkToken(localStorage.getItem("jwt") as string);

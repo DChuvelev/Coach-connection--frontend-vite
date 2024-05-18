@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from "react";
+import { PropsWithChildren } from "react";
 import "./ModalWithForm.css";
 import { Modal } from "../Modal/Modal";
 import { Props } from "./ModalWithFormTypes";

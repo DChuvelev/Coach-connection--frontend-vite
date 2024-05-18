@@ -1,5 +1,7 @@
 # CoachFind 🤝
 
+You can find it at: https://coachfind.me
+
 Find your perfect coach with CoachFind - a platform connecting individuals with coaches specializing in various fields.
 
 ## Table of Contents

@@ -12,7 +12,7 @@ import { setDoneMessage } from "../App/appSlice";
 
 export const getAllCoachesThunk = createAsyncThunk(
   "coaches/getAll",
-  async (arg, { dispatch }) => {
+  async (_, { dispatch }) => {
     let resp: { data: Array<CoachInfo> };
     try {
       resp = await dbApi.getAllCoaches(localStorage.getItem("jwt") as string);
@@ -25,7 +25,7 @@ export const getAllCoachesThunk = createAsyncThunk(
 
 export const startSlideShowCounter = createAsyncThunk(
   "coaches/startSlideShowCounter",
-  async (arg, { dispatch }) => {
+  async (_, { dispatch }) => {
     dispatch(
       setSlideShowTimerId(
         window.setInterval(() => {
@@ -38,7 +38,7 @@ export const startSlideShowCounter = createAsyncThunk(
 
 export const removeSlideShowCounter = createAsyncThunk(
   "coaches/removeSlideShowCounter",
-  async (arg, { getState, dispatch }) => {
+  async (_, { getState, dispatch }) => {
     const state = getState() as RootState;
     dispatch(setSlideShowTimerId(0));
     window.clearInterval(state.coaches.slideShowtimerId);

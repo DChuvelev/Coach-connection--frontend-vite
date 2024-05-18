@@ -58,7 +58,7 @@ export const getOptionsList = ({
   labelClassName,
   textClassName,
 }: {
-  list: typeof Object;
+  list: Object;
   addProps: object;
   type: string;
   disabled: boolean;
