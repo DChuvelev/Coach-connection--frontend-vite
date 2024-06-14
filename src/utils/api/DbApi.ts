@@ -1,6 +1,8 @@
 import { dbApiRequest } from "../constants/requests";
 import { DbApiConstructorProps } from "./DbApiTypes";
 import { CurrentUser } from "../../components/redux/slices/App/appTypes";
+import { IEmailFormInputs } from "../../components/UpdateEmail/UpdateEmailTypes";
+import { IPasswordFormInputs } from "../../components/UpdatePassword/UpdatePasswordTypes";
 
 export default class DbApi {
   _baseUrl: string;
@@ -31,7 +33,7 @@ export default class DbApi {
 
   _auth(userInfo: Record<string, unknown>, path: string) {
     return this._request(
-      `${this._baseUrl}/${path}`,
+      `${this._baseUrl}/users/${path}`,
       {
         headers: this._headers,
         method: "POST",
@@ -67,8 +69,54 @@ export default class DbApi {
     userInfo: CurrentUser;
     token: string;
   }) => {
+    //we remove not updatable info from update fields
+    const {
+      _id,
+      __v,
+      chats,
+      role,
+      gotNewMessagesInChatIDs,
+      triggeredChatId,
+      ...infoToUpdate
+    } = userInfo;
     return this._request(
       `${this._baseUrl}/users/me`,
+      {
+        headers: { ...this._headers, authorization: `Bearer ${token}` },
+        body: JSON.stringify(infoToUpdate),
+        method: "PATCH",
+      },
+      "Error:"
+    );
+  };
+
+  updateUserEmail = ({
+    userInfo,
+    token,
+  }: {
+    userInfo: IEmailFormInputs;
+    token: string;
+  }) => {
+    return this._request(
+      `${this._baseUrl}/users/me`,
+      {
+        headers: { ...this._headers, authorization: `Bearer ${token}` },
+        body: JSON.stringify(userInfo),
+        method: "PATCH",
+      },
+      "Error:"
+    );
+  };
+
+  updateUserPassword = ({
+    userInfo,
+    token,
+  }: {
+    userInfo: IPasswordFormInputs;
+    token: string;
+  }) => {
+    return this._request(
+      `${this._baseUrl}/users/me/password`,
       {
         headers: { ...this._headers, authorization: `Bearer ${token}` },
         body: JSON.stringify(userInfo),

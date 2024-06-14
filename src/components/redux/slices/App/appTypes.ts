@@ -1,5 +1,4 @@
 import { translations } from "../../../../utils/constants/translations";
-import { LangChoice } from "../../../../utils/models";
 import { loginFormDefaultData } from "../../../LoginModal/LoginModalTypes";
 import { registerFormDefaultData } from "../../../RegisterModal/RegisterModalTypes";
 import {
@@ -10,11 +9,15 @@ import {
   statusType,
 } from "../generalTypes";
 import { IChatMember, IMessage } from "../Chats/chatsTypes";
+import { LangChoice } from "../../../../utils/constants/langs";
+import { IEmailFormInputs } from "../../../UpdateEmail/UpdateEmailTypes";
+import { IPasswordFormInputs } from "../../../UpdatePassword/UpdatePasswordTypes";
 
 export type Gender = "male" | "female" | "nonbinary" | "";
 
 export interface User {
   _id: string;
+  __v?: number;
   role: Role;
   name: string;
   avatar: string;
@@ -109,3 +112,12 @@ export interface ISocketNewMessageData {
   messageId: string;
   timestamp: string;
 }
+
+export type UpdateType = "profileUpdate" | "passwordUpdate" | "emailUpdate";
+export type UserUpdateInfoType = (
+  | CurrentUser
+  | IEmailFormInputs
+  | IPasswordFormInputs
+) & {
+  updateType: UpdateType;
+};

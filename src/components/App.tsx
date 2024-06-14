@@ -48,6 +48,7 @@ import io from "socket.io-client";
 import { baseUrl } from "../utils/constants/requests";
 import { ActiveModalsList } from "./AppTypes";
 import MyChats from "./MyChats/MyChats";
+import { UpdateUserInfoModal } from "./UpdateUserInfoModal/UpdateUserInfoModal";
 
 function App() {
   const [activeModal, setActiveModal] = useState<ActiveModalsList>("");
@@ -188,12 +189,12 @@ function App() {
     setActiveModal("form");
     setFormInfo({
       formType: "login",
-      name: `${translations.header.login[currentLanguage]} ${translations.common.as[currentLanguage]}...`,
+      name: `${translations.header.login[currentLanguage]} ${translations.common.words.as[currentLanguage]}...`,
       btnTxt: translations.header.login[currentLanguage],
       redirBtnTxt: `${
-        translations.common.or[currentLanguage]
+        translations.common.words.or[currentLanguage]
       } ${translations.header.register[currentLanguage].toLowerCase()}`,
-      btnTxtTypeBusy: translations.login.logging[currentLanguage],
+      btnTxtTypeBusy: translations.login.common.logging[currentLanguage],
     });
   };
 
@@ -232,9 +233,9 @@ function App() {
       name: translations.header.register[currentLanguage],
       btnTxt: translations.header.register[currentLanguage],
       redirBtnTxt: `${
-        translations.common.or[currentLanguage]
+        translations.common.words.or[currentLanguage]
       } ${translations.header.login[currentLanguage].toLowerCase()}`,
-      btnTxtTypeBusy: translations.common.saving[currentLanguage],
+      btnTxtTypeBusy: translations.common.words.saving[currentLanguage],
     });
   };
 
@@ -246,6 +247,11 @@ function App() {
     handleOpenLoginModal();
   };
 
+  //---------------------------- User update ------------------------------
+
+  const handleOpenUpdateUserInfoModal = () => {
+    setActiveModal("update-user-info");
+  };
   return (
     <>
       {(appStatus === "waiting" || appStatus === "starting") && <Preloader />}
@@ -275,6 +281,7 @@ function App() {
         <Header
           handleOpenLangMenu={handleOpenLangMenu}
           handleRegister={handleOpenRegisterModal}
+          handleUpdateUserInfo={handleOpenUpdateUserInfoModal}
           handleLogin={handleOpenLoginModal}
           handleLogout={handleLogout}
         />
@@ -366,6 +373,9 @@ function App() {
             onOk={handleOpenLoginModal}
             onClose={handleModalClose}
           />
+        )}
+        {activeModal === "update-user-info" && (
+          <UpdateUserInfoModal onClose={handleModalClose} />
         )}
       </div>
     </>

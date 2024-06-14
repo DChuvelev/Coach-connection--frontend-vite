@@ -48,7 +48,9 @@ export const ClientProfile: React.FC<Props> = () => {
   const formValues = watch();
 
   const onSubmit = () => {
-    dispatch(updateUserInfoThunk(formValues));
+    dispatch(
+      updateUserInfoThunk({ ...formValues, updateType: "profileUpdate" })
+    );
   };
 
   useEffect(() => {
@@ -70,21 +72,21 @@ export const ClientProfile: React.FC<Props> = () => {
 
           <fieldset className="user-profile__info-section-fieldset">
             <legend className="user-profile__legend">
-              {translations.profile.generalInfo[currentLanguage]}
+              {translations.profile.common.generalInfo[currentLanguage]}
             </legend>
 
             {/* ---------------  User name input ---------------- */}
 
             <fieldset className="user-profile__row-fieldset">
               <legend className="user-profile__legend">
-                {translations.profile.nameAndBirthday[currentLanguage]}
+                {translations.profile.common.nameAndBirthday[currentLanguage]}
               </legend>
               <div className="user-profile__input-container">
                 <input
                   type="text"
                   className="user-profile__text-input"
                   id="user-name"
-                  placeholder={translations.common.name[currentLanguage]}
+                  placeholder={translations.common.words.name[currentLanguage]}
                   {...register("name", {
                     minLength: {
                       value: MIN_USERNAME_LENGTH,
@@ -124,7 +126,7 @@ export const ClientProfile: React.FC<Props> = () => {
 
             <fieldset className="user-profile__row-fieldset">
               <legend className="user-profile__legend">
-                {translations.profile.gender[currentLanguage]}
+                {translations.profile.common.gender[currentLanguage]}
               </legend>
               {getOptionsList({
                 list: translations.profile.genderTypes,
@@ -145,7 +147,7 @@ export const ClientProfile: React.FC<Props> = () => {
               }`}
             >
               <legend className="user-profile__legend">
-                {translations.profile.language[currentLanguage]}
+                {translations.profile.common.language[currentLanguage]}
               </legend>
               {getOptionsList({
                 list: translations.profile.languagesList,
@@ -179,7 +181,7 @@ export const ClientProfile: React.FC<Props> = () => {
               ref={aboutAreaRef}
             >
               <legend className="user-profile__legend">
-                {translations.profile.about[currentLanguage]}
+                {translations.profile.common.about[currentLanguage]}
               </legend>
               <textarea
                 className="user-profile__textarea-input"
@@ -194,7 +196,7 @@ export const ClientProfile: React.FC<Props> = () => {
           </fieldset>
         </fieldset>
         <button type="submit" className="user-profile__save-btn">
-          {translations.profile.saveProfile[currentLanguage]}
+          {translations.profile.common.saveProfile[currentLanguage]}
         </button>
       </form>
       <div className="user-profile__right"></div>

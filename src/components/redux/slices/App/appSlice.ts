@@ -1,5 +1,4 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { LangChoice } from "../../../../utils/models";
 import {
   LoginFormData,
   UserToRegister,
@@ -22,6 +21,7 @@ import {
   updateUserInfoThunk,
   initUserFromTokenThunk,
 } from "./appAsync";
+import { LangChoice } from "../../../../utils/constants/langs";
 
 export const appSlice = createSlice({
   name: "app",
@@ -51,6 +51,7 @@ export const appSlice = createSlice({
     },
     setAppStatus: (state, action: PayloadAction<statusType>) => {
       state.appStatus = action.payload;
+      console.log(`App status set to ${action.payload}`);
     },
     setDoneMessage: (
       state,
@@ -143,7 +144,7 @@ export const appSlice = createSlice({
       .addCase(
         setUserpicThunk.fulfilled,
         (state, action: PayloadAction<User>) => {
-          if (!state.doneMessage) {
+          if (state.doneMessage === "userPicUpdateSuccess") {
             //In case it's not a part of reg+login process
             state.appStatus = "done";
           }
@@ -156,15 +157,27 @@ export const appSlice = createSlice({
       })
       .addCase(updateUserInfoThunk.pending, (state) => {
         state.appStatus = "waiting";
+        state.authStatus = "loading";
       })
       .addCase(updateUserInfoThunk.fulfilled, (state) => {
         state.doneMessage = "savedUserInfo";
         state.appStatus = "done";
+        state.authMessage = "";
+        state.authStatus = "idle";
         // state.appStatus = "normal";
       })
-      .addCase(updateUserInfoThunk.rejected, (state) => {
-        state.appStatus = "error";
-        state.errorMessage = "failedToUpdUserInfo";
+      .addCase(updateUserInfoThunk.rejected, (state, action) => {
+        if (
+          action.error.message?.includes("User already exists") ||
+          action.error.message?.includes("Wrong old password")
+        ) {
+          state.authStatus = "failed";
+          state.appStatus = "normal";
+          state.authMessage = action.error.message;
+        } else {
+          state.appStatus = "error";
+          state.errorMessage = "failedToUpdUserInfo";
+        }
       })
       .addCase(initUserFromTokenThunk.pending, (state) => {
         state.appStatus = "waiting";

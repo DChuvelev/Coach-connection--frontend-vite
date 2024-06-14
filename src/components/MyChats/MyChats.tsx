@@ -36,8 +36,8 @@ const MyChats: React.FC<Props> = () => {
         {selectedChat === "" && (
           <div className="my-chats__message">
             {currentUser.chats.length > 0
-              ? translations.chats.selectChat[currentLanguage]
-              : translations.chats.сhatListEmpty[currentLanguage]}
+              ? translations.chats.common.selectChat[currentLanguage]
+              : translations.chats.common.сhatListEmpty[currentLanguage]}
           </div>
         )}
       </div>

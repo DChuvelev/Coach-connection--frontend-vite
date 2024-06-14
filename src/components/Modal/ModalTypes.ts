@@ -1,5 +1,7 @@
+import { ActiveModalsList } from "../AppTypes";
+
 export interface Props {
   children: React.ReactNode;
-  activeModal: string;
+  activeModal: ActiveModalsList;
   onClose: () => void;
 }

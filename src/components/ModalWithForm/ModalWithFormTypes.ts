@@ -1,3 +1,5 @@
+import { ActiveModalsList } from "../AppTypes";
+
 export interface FormInfo {
   formType: string;
   name: string;
@@ -22,7 +24,7 @@ export const defaultFormInfo: FormInfo = {
 export interface Props {
   formInfo: FormInfo;
   formCallbacks: FormCallbacks;
-  activeModal: string;
+  activeModal: ActiveModalsList;
   onClose: () => void;
   isBusy: boolean;
   errorMessage: string | undefined;

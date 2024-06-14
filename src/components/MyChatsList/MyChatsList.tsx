@@ -23,7 +23,7 @@ const MyChatsList: React.FC<Props> = ({
   return (
     <div className="my-chats-list">
       <h3 className="my-chats-list__heading">
-        {translations.chats.conversations[currentLanguage]}
+        {translations.chats.common.conversations[currentLanguage]}
       </h3>
       <div className="my-chats-list__container">
         {currentUser.chats.length > 0 &&

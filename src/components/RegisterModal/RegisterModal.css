@@ -39,11 +39,15 @@
   box-shadow: 0px 5px 15px 0px rgba(14, 26, 57, 0.25);
 }
 
-.register__switch-btn-container:hover input ~ .register__switch-btn {
+.register__switch-btn-container input:focus+.register__switch-btn {
+  border: 2px solid black;
+}
+
+.register__switch-btn-container:hover input~.register__switch-btn {
   background-color: #888888;
 }
 
-.register__switch-btn-container input:checked ~ .register__switch-btn {
+.register__switch-btn-container input:checked~.register__switch-btn {
   background-color: rgb(233, 138, 21);
 }
 
@@ -108,7 +112,18 @@
 } */
 
 .register__input_type_file {
-  display: none;
+  /* display: none; */
+
+  opacity: 0;
+  /* Make the input nearly transparent */
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  /* Cover the entire label area */
+  height: 100%;
+  /* Cover the entire label area */
 }
 
 .register__file-label {
@@ -139,9 +154,15 @@
   color: white;
 }
 
+.register__file-label:has(.register__input_type_file:focus) {
+  border: 2px solid black;
+  /* outline: none; */
+}
+
 .register__file-label-txt {
   margin: 0;
 }
+
 .register__input-field_type_file {
   display: flex;
   align-items: center;

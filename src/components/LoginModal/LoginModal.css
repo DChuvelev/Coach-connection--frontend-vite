@@ -39,12 +39,16 @@
   box-shadow: 0px 5px 15px 0px rgba(14, 26, 57, 0.25);
 }
 
-.login__switch-btn-container:hover input ~ .login__switch-btn {
+.login__switch-btn-container:hover input~.login__switch-btn {
   background-color: #888888;
 }
 
-.login__switch-btn-container input:checked ~ .login__switch-btn {
+.login__switch-btn-container input:checked~.login__switch-btn {
   background-color: rgb(233, 138, 21);
+}
+
+.login__switch-btn-container input:focus+.login__switch-btn {
+  border: 2px solid black;
 }
 
 .login__input-fieldset {
