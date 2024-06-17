@@ -25,7 +25,9 @@
 }
 
 .register__switch-btn {
-  display: inline-block;
+  /* display: inline-block; */
+  display: flex;
+  align-items: center;
   font-size: 18px;
   line-height: 60px;
   width: fit-content;
@@ -175,4 +177,13 @@
 
 .register__file-icon {
   width: 16px;
+}
+
+@media only screen and (max-width: 525px) {
+  .register__switch-btn {
+    font-size: 16px;
+    line-height: 1.1;
+    text-align: center;
+
+  }
 }

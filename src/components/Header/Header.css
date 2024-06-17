@@ -9,6 +9,7 @@
   display: grid;
   grid-template-columns: auto 1fr auto;
   max-height: 100%;
+  gap: 8px;
 }
 
 .header__menu-items {
@@ -113,4 +114,34 @@
 .header__avatar {
   height: 100%;
   /* aspect-ratio: 1/1; */
+}
+
+@media only screen and (max-width: 515px) {
+  .header__menu-item-btn {
+    font-size: 10px;
+  }
+
+  .header__link {
+    font-size: 10px;
+  }
+
+  .header__menu-items {
+    gap: 10px;
+  }
+
+  .header {
+
+    padding: 0 4px;
+  }
+
+  .header__logo-cont {
+
+    width: 24px;
+  }
+
+  .header__logo {
+    top: 8px;
+    height: 24px;
+
+  }
 }

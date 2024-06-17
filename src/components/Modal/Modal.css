@@ -135,3 +135,10 @@
 .modal__close-btn:hover {
   opacity: 0.6;
 }
+
+@media only screen and (max-width: 525px) {
+  .modal__content {
+    width: 100%;
+    margin: 16px 8px;
+  }
+}

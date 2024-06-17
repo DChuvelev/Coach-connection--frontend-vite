@@ -45,3 +45,9 @@
 .multitab__heading-container {
   background-color: white;
 }
+
+@media only screen and (max-width: 525px) {
+  .multitab__tab-contents {
+    height: 500px;
+  }
+}
