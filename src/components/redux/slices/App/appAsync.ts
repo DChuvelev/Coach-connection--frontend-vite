@@ -78,6 +78,7 @@ export const initUserFromTokenThunk = createAsyncThunk(
 export const setUserpicThunk = createAsyncThunk(
   "app/setUserpic",
   async (userpic: File | undefined) => {
+    // console.log(`In thunk - userpic info: ${userpic}`);
     const dataToSend = new FormData();
     if (userpic) dataToSend.append("avatar", userpic);
     let resp;

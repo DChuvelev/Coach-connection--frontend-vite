@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./CleverAvatar.css";
-import { dbApiRequest } from "../../utils/constants/requests";
 import { Props } from "./CleverAvatarTypes";
 export const CleverAvatar: React.FC<Props> = ({
   avatar,

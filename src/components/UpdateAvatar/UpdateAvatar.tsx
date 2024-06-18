@@ -57,7 +57,9 @@ export const UpdateAvatar: React.FC<Props> = () => {
   const handleSaveNewAvatar: SubmitHandler<avatarFormInputs> = (data) => {
     if (data.userpic && data.userpic.length !== 0) {
       const userPic = data.userpic?.item(0);
-      if (userPic) dispatch(setUserpicThunk(userPic));
+      if (userPic) {
+        dispatch(setUserpicThunk(userPic));
+      }
     } else {
       setFileError(
         translations.update.tabs.avatar.noFileSelected[currentLanguage]

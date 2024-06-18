@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./UpdateUserInfoModal.css";
 import { Props } from "./UpdateUserInfoModalTypes";
 import { Modal } from "../Modal/Modal";

@@ -14,7 +14,6 @@ import { resetAuthError } from "../redux/slices/App/appSlice";
 
 export const UpdatePassword: React.FC<Props> = () => {
   const currentLanguage = useAppSelector((state) => state.app.lang);
-  const currentUser = useAppSelector((state) => state.app.currentUser);
   const backendErrorMessage = useAppSelector((state) => state.app.authMessage);
   const authStatus = useAppSelector((state) => state.app.authStatus);
   const dispatch = useAppDispatch();

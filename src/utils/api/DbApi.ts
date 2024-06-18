@@ -133,15 +133,24 @@ export default class DbApi {
     userpic: FormData;
     token: string;
   }) => {
+    const requestInit = {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+      body: userpic,
+      method: "POST",
+    };
+
+    // console.log(
+    //   "Making upload request to",
+    //   this._baseUrl + "/userpics",
+    //   "with",
+    //   requestInit
+    // );
     return this._request(
       `${this._baseUrl}/userpics`,
-      {
-        headers: { authorization: `Bearer ${token}` },
-        // headers: this._headersFile,
-        body: userpic,
-        method: "POST",
-      },
-      "Error:"
+      requestInit,
+      "Error uploading userpic:"
     );
   };
 

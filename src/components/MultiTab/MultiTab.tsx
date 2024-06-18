@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./MultiTab.css";
 import { Props } from "./MultiTabTypes";
 import { useAppDispatch } from "../redux/hooks";
