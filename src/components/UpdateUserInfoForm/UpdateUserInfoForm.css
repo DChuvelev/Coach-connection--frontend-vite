@@ -1,0 +1,62 @@
+.update-user__form {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+
+.update-user__submit-btn {
+  font-size: 16px;
+  line-height: 1.25;
+  width: fit-content;
+  margin-top: 28px;
+  padding: 8px 16px;
+  /* height: 60px; */
+  border-radius: 30px;
+  border: none;
+  background-color: rgba(47, 113, 229, 1);
+  color: white;
+  box-shadow: 0px 5px 15px 0px rgba(14, 26, 57, 0.25);
+}
+
+.update-user__submit-btn:hover {
+  background-color: rgba(2, 85, 229, 1);
+}
+
+.update-user__error-message {
+  position: absolute;
+  color: red;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: normal;
+  margin: 0;
+  z-index: 2;
+  height: 0;
+}
+
+.update-user__err-cont {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-left: 8px;
+}
+
+.update-user__form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 0 24px;
+  text-align: center;
+  height: 100%;
+}
+
+.update-user__form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}

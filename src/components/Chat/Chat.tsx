@@ -268,7 +268,9 @@ export const Chat: React.FC<Props> = ({ withUserId }) => {
           <form className="chat__message-form" onSubmit={handleSubmit}>
             <textarea
               className="chat__input"
-              placeholder={translations.chats.enterMessage[currentLanguage]}
+              placeholder={
+                translations.chats.common.enterMessage[currentLanguage]
+              }
               onChange={handleInputChange}
               value={messageText}
               ref={inputAreaRef}
@@ -276,7 +278,7 @@ export const Chat: React.FC<Props> = ({ withUserId }) => {
             <div className="chat__buttons-cont">
               {/* Here we will put smiles, attachments, etc... */}
               <button type="submit" className="chat__send-btn">
-                {translations.chats.sendMessage[currentLanguage]}
+                {translations.chats.common.sendMessage[currentLanguage]}
               </button>
             </div>
           </form>

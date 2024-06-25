@@ -215,3 +215,14 @@
 .user-profile__save-btn:hover {
   background-color: rgba(2, 85, 229, 1);
 }
+
+@media only screen and (max-width: 515px) {
+  .user-profile__legend {
+    font-size: 12px;
+  }
+
+  .user-profile__label-text {
+    font-size: 12px;
+  }
+
+}

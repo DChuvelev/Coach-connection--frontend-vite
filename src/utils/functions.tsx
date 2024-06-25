@@ -1,7 +1,7 @@
 import { CoachInfo } from "../components/redux/slices/Coaches/coachesTypes";
+import { LangChoice, TranslationsObjectSegment } from "./constants/langs";
 import { dbApiRequest } from "./constants/requests";
 import { Translations } from "./constants/translations";
-import { LangChoice } from "./models";
 
 export const getAvatar = (user: CoachInfo) => {
   if (user?.avatar) {
@@ -58,7 +58,7 @@ export const getOptionsList = ({
   labelClassName,
   textClassName,
 }: {
-  list: Object;
+  list: TranslationsObjectSegment;
   addProps: object;
   type: string;
   disabled: boolean;

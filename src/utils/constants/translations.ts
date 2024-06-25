@@ -48,53 +48,55 @@ export const translations = {
         )}kB`,
       },
     },
-    or: {
-      en: "or",
-      ru: "или",
-    },
-    as: {
-      en: "as",
-      ru: "как",
-    },
-    name: {
-      ru: "Имя",
-      en: "Name",
-    },
-    password: {
-      ru: "Пароль",
-      en: "Password",
-    },
-    confirm_password: {
-      ru: "Подтвердите пароль",
-      en: "Confirm password",
-    },
-    email: {
-      ru: "Адрес электронной почты",
-      en: "User email",
-    },
-    saving: {
-      ru: "Сохранение...",
-      en: "Saving...",
-    },
-    download_avatar: {
-      ru: "Загрузить аватар",
-      en: "Download avatar",
-    },
-    file_not_loaded: {
-      ru: "Файл ещё не загружен",
-      en: "File not loaded",
-    },
-    file_loaded: {
-      ru: "Загружен файл: ",
-      en: "File loaded: ",
-    },
-    resetSearch: {
-      ru: "Сбросить поиск",
-      en: "Reset search",
-    },
-    assistant: {
-      ru: "Ассистент",
-      en: "Assistant",
+    words: {
+      or: {
+        en: "or",
+        ru: "или",
+      },
+      as: {
+        en: "as",
+        ru: "как",
+      },
+      name: {
+        ru: "Имя",
+        en: "Name",
+      },
+      password: {
+        ru: "Пароль",
+        en: "Password",
+      },
+      confirm_password: {
+        ru: "Подтвердите пароль",
+        en: "Confirm password",
+      },
+      email: {
+        ru: "Адрес электронной почты",
+        en: "User email",
+      },
+      saving: {
+        ru: "Сохранение...",
+        en: "Saving...",
+      },
+      download_avatar: {
+        ru: "Загрузить аватар",
+        en: "Download avatar",
+      },
+      file_not_loaded: {
+        ru: "Файл ещё не загружен",
+        en: "File not loaded",
+      },
+      file_loaded: {
+        ru: "Загружен файл: ",
+        en: "File loaded: ",
+      },
+      resetSearch: {
+        ru: "Сбросить поиск",
+        en: "Reset search",
+      },
+      assistant: {
+        ru: "Ассистент",
+        en: "Assistant",
+      },
     },
   },
   header: {
@@ -130,9 +132,11 @@ export const translations = {
     },
   },
   login: {
-    logging: {
-      ru: "Вход...",
-      en: "Logging in...",
+    common: {
+      logging: {
+        ru: "Вход...",
+        en: "Logging in...",
+      },
     },
     role: {
       coach: {
@@ -166,14 +170,45 @@ export const translations = {
     },
   },
   profile: {
-    generalInfo: {
-      ru: "Общая информация",
-      en: "General information",
+    common: {
+      generalInfo: {
+        ru: "Общая информация",
+        en: "General information",
+      },
+      gender: {
+        ru: "Пол",
+        en: "Gender",
+      },
+      language: {
+        ru: "Языки:",
+        en: "Spoken languages",
+      },
+      birthDate: {
+        ru: "Дата рождения",
+        en: "Your birth date",
+      },
+      age: {
+        ru: "Возраст",
+        en: "Age",
+      },
+      nameAndBirthday: {
+        ru: "Имя и дата рождения:",
+        en: "Your name and your birth date:",
+      },
+      about: {
+        ru: "Пару слов о себе",
+        en: "Tell about yourself",
+      },
+      aboutShort: {
+        ru: "О себе",
+        en: "About",
+      },
+      saveProfile: {
+        ru: "Сохранить",
+        en: "Save profile",
+      },
     },
-    gender: {
-      ru: "Пол",
-      en: "Gender",
-    },
+
     genderTypes: {
       male: {
         ru: "Мужской",
@@ -192,10 +227,7 @@ export const translations = {
         en: "",
       },
     },
-    language: {
-      ru: "Языки:",
-      en: "Spoken languages",
-    },
+
     languagesList: {
       ru: {
         ru: "Русский",
@@ -218,30 +250,7 @@ export const translations = {
         en: "Hebrew",
       },
     },
-    birthDate: {
-      ru: "Дата рождения",
-      en: "Your birth date",
-    },
-    age: {
-      ru: "Возраст",
-      en: "Age",
-    },
-    nameAndBirthday: {
-      ru: "Имя и дата рождения:",
-      en: "Your name and your birth date:",
-    },
-    about: {
-      ru: "Пару слов о себе",
-      en: "Tell about yourself",
-    },
-    aboutShort: {
-      ru: "О себе",
-      en: "About",
-    },
-    saveProfile: {
-      ru: "Сохранить",
-      en: "Save profile",
-    },
+
     errors: {
       checkAtLeastOne: {
         ru: "Нужно выбрать хотя бы один вариант",
@@ -250,26 +259,33 @@ export const translations = {
     },
   },
   coach: {
-    professionalInfo: {
-      ru: "Профессиональные данные",
-      en: "Professional information",
+    common: {
+      professionalInfo: {
+        ru: "Профессиональные данные",
+        en: "Professional information",
+      },
+      chooseSkills: {
+        ru: "Сферы деятельности",
+        en: "Fields of activity",
+      },
+      chooseSertification: {
+        ru: "Сертификация",
+        en: "Sertification",
+      },
+      choosePayment: {
+        ru: "Способы вознаграждения",
+        en: "Acceptable rewards",
+      },
+      describePaymentScheme: {
+        ru: "Схема оплаты",
+        en: "Payment scheeme",
+      },
+      status: {
+        ru: "Статус:",
+        en: "Status:",
+      },
     },
-    chooseSkills: {
-      ru: "Сферы деятельности",
-      en: "Fields of activity",
-    },
-    chooseSertification: {
-      ru: "Сертификация",
-      en: "Sertification",
-    },
-    choosePayment: {
-      ru: "Способы вознаграждения",
-      en: "Acceptable rewards",
-    },
-    describePaymentScheme: {
-      ru: "Схема оплаты",
-      en: "Payment scheeme",
-    },
+
     skills: {
       goalSetting: {
         ru: "Постановка целей ",
@@ -374,10 +390,7 @@ export const translations = {
         en: "Money",
       },
     },
-    status: {
-      ru: "Статус:",
-      en: "Status:",
-    },
+
     statusChoise: {
       active: {
         ru: "Работаю",
@@ -478,31 +491,34 @@ export const translations = {
     },
   },
   chats: {
-    conversations: {
-      ru: "Недавние чаты",
-      en: "Resent conversations",
+    common: {
+      conversations: {
+        ru: "Недавние чаты",
+        en: "Resent conversations",
+      },
+      selectChat: {
+        ru: "Пожалуйста, выберите чат",
+        en: "Please, select a chat",
+      },
+      сhatListEmpty: {
+        ru: "У вас пока нет начатых чатов",
+        en: "You didn't start any chats yet",
+      },
+      enterMessage: {
+        ru: "Введите сообщение",
+        en: "Enter your message",
+      },
+      sendMessage: {
+        ru: "Послать сообщение",
+        en: "Send message",
+      },
     },
-    selectChat: {
-      ru: "Пожалуйста, выберите чат",
-      en: "Please, select a chat",
-    },
-    сhatListEmpty: {
-      ru: "У вас пока нет начатых чатов",
-      en: "You didn't start any chats yet",
-    },
+
     errorMessages: {
       generalChatError: {
         ru: "Что-то не так с чатом",
         en: "Something wrong with this chat",
       },
-    },
-    enterMessage: {
-      ru: "Введите сообщение",
-      en: "Enter your message",
-    },
-    sendMessage: {
-      ru: "Послать сообщение",
-      en: "Send message",
     },
   },
   modals: {
@@ -527,6 +543,63 @@ export const translations = {
       okBtn: {
         ru: "Войти",
         en: "Sign in",
+      },
+    },
+  },
+  update: {
+    common: {
+      updateUserInfo: {
+        ru: "Обновить пользовательские данные",
+        en: "Update user info",
+      },
+      done: {
+        ru: "Готово",
+        en: "Done",
+      },
+    },
+    tabs: {
+      avatar: {
+        avatar: {
+          en: "Avatar",
+          ru: "Аватар",
+        },
+        saveAvatar: {
+          en: "Save avatar",
+          ru: "Сохранить аватар",
+        },
+        noFileSelected: {
+          ru: "Файл не выбран",
+          en: "No file selected",
+        },
+      },
+      email: {
+        email: { en: "Email", ru: "Почта" },
+        saveEmail: {
+          en: "Save new email address",
+          ru: "Сохранить новый адрес",
+        },
+      },
+      password: {
+        password: {
+          en: "Password",
+          ru: "Пароль",
+        },
+        savePassword: {
+          en: "Save new password",
+          ru: "Сохранить новый пароль",
+        },
+        oldPassword: {
+          en: "Old password",
+          ru: "Старый пароль",
+        },
+        newPassword: {
+          en: "New password",
+          ru: "Новый пароль",
+        },
+        confirmNewPassword: {
+          en: "Confirm new password",
+          ru: "Подтвердите новый пароль",
+        },
       },
     },
   },

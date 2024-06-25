@@ -2,6 +2,7 @@
   padding: 28px 0 18px;
   text-align: center;
 }
+
 .modal__form {
   display: flex;
   flex-direction: column;
@@ -44,6 +45,7 @@
   line-height: 1.25;
   background-color: transparent;
   border: none;
+  border-radius: 30px;
   color: black;
   opacity: 0.5;
   padding: 0 16px 0 16px;

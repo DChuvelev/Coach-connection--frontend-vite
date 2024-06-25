@@ -51,11 +51,11 @@ const CoachPage: React.FC<Props> = () => {
   const coachInfoArray = currentCoach
     ? [
         {
-          left: translations.common.name[currentLanguage],
+          left: translations.common.words.name[currentLanguage],
           right: [currentCoach.name],
         },
         {
-          left: translations.profile.gender[currentLanguage],
+          left: translations.profile.common.gender[currentLanguage],
           right: [
             translations.profile.genderTypes[currentCoach.gender][
               currentLanguage
@@ -63,11 +63,11 @@ const CoachPage: React.FC<Props> = () => {
           ],
         },
         {
-          left: translations.profile.age[currentLanguage],
+          left: translations.profile.common.age[currentLanguage],
           right: [calculateAge(currentCoach.birthDate)],
         },
         {
-          left: translations.profile.language[currentLanguage],
+          left: translations.profile.common.language[currentLanguage],
           right: formTranslatedString(
             translations.profile.languagesList,
             currentCoach.languages,
@@ -75,7 +75,7 @@ const CoachPage: React.FC<Props> = () => {
           ),
         },
         {
-          left: translations.coach.chooseSkills[currentLanguage],
+          left: translations.coach.common.chooseSkills[currentLanguage],
           right: formTranslatedString(
             translations.coach.skills,
             currentCoach.skills,
@@ -83,7 +83,7 @@ const CoachPage: React.FC<Props> = () => {
           ),
         },
         {
-          left: translations.coach.chooseSertification[currentLanguage],
+          left: translations.coach.common.chooseSertification[currentLanguage],
           right: formTranslatedString(
             { ...translations.coach.sert, ...translations.coach.sertLevelList },
             [
@@ -94,7 +94,7 @@ const CoachPage: React.FC<Props> = () => {
           ),
         },
         {
-          left: translations.coach.choosePayment[currentLanguage],
+          left: translations.coach.common.choosePayment[currentLanguage],
           right: formTranslatedString(
             translations.coach.paymentOptions,
             currentCoach.paymentOptions,
@@ -102,13 +102,15 @@ const CoachPage: React.FC<Props> = () => {
           ),
         },
         {
-          left: translations.coach.describePaymentScheme[currentLanguage],
+          left: translations.coach.common.describePaymentScheme[
+            currentLanguage
+          ],
           right: currentCoach.paymentOptions.includes("money")
             ? currentCoach.paymentScheme
             : "",
         },
         {
-          left: translations.profile.aboutShort[currentLanguage],
+          left: translations.profile.common.aboutShort[currentLanguage],
           right: currentCoach.about,
         },
       ]
@@ -145,7 +147,7 @@ const CoachPage: React.FC<Props> = () => {
             style={{ opacity: aiPromptOpacity, display: aiPromptDisplay }}
             onClick={closeGptAnswer}
           >
-            <p className="coach-page__gpt-text">{`${translations.common.assistant[currentLanguage]}: "${gptText}"`}</p>
+            <p className="coach-page__gpt-text">{`${translations.common.words.assistant[currentLanguage]}: "${gptText}"`}</p>
           </div>
           <div className="coach-page__chat">
             <Chat withUserId={currentCoach._id} />

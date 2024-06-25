@@ -1,5 +1,5 @@
 import React from "react";
-import logoAlt from "../../images/Logo-new.png";
+import logoAlt from "../../images/Logo-new.svg";
 import bellIcon from "../../images/Icons/Bell.svg";
 import { CleverAvatar } from "../CleverAvatar/CleverAvatar";
 import "./Header.css";
@@ -8,9 +8,11 @@ import { translations } from "../../utils/constants/translations";
 import { useAppSelector } from "../redux/hooks";
 import { Props } from "./HeaderTypes";
 import { appLangs } from "../../utils/constants/langs";
+import { dbApiRequest } from "../../utils/constants/requests";
 
 const Header: React.FC<Props> = ({
   handleRegister,
+  handleUpdateUserInfo,
   handleLogin,
   handleOpenLangMenu,
   handleLogout,
@@ -27,7 +29,11 @@ const Header: React.FC<Props> = ({
         <div className="header__menu-items">
           <Link to="/">
             <div className="header__logo-cont">
-              <img src={logoAlt} className="header__logo" alt="WTWR logo" />
+              <img
+                src={logoAlt}
+                className="header__logo"
+                alt="CoachFinder logo"
+              />
             </div>
           </Link>
 
@@ -100,19 +106,23 @@ const Header: React.FC<Props> = ({
           {loggedIn && (
             <>
               <div className="header__avatar">
-                <Link to="/profile">
-                  <CleverAvatar
-                    avatar={currentUser.avatar}
-                    name={currentUser.name}
-                    color={
-                      "status" in currentUser
-                        ? currentUser.status === "active"
-                          ? "green"
-                          : "orange"
-                        : "aqua"
-                    }
-                  ></CleverAvatar>
-                </Link>
+                {/* <Link to="/profile"> */}
+                <CleverAvatar
+                  avatar={
+                    dbApiRequest.baseUrl + "/avatars/" + currentUser.avatar
+                  }
+                  name={currentUser.name}
+                  onClick={handleUpdateUserInfo}
+                  isHovered={true}
+                  color={
+                    "status" in currentUser
+                      ? currentUser.status === "active"
+                        ? "green"
+                        : "orange"
+                      : "aqua"
+                  }
+                ></CleverAvatar>
+                {/* </Link> */}
               </div>
 
               <div className="header__btn-container">
@@ -134,6 +144,7 @@ const Header: React.FC<Props> = ({
               <img
                 className="header__menu-item-lang-icon"
                 src={appLangs.find((lang) => lang.id === currentLanguage)?.flag}
+                alt="Language"
               />
             </button>
           </div>

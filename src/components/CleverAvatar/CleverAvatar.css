@@ -34,7 +34,7 @@
     brightness(100%) contrast(118%);
 } */
 
-.clever-avatar__avatar-container:hover {
+.clever-avatar__avatar-hover {
   height: 150%;
   filter: drop-shadow(6px 6px 8px rgba(0, 0, 0, 0.4));
 }

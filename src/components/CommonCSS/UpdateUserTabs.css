@@ -1,0 +1,63 @@
+.update-tab__input {
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  padding: 0 0 0 24px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 50px;
+  border: rgba(207, 207, 207, 1) 1px solid;
+  border-radius: 25px;
+  font-size: 16px;
+  line-height: 1.25;
+  letter-spacing: 0em;
+  margin-bottom: 0px;
+  background-color: rgb(255, 255, 255);
+}
+
+.update-tab__input-field {
+  position: relative;
+  width: 100%;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  margin-top: 20px;
+}
+
+
+
+.update-tab__error-container {
+  position: relative;
+  width: 100%;
+  padding-left: 8px;
+}
+
+.update-tab__error-message {
+  position: absolute;
+  color: red;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: normal;
+  margin: 0;
+  z-index: 2;
+  height: 0;
+  top: 0;
+}
+
+.update-tab__submit-btn {
+  font-size: 16px;
+  line-height: 1.25;
+  width: fit-content;
+  padding: 8px 16px;
+  /* height: 60px; */
+  border-radius: 30px;
+  border: none;
+  background-color: rgba(47, 113, 229, 1);
+  color: white;
+  box-shadow: 0px 5px 15px 0px rgba(14, 26, 57, 0.25);
+}
+
+.update-tab__submit-btn:hover {
+  background-color: rgba(2, 85, 229, 1);
+}

@@ -1,8 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { dbApi } from "../../../../utils/api/DbApi";
 import { RootState } from "../../store";
-import { CurrentUser } from "./appTypes";
+import { CurrentUser, UserUpdateInfoType } from "./appTypes";
 import { setCurrentUser, setLoggedIn, setLoginFormValues } from "./appSlice";
+import { IEmailFormInputs } from "../../../UpdateEmail/UpdateEmailTypes";
+import { IPasswordFormInputs } from "../../../UpdatePassword/UpdatePasswordTypes";
 
 export const registerUserThunk = createAsyncThunk(
   "app/registerUser",
@@ -76,6 +78,7 @@ export const initUserFromTokenThunk = createAsyncThunk(
 export const setUserpicThunk = createAsyncThunk(
   "app/setUserpic",
   async (userpic: File | undefined) => {
+    // console.log(`In thunk - userpic info: ${userpic}`);
     const dataToSend = new FormData();
     if (userpic) dataToSend.append("avatar", userpic);
     let resp;
@@ -93,14 +96,40 @@ export const setUserpicThunk = createAsyncThunk(
 
 export const updateUserInfoThunk = createAsyncThunk(
   "app/updateUserInfo",
-  async (userInfo: CurrentUser, { dispatch }) => {
+  async (data: UserUpdateInfoType, { dispatch }) => {
     let resp;
+    let userInfo;
+    const { updateType, ...updateData } = data;
     try {
-      resp = await dbApi.updateUserInfo({
-        userInfo: userInfo,
-        token: localStorage.getItem("jwt") as string,
-      });
-      dispatch(setCurrentUser(resp));
+      switch (data.updateType) {
+        case "profileUpdate":
+          userInfo = updateData as CurrentUser;
+
+          resp = await dbApi.updateUserInfo({
+            userInfo: userInfo,
+            token: localStorage.getItem("jwt") as string,
+          });
+          dispatch(setCurrentUser(resp));
+          break;
+        case "emailUpdate":
+          userInfo = updateData as IEmailFormInputs;
+
+          resp = await dbApi.updateUserEmail({
+            userInfo: userInfo,
+            token: localStorage.getItem("jwt") as string,
+          });
+          dispatch(setCurrentUser(resp));
+          break;
+        case "passwordUpdate":
+          userInfo = updateData as IPasswordFormInputs;
+
+          resp = await dbApi.updateUserPassword({
+            userInfo: userInfo,
+            token: localStorage.getItem("jwt") as string,
+          });
+
+          break;
+      }
     } catch (err) {
       return Promise.reject(err);
     }

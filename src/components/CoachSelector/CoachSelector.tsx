@@ -16,8 +16,7 @@ import {
 import { selectCoachByGptThunk } from "../redux/slices/Coaches/coachesAsync";
 import { setAppStatus, setCurrentPage } from "../redux/slices/App/appSlice";
 import { formTranslatedString, getOptionsList } from "../../utils/functions";
-import { LangChoice } from "../../utils/models";
-import { appLangs } from "../../utils/constants/langs";
+import { LangChoice, appLangs } from "../../utils/constants/langs";
 import { useNavigate } from "react-router-dom";
 
 export default function CoachSelector() {
@@ -177,7 +176,7 @@ export default function CoachSelector() {
             }
           >
             <legend className="coach-selector__legend">
-              {translations.profile.gender[currentLanguage]}
+              {translations.profile.common.gender[currentLanguage]}
             </legend>
             {getOptionsList({
               list: translations.profile.genderTypes,
@@ -201,7 +200,7 @@ export default function CoachSelector() {
             }
           >
             <legend className="coach-selector__legend">
-              {translations.profile.language[currentLanguage]}
+              {translations.profile.common.language[currentLanguage]}
             </legend>
             {getOptionsList({
               list: translations.profile.languagesList,
@@ -225,7 +224,7 @@ export default function CoachSelector() {
             }
           >
             <legend className="coach-selector__legend">
-              {translations.coach.chooseSkills[currentLanguage]}
+              {translations.coach.common.chooseSkills[currentLanguage]}
             </legend>
             {getOptionsList({
               list: translations.coach.skills,
@@ -249,7 +248,7 @@ export default function CoachSelector() {
             }
           >
             <legend className="coach-selector__legend">
-              {translations.coach.chooseSertification[currentLanguage]}
+              {translations.coach.common.chooseSertification[currentLanguage]}
             </legend>
             {getOptionsList({
               list: formSertificationList(),
@@ -277,7 +276,7 @@ export default function CoachSelector() {
             // }
           >
             <legend className="coach-selector__legend">
-              {translations.coach.choosePayment[currentLanguage]}
+              {translations.coach.common.choosePayment[currentLanguage]}
             </legend>
             {getOptionsList({
               list: translations.coach.paymentOptions,
@@ -297,7 +296,7 @@ export default function CoachSelector() {
               onClick={resetForm}
               className="coach-selector__btn coach-selector__btn_type_reset-form"
             >
-              {translations.common.resetSearch[currentLanguage]}
+              {translations.common.words.resetSearch[currentLanguage]}
             </button>
             <p className="coach-selector__text-ask-gpt">
               {translations.client.search.offerAssistanceText[currentLanguage]}

@@ -5,4 +5,5 @@ export type ActiveModalsList =
   | "confirm-login"
   | "confirm-logout"
   | "lang-menu"
-  | "form";
+  | "form"
+  | "update-user-info";

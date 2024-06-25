@@ -56,6 +56,13 @@ const SlideShow: React.FC<Props> = ({ redirectToLogin }) => {
     }
   }, [slideShowIndex]);
 
+  useEffect(() => {
+    if (coachesList && coachesList.length > 0 && currentImage === undefined) {
+      moveToNextPicture();
+      //that's for the startup not to wait for slideShowCounter to show first image when everything is already loaded
+    }
+  }, [coachesList]);
+
   const handlePhotoClick: React.EventHandler<SyntheticEvent> = () => {
     if (!looggedIn) {
       // console.log("Please, log in to see details");
@@ -84,7 +91,11 @@ const SlideShow: React.FC<Props> = ({ redirectToLogin }) => {
                 currentUser.role === "client" ? handlePhotoClick : () => {}
               }
             >
-              <img className="slide-show__image" src={currentImage?.src} />
+              <img
+                className="slide-show__image"
+                src={currentImage?.src}
+                alt="Coach photo"
+              />
             </div>
           )}
         </div>
